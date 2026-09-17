@@ -1,0 +1,59 @@
+---
+import {
+  ATTRACTION,
+  googleReviewAttribution,
+  ratingPercent,
+  ratingText,
+  reviewCountText
+} from '../data/attraction';
+
+interface Props {
+  /** dark = 用于深色 hero 背景；light = 用于浅色卡片 */
+  tone?: 'dark' | 'light';
+}
+const { tone = 'dark' } = Astro.props;
+const isDark = tone === 'dark';
+const shell = isDark
+  ? 'border-white/20 bg-white/10 text-white backdrop-blur-md'
+  : 'border-[#d4ded8] bg-white/80 text-[#10251f]';
+const sub = isDark ? 'text-white/70' : 'text-[#65756f]';
+---
+<div class="max-w-xl">
+  <a
+    href={ATTRACTION.mapsListingUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border px-4 py-3 text-sm font-bold transition hover:border-[#d9a13a] ${shell}`}
+    aria-label={`Google Maps rating ${ratingText} out of 5 from ${reviewCountText} reviews`}
+  >
+    <span class={`rating-stars text-base${isDark ? ' rating-stars-light' : ''}`} aria-hidden="true">
+      <span style={`width:${ratingPercent}`}>★★★★★</span>★★★★★
+    </span>
+    <strong class="text-lg font-black">{ratingText}</strong>
+    <span class={sub}>({reviewCountText})</span>
+    <span class={`pill pill-compact border ${isDark ? 'border-white/35' : 'border-[#10251f]/20'}`}>
+      Google Maps
+    </span>
+  </a>
+
+  <p class={`mt-2 text-[11px] leading-5 ${sub}`}>
+    <a
+      class="underline decoration-dotted underline-offset-2 hover:text-[#d9a13a]"
+      href={ATTRACTION.mapsListingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {googleReviewAttribution.inlineTa}
+    </a>
+  </p>
+  <p class={`mt-1 text-[11px] leading-5 ${sub}`}>
+    <a
+      class="underline decoration-dotted underline-offset-2 hover:text-[#d9a13a]"
+      href={ATTRACTION.mapsListingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {googleReviewAttribution.inlineEn}
+    </a>
+  </p>
+</div>

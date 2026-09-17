@@ -1,0 +1,218 @@
+---
+import { ATTRACTION, absolute } from '../data/attraction';
+
+/** Offline/dev fallback: the real local JPG is created by `pnpm fetch:images`. */
+const fallbackPhoto =
+  'https://upload.wikimedia.org/wikipedia/commons/8/81/Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg';
+
+const breadcrumb = [
+  { label: ATTRACTION.fullName, href: '/' },
+  { label: ATTRACTION.city },
+  { label: ATTRACTION.stateProvince },
+  { label: ATTRACTION.country }
+];
+---
+<section id="guide" class="section">
+  <div class="container-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      {breadcrumb.map((c, i) => (
+        <>
+          {i > 0 && <span class="sep" aria-hidden="true">→</span>}
+          {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current={i === breadcrumb.length - 1 ? 'page' : undefined}>{c.label}</span>}
+        </>
+      ))}
+    </nav>
+
+    <div class="mt-8 grid gap-12 lg:grid-cols-[1.08fr_.92fr]">
+      <div>
+        <p class="eyebrow">Visitor guide · {ATTRACTION.city}</p>
+        <h2 class="section-title mt-3">About {ATTRACTION.fullName}</h2>
+
+        <p class="prose-copy mt-6">
+          Welcome to <strong>{ATTRACTION.fullName}</strong>, widely recognized as the central{' '}
+          <strong>{ATTRACTION.shortName}</strong>. Located in the heart of{' '}
+          <strong>{ATTRACTION.city}</strong>, <strong>{ATTRACTION.stateProvince}</strong>,{' '}
+          <strong>{ATTRACTION.country}</strong>, this destination serves as a primary hub for
+          travelers visiting the region.
+        </p>
+        <p class="prose-copy mt-4">
+          The lake sits in the {ATTRACTION.district} district of the Nilgiris, roughly 20 km west of
+          Ooty (Udhagamandalam) along the Ooty–Gudalur road. Around the water you will find the TTDC
+          boat house, a boating jetty, parking, viewpoints and short walking areas — all inside the
+          grassland and shola landscape that makes this part of the Western Ghats distinctive.
+        </p>
+        <p class="prose-copy mt-4">
+          This page is the independent visitor guide for {ATTRACTION.fullName} published on{' '}
+          <strong>{absolute('/')}</strong> ({ATTRACTION.shortName}). Museum-style detail is
+          deliberately avoided: hours, entry fees and boat availability change, so every figure here
+          is presented as a planning reference to be reconfirmed on the travel date.
+        </p>
+
+        <h2 class="section-title mt-12">Location &amp; How to Visit {ATTRACTION.shortName} in {ATTRACTION.city}</h2>
+        <p class="prose-copy mt-6">
+          {ATTRACTION.fullName} is at Google Maps plus code {ATTRACTION.plusCode} — latitude{' '}
+          {ATTRACTION.latitude}, longitude {ATTRACTION.longitude} — in {ATTRACTION.subLocality},{' '}
+          {ATTRACTION.city}, {ATTRACTION.stateProvince} {ATTRACTION.postalCode},{' '}
+          {ATTRACTION.country}. The address chain for the entity is: {ATTRACTION.fullName} →{' '}
+          {ATTRACTION.city} → {ATTRACTION.stateProvince} → {ATTRACTION.country}.
+        </p>
+        <ul class="prose-copy mt-4 space-y-2 text-sm">
+          <li>
+            <strong>By road:</strong> drive west from Ooty on the Ooty–Gudalur road; taxis and
+            self-drive cars are the usual choice, and the last stretch is hill road with sharp bends.
+          </li>
+          <li>
+            <strong>By bus:</strong> local government buses on the Ooty–Gudalur route stop near the
+            lake entrance, but frequency varies — always confirm the return timing.
+          </li>
+          <li>
+            <strong>On site:</strong> buy boating tickets at the boat house counter, then walk to the
+            jetty. Life jackets are provided and must be worn.
+          </li>
+          <li>
+            <strong>Timing:</strong> the boat house area is normally active through the day from
+            morning until late afternoon. Boating can be suspended for rain, wind, low water level or
+            maintenance.
+          </li>
+        </ul>
+        <p class="mt-5 text-sm leading-7 text-[#3d514b]">
+          For official updates and regional tourism information, visit{' '}
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.govtTourismUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {ATTRACTION.country} / {ATTRACTION.stateProvince} Official Tourism Portal ↗
+          </a>{' '}
+          and the operator{' '}
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.operatorUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TTDC ↗
+          </a>
+          .
+        </p>
+
+        <h2 class="section-title mt-12">Landmarks &amp; Attractions Around {ATTRACTION.shortName}</h2>
+        <p class="prose-copy mt-6">
+          When visiting {ATTRACTION.fullName}, visitors can easily explore surrounding historical
+          landmarks and points of interest, including <strong>{ATTRACTION.nearbyLandmark1}</strong>{' '}
+          and <strong>{ATTRACTION.nearbyLandmark2}</strong>. Both are reached from the same
+          Ooty–Gudalur road, which makes them a natural half-day loop with the lake.
+        </p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div class="card p-5">
+            <p class="eyebrow">Nearby landmark 1</p>
+            <p class="mt-2 font-black">{ATTRACTION.nearbyLandmark1}</p>
+            <p class="mt-1 text-sm leading-6 text-[#65756f]">
+              Rock slopes where the Pykara river drops; viewing is from the marked road-side area.
+            </p>
+          </div>
+          <div class="card p-5">
+            <p class="eyebrow">Nearby landmark 2</p>
+            <p class="mt-2 font-black">{ATTRACTION.nearbyLandmark2}</p>
+            <p class="mt-1 text-sm leading-6 text-[#65756f]">
+              Tall pine plantation and open downs on the return leg towards Ooty.
+            </p>
+          </div>
+        </div>
+
+        <h2 class="section-title mt-12">History &amp; Significance of {ATTRACTION.fullName}</h2>
+        <p class="prose-copy mt-6">
+          The Pykara river feeds a lake that has long been part of the Nilgiris water and power
+          story, and the surrounding downs were already a leisure stop in the Ooty of the colonial
+          era. In the present day the {ATTRACTION.shortName} shoreline is best known as the boating
+          and picnic front of the {ATTRACTION.district} district, run for visitors with a boat house,
+          jetty and viewpoint infrastructure.
+        </p>
+        <p class="prose-copy mt-4">
+          Its significance for travellers is practical as much as historical: it is the anchor stop
+          on the western Ooty circuit, with {ATTRACTION.nearbyLandmark1} and{' '}
+          {ATTRACTION.nearbyLandmark2} as extensions of the same visit, and it is one of the few
+          places near Ooty where you can be on the water inside protected grassland and shola forest.
+          Background reading is listed in the sources section below.
+        </p>
+      </div>
+
+      <div class="space-y-5">
+        <figure class="overflow-hidden rounded-[2.5rem] shadow-2xl">
+          <img
+            src={ATTRACTION.heroImage}
+            data-fallback={fallbackPhoto}
+            alt={`${ATTRACTION.fullName} - Main view in ${ATTRACTION.city}, ${ATTRACTION.country}`}
+            class="aspect-[4/5] w-full object-cover"
+            width="1200"
+            height="1500"
+            loading="lazy"
+          />
+          <figcaption class="bg-white px-5 py-3 text-xs leading-5 text-[#65756f]">
+            {ATTRACTION.fullName} — the boat house front at {ATTRACTION.shortName},{' '}
+            {ATTRACTION.city}, {ATTRACTION.stateProvince}, {ATTRACTION.country}
+          </figcaption>
+        </figure>
+
+        {/* Local JPGs are produced by `pnpm fetch:images`; until they exist the licensed
+            Wikimedia Commons file is used as the fallback source. */}
+        <script is:inline>
+          Array.from(document.images).forEach((img) => {
+            const fallback = img.getAttribute('data-fallback');
+            if (!fallback) return;
+            const swap = () => {
+              if (img.naturalWidth === 0 && img.getAttribute('src') !== fallback) img.src = fallback;
+            };
+            img.addEventListener('error', swap);
+            if (img.complete) swap();
+          });
+        </script>
+
+        <div class="card p-6">
+          <p class="eyebrow">Entity facts</p>
+          <dl class="mt-4 space-y-3 text-sm">
+            <div>
+              <dt class="font-bold">Official name</dt>
+              <dd class="text-[#3d514b]">{ATTRACTION.fullName}</dd>
+            </div>
+            <div>
+              <dt class="font-bold">Also known as</dt>
+              <dd class="text-[#3d514b]">
+                {ATTRACTION.shortName} · {ATTRACTION.localizedName}
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold">Plus code</dt>
+              <dd class="text-[#3d514b]">{ATTRACTION.plusCode}</dd>
+            </div>
+            <div>
+              <dt class="font-bold">Coordinates</dt>
+              <dd class="text-[#3d514b]">
+                {ATTRACTION.latitude}, {ATTRACTION.longitude}
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold">District / State / Country</dt>
+              <dd class="text-[#3d514b]">
+                {ATTRACTION.district} · {ATTRACTION.stateProvince} · {ATTRACTION.country}
+              </dd>
+            </div>
+            <div>
+              <dt class="font-bold">Postal code</dt>
+              <dd class="text-[#3d514b]">{ATTRACTION.postalCode}</dd>
+            </div>
+          </dl>
+          <a
+            class="btn-primary mt-5 w-full"
+            href={ATTRACTION.mapsListingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Google Maps ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,104 @@
+---
+import {
+  ATTRACTION,
+  googleReviewAttribution,
+  ratingPercent,
+  ratingText,
+  reviewCountText
+} from '../data/attraction';
+---
+<section id="reviews" class="section">
+  <div class="container-shell">
+    <div class="mb-8 max-w-3xl">
+      <p class="eyebrow">Google Reviews</p>
+      <h2 class="section-title mt-3">Pykara Lake Boat House visitor rating</h2>
+      <p class="prose-copy mt-4 text-sm">
+        பைக்காரா ஏரி படகு இல்லத்தை பார்வையிட்டவர்களின் Google Maps மதிப்பீடு கீழே காட்டப்படுகிறது.
+      </p>
+    </div>
+
+    <div class="grid gap-5 lg:grid-cols-[.42fr_.58fr]">
+      <div class="card flex flex-col justify-center p-7">
+        <p class="eyebrow">Google Maps rating</p>
+        <div class="mt-3 flex items-end gap-4">
+          <strong class="font-serif text-6xl font-semibold leading-none">{ratingText}</strong>
+          <div class="pb-1">
+            <span class="rating-stars text-xl" aria-hidden="true" role="img" aria-label={`${ratingText} / 5`}>
+              <span style={`width:${ratingPercent}`}>★★★★★</span>★★★★★
+            </span>
+            <p class="mt-1 text-sm font-bold text-[#3d514b]">
+              {reviewCountText} Google Maps reviews
+            </p>
+            <p class="text-xs text-[#65756f]">5-இல் {ratingText} · {reviewCountText} மதிப்புரைகள்</p>
+          </div>
+        </div>
+
+        <a
+          class="btn-primary btn-google mt-6 w-full"
+          href={ATTRACTION.mapsListingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {googleReviewAttribution.ctaTa} ↗
+        </a>
+        <p class="mt-2 text-center text-[11px] font-bold text-[#65756f]">
+          {googleReviewAttribution.ctaEn}
+        </p>
+        <a
+          class="btn-secondary mt-3 w-full"
+          href={ATTRACTION.mapsShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Maps பங்கு இணைப்பு ↗
+        </a>
+      </div>
+
+      <div class="card p-7">
+        <p class="eyebrow">Review source &amp; attribution</p>
+        <p class="prose-copy mt-4 text-sm">{googleReviewAttribution.blockEn}</p>
+        <p class="prose-copy mt-3 text-sm">{googleReviewAttribution.blockTa}</p>
+
+        <ul class="mt-5 space-y-3 text-sm leading-7 text-[#3d514b]">
+          <li class="flex gap-3">
+            <span class="font-black text-[#4c8ea1]">·</span>
+            <span>
+              Reviews are quoted and displayed on this page only. They are not published as
+              structured data (<code>aggregateRating</code> / <code>review</code>) and are not used
+              to build any rating rich result.
+            </span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-black text-[#4c8ea1]">·</span>
+            <span>
+              Rating and review count are a snapshot of the Google Maps listing labelled
+              “{ATTRACTION.fullName}”. Live numbers can differ; open the Google Maps listing for the
+              current value.
+            </span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-black text-[#4c8ea1]">·</span>
+            <span>
+              {ATTRACTION.fullName}, {ATTRACTION.city}, {ATTRACTION.stateProvince},{' '}
+              {ATTRACTION.country} — Google Maps listing:
+              <a
+                class="font-bold underline decoration-dotted underline-offset-2"
+                href={ATTRACTION.mapsListingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {ATTRACTION.mapsListingUrl.slice(0, 46)}… ↗
+              </a>
+            </span>
+          </li>
+        </ul>
+
+        <p class="mt-5 text-[11px] leading-5 text-[#65756f]">
+          Google Maps™ and Google™ are trademarks of Google LLC. This independent guide is not
+          affiliated with, endorsed by or sponsored by Google. Photos shown elsewhere on this page are
+          licensed Wikimedia Commons works, not Google content.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,154 @@
+---
+import { ATTRACTION, googleReviewAttribution } from '../data/attraction';
+
+interface Props {
+  /** 图片授权来源行（保持与 docs/IMAGE_SOURCES.md 一致） */
+  photoCredits?: Array<{ file: string; author: string; license: string; source: string }>;
+}
+const {
+  photoCredits = [
+    {
+      file: 'படகு இல்லம் / Boat house',
+      author: 'N. Vivekananthamoorthy',
+      license: 'CC BY 4.0',
+      source: 'https://commons.wikimedia.org/wiki/File:Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg'
+    },
+    {
+      file: 'ஏரி / Lake',
+      author: 'Prasannakamble25',
+      license: 'CC BY-SA 4.0',
+      source: 'https://commons.wikimedia.org/wiki/File:Scenic_View_of_Pykara_Lake_and_Surroundings.jpg'
+    },
+    {
+      file: 'படகு சவாரி / Boating',
+      author: 'KARTY JazZ',
+      license: 'CC BY-SA 4.0',
+      source: 'https://commons.wikimedia.org/wiki/File:Boating_in_Pykara_Lake_in_Ooty,_Tamil_Nadu.JPG'
+    },
+    {
+      file: 'நீர்வீழ்ச்சி / Falls',
+      author: 'Prasannakamble25',
+      license: 'CC BY-SA 4.0',
+      source: 'https://commons.wikimedia.org/wiki/File:Pykara_Falls_in_the_Nilgiris,_Tamil_Nadu_-_Front_View.jpg'
+    }
+  ]
+} = Astro.props;
+---
+<section id="sources" class="section bg-[#edf2ed]">
+  <div class="container-shell">
+    <div class="max-w-3xl">
+      <p class="eyebrow">Sources &amp; references</p>
+      <h2 class="section-title mt-3">மூலங்கள் · Sources for this guide</h2>
+      <p class="prose-copy mt-4 text-sm">
+        இந்தப் பக்கத்தில் உள்ள தகவல்களின் ஆதாரங்கள் கீழே பட்டியலிடப்பட்டுள்ளன. விலை, நேரம், படகு
+        இயக்கம் போன்றவை மாறக்கூடியவை — பயண நாளில் அதிகாரப்பூர்வ மூலத்தில் மீண்டும் உறுதிப்படுத்தவும்.
+      </p>
+    </div>
+
+    <div class="card mt-8 p-7">
+      <div class="source-row">
+        <p class="eyebrow">Destination information</p>
+        <p class="text-sm leading-7 text-[#3d514b]">
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.govtTourismUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {ATTRACTION.govtTourismLabel} — Official Tourism Portal ↗
+          </a>
+          <span class="text-[#65756f]"> · {ATTRACTION.stateProvince}, {ATTRACTION.country}</span>
+        </p>
+      </div>
+
+      <div class="source-row">
+        <p class="eyebrow">Boating operator &amp; facilities</p>
+        <p class="text-sm leading-7 text-[#3d514b]">
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.operatorUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {ATTRACTION.operatorLabel} ↗
+          </a>
+          <span class="text-[#65756f]"> · boat house operations along the Ooty–Gudalur road</span>
+        </p>
+      </div>
+
+      <div class="source-row">
+        <p class="eyebrow">Location, listing &amp; opening data</p>
+        <p class="text-sm leading-7 text-[#3d514b]">
+          Google Maps place listing “{ATTRACTION.fullName}” — {ATTRACTION.plusCode},{' '}
+          {ATTRACTION.city}, {ATTRACTION.stateProvince} {ATTRACTION.postalCode},{' '}
+          {ATTRACTION.country}.
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.mapsListingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Maps ↗
+          </a>
+          ·
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.mapsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Maps share link ↗
+          </a>
+        </p>
+      </div>
+
+      <div class="source-row">
+        <p class="eyebrow">{googleReviewAttribution.sourceLabelEn}</p>
+        <p class="text-sm leading-7 text-[#3d514b]">{googleReviewAttribution.blockEn}</p>
+        <p class="text-sm leading-7 text-[#3d514b]">{googleReviewAttribution.blockTa}</p>
+        <p class="text-sm leading-7 text-[#3d514b]">
+          <a
+            class="font-bold underline decoration-dotted underline-offset-2"
+            href={ATTRACTION.mapsListingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {googleReviewAttribution.ctaEn} ↗
+          </a>
+          <span class="text-[#65756f]"> ({googleReviewAttribution.sourceLabelTa})</span>
+        </p>
+      </div>
+
+      <div class="source-row">
+        <p class="eyebrow">Photographs</p>
+        <ul class="space-y-2 text-sm leading-7 text-[#3d514b]">
+          {photoCredits.map((p) => (
+            <li>
+              {p.file} — {p.author} · {p.license} ·{' '}
+              <a
+                class="underline decoration-dotted underline-offset-2"
+                href={p.source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Wikimedia Commons ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="text-xs leading-6 text-[#65756f]">
+          Photos are licensed Wikimedia Commons works, displayed with attribution as required by the
+          licence. No Google imagery is copied or re-hosted on this site; Google Maps content is only
+          embedded / linked.
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-5 text-xs leading-6 text-[#65756f]">
+      This is an independent visitor guide for {ATTRACTION.fullName}, {ATTRACTION.city},{' '}
+      {ATTRACTION.stateProvince}, {ATTRACTION.country}. It is not an official website of Google LLC,
+      the {ATTRACTION.operatorLabel} or the Government of {ATTRACTION.stateProvince}. Prices, timings
+      and boat operations are planning references and must be reconfirmed on the travel date.
+    </p>
+  </div>
+</section>

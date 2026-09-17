@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Single-attraction entity site for Pykara Lake Boat House, Naduvattam, Tamil Nadu, India.
+# Legal pages (/privacy/, /terms/, /cookies/) are crawlable on purpose so their
+# noindex directive is always read.
+
+Sitemap: https://pykaralake.com/sitemap-index.xml

@@ -1,15 +1,24 @@
 ---
 import '../styles/global.css';
+import { ATTRACTION } from '../data/attraction';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
 }
-const { title, description, image = '/images/pykara-boat-house.jpg', noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  image = ATTRACTION.heroImage,
+  imageAlt = `${ATTRACTION.fullName} in ${ATTRACTION.city}`,
+  noindex = false
+} = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undefined;
+const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
 ---
 <!doctype html>
 <html lang="ta-IN">
@@ -23,12 +32,30 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ta_IN" />
+    <meta property="og:locale:alternate" content="en_IN" />
+    <meta property="og:site_name" content={appTitle} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
     {absoluteImage && <meta property="og:image" content={absoluteImage} />}
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {absoluteImage && <meta name="twitter:image" content={absoluteImage} />}
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="application-name" content={appTitle} />
+    <meta name="apple-mobile-web-app-title" content={ATTRACTION.shortName} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="msapplication-TileColor" content="#183f33" />
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
     <slot name="head" />
   </head>
@@ -65,6 +92,22 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
         document.getElementById('cookie-accept')?.addEventListener('click', () => { localStorage.setItem(KEY,'granted'); banner?.classList.add('hidden'); loadGA(); });
         document.getElementById('cookie-reject')?.addEventListener('click', () => { localStorage.setItem(KEY,'denied'); banner?.classList.add('hidden'); });
         window.__pykaraConsent = { key: KEY, loadGA };
+      })();
+    </script>
+    <script is:inline>
+      // PWA: progressive enhancement only — offline app shell via /sw.js, never touched by analytics.
+      (() => {
+        if (!('serviceWorker' in navigator)) return;
+        if (location.protocol !== 'https:') return;
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+        });
+        window.__pykaraInstall = { deferred: null };
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          if (window.__pykaraInstall) window.__pykaraInstall.deferred = e;
+          document.querySelectorAll('[data-pwa-install]').forEach((el) => el.removeAttribute('hidden'));
+        });
       })();
     </script>
   </body>

@@ -36,4 +36,28 @@ body {
 .route-line { position:relative; }
 .route-line::before { content:""; position:absolute; left:1.12rem; top:2rem; bottom:2rem; width:2px; background:linear-gradient(var(--lake),var(--pine)); opacity:.35; }
 .map-frame { filter:saturate(.8) contrast(.95); }
+
+/* —— 变体按钮 / 深色底强调文字（避免依赖 Tailwind important 前缀，v4 已改为后缀写法） —— */
+.btn-sun { background: var(--sun); color: var(--ink); }
+.btn-sun:hover { background: #e7b155; }
+.btn-google { background: #1a73e8; color: #fff; }
+.btn-google:hover { background: #1666cf; }
+.eyebrow-light { color: #91c9b4; }
+.eyebrow-sun { color: var(--sun); }
+.pill-compact { padding: .2rem .55rem; font-size: .72rem; }
+
+/* —— Google 评分星级 —— */
+.rating-stars { position: relative; display: inline-block; line-height: 1; letter-spacing: .08em; color: rgba(16,37,31,.18); }
+.rating-stars > span { position: absolute; inset-block-start: 0; inset-inline-start: 0; overflow: hidden; white-space: nowrap; color: var(--sun); }
+.rating-stars-light { color: rgba(255,255,255,.3); }
+
+/* —— 面包屑 —— */
+.breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .8rem; font-weight: 700; color: #65756f; }
+.breadcrumb a:hover { color: var(--pine); }
+.breadcrumb .sep { color: rgba(16,37,31,.28); }
+
+/* —— 资料来源表 —— */
+.source-row { display: grid; gap: .35rem; border-top: 1px solid rgba(16,37,31,.1); padding: 1rem 0; }
+.source-row:first-child { border-top: 0; }
+
 @media (max-width: 767px){ .section{padding:3.5rem 0;} .hero-photo{min-height:88vh;} }

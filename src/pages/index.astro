@@ -1,42 +1,156 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EntityGuide from '../components/EntityGuide.astro';
+import RatingChip from '../components/RatingChip.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import SourcesSection from '../components/SourcesSection.astro';
+import { ATTRACTION } from '../data/attraction';
 
-const title = 'பைக்காரா ஏரி படகு இல்லம் | நீலகிரி பயண வழிகாட்டி';
-const description = 'பைக்காரா ஏரி படகு இல்லம், நீலகிரி: படகு சவாரி, நீர்வீழ்ச்சி, நேரம், கட்டணம், போக்குவரத்து, பார்க்கிங், உணவு, அருகிலுள்ள இடங்கள் மற்றும் Google Maps வழிகாட்டி.';
+/* ------------------------------------------------------------------ *
+ * TDK / OG —— 单景点实体绑定（全称 + 城市 + 域名含义）
+ * ------------------------------------------------------------------ */
+const title = `${ATTRACTION.fullName} (${ATTRACTION.city}) - Visitor Guide & Location`;
+const description = `${ATTRACTION.fullName} in ${ATTRACTION.city}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country} - visitor guide with location map, boating details, nearby ${ATTRACTION.nearbyLandmark1} and travel tips.`;
+
+const site = Astro.site ?? new URL(ATTRACTION.siteUrl);
+const url = (path = '/') => new URL(path, site).toString();
+
 const commons = {
   boat: 'https://upload.wikimedia.org/wikipedia/commons/8/81/Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg',
   lake: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Scenic_View_of_Pykara_Lake_and_Surroundings.jpg',
   boating: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG',
   falls: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg'
 };
+
+/* ------------------------------------------------------------------ *
+ * 2. 结构化数据：TouristAttraction（补全 @id / image / geo / address）
+ *    注意：Google 评分与评价数只做页面展示，绝不写入 JSON-LD。
+ * ------------------------------------------------------------------ */
 const touristSchema = {
   '@context': 'https://schema.org',
   '@type': 'TouristAttraction',
-  name: 'Pykara Lake Boat House',
-  alternateName: 'பைக்காரா ஏரி படகு இல்லம்',
-  description,
+  '@id': `${url('/')}#attraction`,
+  name: ATTRACTION.fullName,
+  alternateName: [
+    ATTRACTION.shortName,
+    `${ATTRACTION.city} ${ATTRACTION.fullName}`,
+    ATTRACTION.localizedName
+  ],
+  description: `Comprehensive visitor guide to ${ATTRACTION.fullName} in ${ATTRACTION.city}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}.`,
+  url: url('/'),
+  image: ATTRACTION.images.map((image) => url(image)),
+  isAccessibleForFree: false,
+  publicAccess: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'FH3W+WXP, Pykara, Naduvattam',
-    addressRegion: 'Tamil Nadu',
-    postalCode: '643237',
-    addressCountry: 'IN'
+    streetAddress: ATTRACTION.streetAddress,
+    addressLocality: ATTRACTION.city,
+    addressRegion: ATTRACTION.stateProvince,
+    postalCode: ATTRACTION.postalCode,
+    addressCountry: ATTRACTION.countryCode2
   },
-  ...(Astro.site ? { url: new URL('/', Astro.site).toString(), image: new URL('/images/pykara-boat-house.jpg', Astro.site).toString() } : {})
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: ATTRACTION.latitude,
+    longitude: ATTRACTION.longitude
+  },
+  hasMap: ATTRACTION.mapsShareUrl,
+  sameAs: [
+    ATTRACTION.mapsShareUrl,
+    ATTRACTION.mapsListingUrl,
+    ATTRACTION.govtTourismUrl,
+    ATTRACTION.operatorUrl
+  ],
+  touristType: ['Families', 'Nature lovers', 'Photographers', 'Day trippers'],
+  containedInPlace: {
+    '@type': 'TouristDestination',
+    name: `${ATTRACTION.district}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}`
+  }
 };
-const faqs = [
-  ['பைக்காரா ஏரியை பார்க்க சிறந்த நேரம் எது?', 'அக்டோபர் முதல் மே வரை பொதுவாக மிதமான காலநிலை கிடைக்கும். மழைக்குப் பிறகு ஏரி மற்றும் நீர்வீழ்ச்சி பசுமையாக இருக்கும்; ஆனால் ஈரமான பாதைகளில் கவனம் தேவை.'],
-  ['படகு சவாரி தினமும் கிடைக்குமா?', 'படகு இயக்கம் வானிலை, நீர்மட்டம், பராமரிப்பு மற்றும் கூட்டம் ஆகியவற்றைப் பொறுத்து மாறலாம். பயண நாளில் TTDC அல்லது தளத்தில் உள்ள அறிவிப்பை உறுதிப்படுத்தவும்.'],
-  ['நுழைவு மற்றும் படகு கட்டணம் எவ்வளவு?', 'தமிழ்நாடு சுற்றுலா தகவலில் ஏரிக்கான குறைந்த நுழைவு கட்டணம் மற்றும் படகு வகைக்கு ஏற்ப தனி கட்டணம் குறிப்பிடப்படுகிறது. விலை மாறக்கூடியதால் தளத்தில் உள்ள தற்போதைய கட்டணப்பட்டியலை சரிபார்க்கவும்.'],
-  ['ஊட்டியிலிருந்து எப்படி செல்லலாம்?', 'பைக்காரா ஊட்டி–கூடலூர் சாலை வழியாக மேற்கே உள்ளது. டாக்சி, சுய ஓட்டுநர் வாகனம் அல்லது உள்ளூர் பேருந்து வழிகள் பயன்படும்; வார இறுதிகளில் கூடுதல் நேரம் ஒதுக்கவும்.'],
-  ['குடும்பத்துடன் செல்ல ஏற்றதா?', 'ஆம். படகு இல்லம், ஏரி காட்சி, ஓய்வு பகுதிகள் குடும்பங்களுக்கு ஏற்றவை. குழந்தைகள் எப்போதும் நீர்நிலைக்கு அருகில் பெரியவர் மேற்பார்வையில் இருக்க வேண்டும்.'],
-  ['பைக்காரா நீர்வீழ்ச்சியையும் சேர்த்து பார்க்க முடியுமா?', 'ஆம். ஏரி மற்றும் பைக்காரா நீர்வீழ்ச்சி ஒரே பயணத்தில் சேர்க்கப்படும் பிரபலமான இணைப்பு. சாலை மற்றும் நடைபாதை நிலை மழைக்காலத்தில் மாறலாம்.']
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${url('/')}#website`,
+  url: url('/'),
+  name: `${ATTRACTION.fullName} - ${ATTRACTION.shortName} visitor guide`,
+  inLanguage: ['ta-IN', 'en'],
+  about: { '@id': `${url('/')}#attraction` }
+};
+
+/* 4.2 地理面包屑与归属层级 */
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: ATTRACTION.fullName, item: url('/') },
+    { '@type': 'ListItem', position: 2, name: ATTRACTION.city },
+    { '@type': 'ListItem', position: 3, name: ATTRACTION.stateProvince },
+    { '@type': 'ListItem', position: 4, name: ATTRACTION.country }
+  ]
+};
+
+/* ------------------------------------------------------------------ *
+ * FAQPage（5~8 条以上常问问题；不含任何评分/评价结构化数据）
+ * ------------------------------------------------------------------ */
+const faqs: Array<[string, string]> = [
+  [
+    'பைக்காரா ஏரியை பார்க்க சிறந்த நேரம் எது?',
+    'அக்டோபர் முதல் மே வரை பொதுவாக மிதமான காலநிலை கிடைக்கும். மழைக்குப் பிறகு ஏரி மற்றும் நீர்வீழ்ச்சி பசுமையாக இருக்கும்; ஆனால் ஈரமான பாதைகளில் கவனம் தேவை.'
+  ],
+  [
+    'படகு சவாரி தினமும் கிடைக்குமா?',
+    'படகு இயக்கம் வானிலை, நீர்மட்டம், பராமரிப்பு மற்றும் கூட்டம் ஆகியவற்றைப் பொறுத்து மாறலாம். பயண நாளில் TTDC அல்லது தளத்தில் உள்ள அறிவிப்பை உறுதிப்படுத்தவும்.'
+  ],
+  [
+    'நுழைவு மற்றும் படகு கட்டணம் எவ்வளவு?',
+    'தமிழ்நாடு சுற்றுலா தகவலில் ஏரிக்கான குறைந்த நுழைவு கட்டணம் மற்றும் படகு வகைக்கு ஏற்ப தனி கட்டணம் குறிப்பிடப்படுகிறது. விலை மாறக்கூடியதால் தளத்தில் உள்ள தற்போதைய கட்டணப்பட்டியலை சரிபார்க்கவும்.'
+  ],
+  [
+    'ஊட்டியிலிருந்து எப்படி செல்லலாம்?',
+    'பைக்காரா ஊட்டி–கூடலூர் சாலை வழியாக மேற்கே உள்ளது. டாக்சி, சுய ஓட்டுநர் வாகனம் அல்லது உள்ளூர் பேருந்து வழிகள் பயன்படும்; வார இறுதிகளில் கூடுதல் நேரம் ஒதுக்கவும்.'
+  ],
+  [
+    'குடும்பத்துடன் செல்ல ஏற்றதா?',
+    'ஆம். படகு இல்லம், ஏரி காட்சி, ஓய்வு பகுதிகள் குடும்பங்களுக்கு ஏற்றவை. குழந்தைகள் எப்போதும் நீர்நிலைக்கு அருகில் பெரியவர் மேற்பார்வையில் இருக்க வேண்டும்.'
+  ],
+  [
+    'பைக்காரா நீர்வீழ்ச்சியையும் சேர்த்து பார்க்க முடியுமா?',
+    'ஆம். ஏரி மற்றும் பைக்காரா நீர்வீழ்ச்சி ஒரே பயணத்தில் சேர்க்கப்படும் பிரபலமான இணைப்பு. சாலை மற்றும் நடைபாதை நிலை மழைக்காலத்தில் மாறலாம்.'
+  ],
+  [
+    `Where is ${ATTRACTION.fullName} located?`,
+    `${ATTRACTION.fullName} (${ATTRACTION.shortName}) is at Google Maps plus code ${ATTRACTION.plusCode} in ${ATTRACTION.subLocality}, ${ATTRACTION.city}, ${ATTRACTION.stateProvince} ${ATTRACTION.postalCode}, ${ATTRACTION.country} — on the Ooty–Gudalur road, roughly 20 km west of Ooty (Udhagamandalam).`
+  ],
+  [
+    `Is ${ATTRACTION.shortName} free to visit?`,
+    `There is a nominal entry and vehicle charge at the lake check post, and boating is ticketed separately at the TTDC boat house according to boat type. Tariffs change, so confirm the current rate on the day of travel.`
+  ],
+  [
+    `Which landmarks are near ${ATTRACTION.shortName}?`,
+    `${ATTRACTION.nearbyLandmark1} and ${ATTRACTION.nearbyLandmark2} are the two closest stops on the same Ooty–Gudalur road, and both are commonly combined with a boat house visit into a half-day loop.`
+  ]
 ];
-const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEntity: faqs.map(([q,a]) => ({ '@type':'Question', name:q, acceptedAnswer:{ '@type':'Answer', text:a } })) };
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a }
+  }))
+};
 ---
-<BaseLayout {title} {description} image="/images/pykara-boat-house.jpg">
+<BaseLayout
+  {title}
+  {description}
+  image={ATTRACTION.heroImage}
+  imageAlt={`${ATTRACTION.fullName} in ${ATTRACTION.city}`}
+>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(touristSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
   </Fragment>
 
@@ -46,24 +160,58 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
         <img src="/brand/logo.svg" alt="பைக்காரா லோகோ" class="h-11 w-11" />
         <span class="hidden sm:block">பைக்காரா <span class="text-white/55">நீலகிரி</span></span>
       </a>
-      <nav class="hidden gap-6 text-sm font-bold text-white/80 lg:flex" aria-label="முதன்மை வழிசெலுத்தல்">
-        <a href="#about" class="hover:text-white">அறிமுகம்</a><a href="#boating" class="hover:text-white">படகு</a><a href="#plan" class="hover:text-white">பயணத் திட்டம்</a><a href="#map" class="hover:text-white">வரைபடம்</a><a href="#faq" class="hover:text-white">FAQ</a>
+      <nav class="hidden gap-6 text-sm font-bold text-white/80 xl:flex" aria-label="முதன்மை வழிசெலுத்தல்">
+        <a href="#guide" class="hover:text-white">Guide</a>
+        <a href="#about" class="hover:text-white">அறிமுகம்</a>
+        <a href="#boating" class="hover:text-white">படகு</a>
+        <a href="#plan" class="hover:text-white">பயணத் திட்டம்</a>
+        <a href="#map" class="hover:text-white">வரைபடம்</a>
+        <a href="#reviews" class="hover:text-white">மதிப்புரைகள்</a>
+        <a href="#faq" class="hover:text-white">FAQ</a>
       </nav>
-      <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33]" href="https://www.google.com/maps/search/?api=1&query=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India" target="_blank" rel="noreferrer">வழி காண்க ↗</a>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          data-pwa-install
+          hidden
+          class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold"
+        >
+          ஆப் ஆக நிறுவு
+        </button>
+        <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33]" href={ATTRACTION.mapsListingUrl} target="_blank" rel="noopener noreferrer">வழி காண்க ↗</a>
+      </div>
     </div>
   </header>
 
   <main id="top">
     <section class="hero-photo relative isolate overflow-hidden text-white">
-      <img src="/images/pykara-boat-house.jpg" onerror={`this.onerror=null;this.src='${commons.boat}'`} alt="பைக்காரா ஏரி படகு இல்லம்" class="absolute inset-0 h-full w-full object-cover" width="1600" height="900" fetchpriority="high" />
+      <img
+        src={ATTRACTION.heroImage}
+        onerror={`this.onerror=null;this.src='${commons.boat}'`}
+        alt={`${ATTRACTION.fullName} - Main view in ${ATTRACTION.city}, ${ATTRACTION.country}`}
+        class="absolute inset-0 h-full w-full object-cover"
+        width="1600"
+        height="900"
+        loading="eager"
+      />
       <div class="container-shell relative z-10 flex min-h-[78vh] items-end pb-14 pt-32 md:items-center md:pb-0">
         <div class="max-w-3xl">
           <span class="pill mb-5 bg-white/12 text-white ring-1 ring-white/20">நீலகிரியின் அமைதியான நீர்பரப்பு</span>
-          <h1 class="font-serif text-[clamp(3.1rem,8vw,7.4rem)] font-semibold leading-[.88] tracking-[-.055em]">பைக்காரா<br/><span class="text-[#cfe6df]">ஏரி</span></h1>
+          <h1 class="font-serif text-[clamp(3.1rem,8vw,7.4rem)] font-semibold leading-[.88] tracking-[-.055em]">
+            <span class="block">பைக்காரா<br /><span class="text-[#cfe6df]">ஏரி</span></span>
+            <span class="mt-5 block font-sans text-[clamp(.95rem,2.1vw,1.3rem)] font-extrabold leading-snug tracking-normal text-white/85">
+              {ATTRACTION.fullName} ({ATTRACTION.city}) · {ATTRACTION.stateProvince}, {ATTRACTION.country}
+            </span>
+          </h1>
           <p class="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">பைன் காடுகள், மெல்லிய பனி, அமைதியான நீர் மற்றும் TTDC படகு இல்லம் — ஊட்டியைத் தாண்டி நீலகிரியின் இயற்கையை மெதுவாக அனுபவிக்க ஒரு நாள் பயணம்.</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#plan" class="btn-primary !bg-[#d9a13a] !text-[#10251f]">பயணத்தைத் திட்டமிடு ↓</a>
+            <a href="#plan" class="btn-primary btn-sun">பயணத்தைத் திட்டமிடு ↓</a>
             <button id="save-plan" class="btn-secondary">இந்த திட்டத்தை சேமி</button>
+          </div>
+
+          {/* Google 评分：页面展示 + 来源标注（不进 JSON-LD） */}
+          <div class="mt-8">
+            <RatingChip tone="dark" />
           </div>
         </div>
       </div>
@@ -81,7 +229,10 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
       </div>
     </section>
 
-    <section id="about" class="section">
+    <!-- 英文实体语义内容（About / Location / Landmarks / History + 面包屑） -->
+    <EntityGuide />
+
+    <section id="about" class="section bg-[#f7f2e7]">
       <div class="container-shell grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
         <div>
           <p class="eyebrow">Pykara · Nilgiris</p>
@@ -95,7 +246,15 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
           </div>
         </div>
         <figure class="relative overflow-hidden rounded-[2.5rem] shadow-2xl">
-          <img src="/images/pykara-lake.jpg" onerror={`this.onerror=null;this.src='${commons.lake}'`} alt="பைக்காரா ஏரி மற்றும் நீலகிரி மலைகள்" class="aspect-[4/5] w-full object-cover" width="1200" height="1500" loading="lazy" />
+          <img
+            src="/images/pykara-lake.jpg"
+            onerror={`this.onerror=null;this.src='${commons.lake}'`}
+            alt={`${ATTRACTION.shortName} (${ATTRACTION.fullName}) and the Nilgiri hills in ${ATTRACTION.city}, ${ATTRACTION.country}`}
+            class="aspect-[4/5] w-full object-cover"
+            width="1200"
+            height="1500"
+            loading="lazy"
+          />
           <figcaption class="absolute inset-x-4 bottom-4 rounded-2xl bg-white/88 p-4 text-xs leading-5 backdrop-blur-lg">Scenic View of Pykara Lake and Surroundings · Prasannakamble25 · CC BY-SA 4.0</figcaption>
         </figure>
       </div>
@@ -104,10 +263,18 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
     <section id="boating" class="section bg-[#153b31] text-white">
       <div class="container-shell grid gap-10 lg:grid-cols-2">
         <div class="overflow-hidden rounded-[2.3rem]">
-          <img src="/images/pykara-from-boat.jpg" onerror={`this.onerror=null;this.src='${commons.boating}'`} alt="பைக்காரா ஏரியில் படகு சவாரி" class="h-full min-h-[420px] w-full object-cover" width="1400" height="950" loading="lazy" />
+          <img
+            src="/images/pykara-from-boat.jpg"
+            onerror={`this.onerror=null;this.src='${commons.boating}'`}
+            alt={`Boating at ${ATTRACTION.fullName}, ${ATTRACTION.city}, ${ATTRACTION.country}`}
+            class="h-full min-h-[420px] w-full object-cover"
+            width="1400"
+            height="950"
+            loading="lazy"
+          />
         </div>
         <div class="flex flex-col justify-center py-4">
-          <p class="eyebrow !text-[#91c9b4]">TTDC Boat House</p>
+          <p class="eyebrow eyebrow-light">TTDC Boat House</p>
           <h2 class="section-title mt-3">நீர்மேல் செல்லும் போது தான் பைக்காராவின் அளவு தெரியும்</h2>
           <p class="mt-6 leading-8 text-white/70">படகு வகைகள் மற்றும் கட்டணங்கள் நாள்தோறும் மாறக்கூடும். TTDC படகு இல்லங்களில் பாதுகாப்பு உபகரணங்கள், வாழ்க்கைக் கவசங்கள் மற்றும் பணியாளர்கள் வழங்கப்படுவதாக அதிகாரப்பூர்வ தகவல் குறிப்பிடுகிறது.</p>
           <div class="mt-8 space-y-3">
@@ -138,7 +305,15 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
           <div class="mt-6 rounded-2xl border border-[#d4ded8] bg-white/70 p-5 text-sm leading-7"><b>பாதுகாப்பு:</b> தடுப்புக் கம்பிகளைத் தாண்ட வேண்டாம். நீரின் வேகம் அமைதியாகத் தோன்றினாலும் பாறை மேற்பரப்பு மற்றும் அடிப்பகுதி ஆபத்தானதாக இருக்கலாம்.</div>
         </div>
         <figure class="overflow-hidden rounded-[2.3rem]">
-          <img src="/images/pykara-falls.jpg" onerror={`this.onerror=null;this.src='${commons.falls}'`} alt="பைக்காரா நீர்வீழ்ச்சி" class="aspect-[16/10] w-full object-cover" width="1500" height="950" loading="lazy" />
+          <img
+            src="/images/pykara-falls.jpg"
+            onerror={`this.onerror=null;this.src='${commons.falls}'`}
+            alt={`${ATTRACTION.nearbyLandmark1} near ${ATTRACTION.shortName}, ${ATTRACTION.city}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}`}
+            class="aspect-[16/10] w-full object-cover"
+            width="1500"
+            height="950"
+            loading="lazy"
+          />
           <figcaption class="bg-[#153b31] px-5 py-3 text-xs text-white/60">Prasannakamble25 · Wikimedia Commons · CC BY-SA 4.0</figcaption>
         </figure>
       </div>
@@ -158,32 +333,67 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEnti
     <section id="map" class="section pt-0">
       <div class="container-shell overflow-hidden rounded-[2.6rem] bg-[#153b31] p-2 shadow-xl">
         <div class="grid overflow-hidden rounded-[2.2rem] bg-white lg:grid-cols-[.36fr_.64fr]">
-          <div class="p-8 md:p-10"><p class="eyebrow">Google Maps</p><h2 class="mt-3 text-3xl font-black">FH3W+WXP<br/>Pykara</h2><p class="prose-copy mt-4 text-sm">Pykara, Naduvattam, Tamil Nadu 643237, India</p><a class="btn-primary mt-6" href="https://www.google.com/maps/search/?api=1&query=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India" target="_blank" rel="noreferrer">Google Maps திறக்க ↗</a></div>
-          <iframe class="map-frame min-h-[420px] w-full border-0" title="Pykara Lake Boat House map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India&output=embed&hl=ta"></iframe>
+          <div class="p-8 md:p-10">
+            <p class="eyebrow">Google Maps</p>
+            <h2 class="mt-3 text-3xl font-black">{ATTRACTION.plusCode}<br />{ATTRACTION.subLocality}</h2>
+            <p class="prose-copy mt-4 text-sm">{ATTRACTION.subLocality}, {ATTRACTION.city}, {ATTRACTION.stateProvince} {ATTRACTION.postalCode}, {ATTRACTION.country}</p>
+            <a class="btn-primary mt-6" href={ATTRACTION.mapsListingUrl} target="_blank" rel="noopener noreferrer">Google Maps திறக்க ↗</a>
+            <p class="mt-4 text-xs leading-6 text-[#65756f]">
+              Official tourism portal:
+              <a class="font-bold underline decoration-dotted underline-offset-2" href={ATTRACTION.govtTourismUrl} target="_blank" rel="noopener noreferrer">
+                {ATTRACTION.stateProvince}, {ATTRACTION.country} ↗
+              </a>
+              ·
+              <a class="font-bold underline decoration-dotted underline-offset-2" href={ATTRACTION.operatorUrl} target="_blank" rel="noopener noreferrer">
+                TTDC ↗
+              </a>
+            </p>
+          </div>
+          <iframe
+            class="map-frame min-h-[420px] w-full border-0"
+            title={`${ATTRACTION.fullName} map`}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src={ATTRACTION.mapsEmbedSrc}
+          ></iframe>
         </div>
       </div>
     </section>
 
+    <ReviewsSection />
+
     <section id="faq" class="section bg-[#153b31] text-white">
       <div class="container-shell grid gap-10 lg:grid-cols-[.38fr_.62fr]">
-        <div><p class="eyebrow !text-[#91c9b4]">FAQ</p><h2 class="section-title mt-3">செல்வதற்கு முன் தெரிந்துகொள்ள வேண்டியது</h2><p class="mt-5 text-sm leading-7 text-white/60">நேரம், விலை, படகு இயக்கம் போன்றவை மாறக்கூடியவை. இங்கே உள்ள தகவலைத் திட்டமிட உதவும் குறிப்பு என பயன்படுத்தி, பயண நாளில் அதிகாரப்பூர்வ தகவலை மீண்டும் பார்க்கவும்.</p></div>
+        <div><p class="eyebrow eyebrow-light">FAQ</p><h2 class="section-title mt-3">செல்வதற்கு முன் தெரிந்துகொள்ள வேண்டியது</h2><p class="mt-5 text-sm leading-7 text-white/60">நேரம், விலை, படகு இயக்கம் போன்றவை மாறக்கூடியவை. இங்கே உள்ள தகவலைத் திட்டமிட உதவும் குறிப்பு என பயன்படுத்தி, பயண நாளில் அதிகாரப்பூர்வ தகவலை மீண்டும் பார்க்கவும்.</p></div>
         <div class="space-y-3">{faqs.map(([q,a]) => <details class="rounded-2xl border border-white/10 bg-white/5 p-5 open:bg-white/10"><summary class="cursor-pointer list-none font-extrabold">{q}</summary><p class="mt-4 text-sm leading-7 text-white/65">{a}</p></details>)}</div>
       </div>
     </section>
+
+    <SourcesSection />
   </main>
 
   <footer class="bg-[#0b241e] py-10 text-white">
     <div class="container-shell grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      <div><img src="/brand/logo.svg" class="h-12 w-12" alt=""/><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி & படகு இல்லத்துக்கான சுயாதீன பயண தகவல் தளம். இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
-      <div><p class="font-black">விரைவு இணைப்புகள்</p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#about">அறிமுகம்</a><a class="block" href="#boating">படகு</a><a class="block" href="#map">வரைபடம்</a><a class="block" href="#faq">FAQ</a></div></div>
+      <div><img src="/brand/logo.svg" class="h-12 w-12" alt={`${ATTRACTION.fullName} logo`} /><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி & படகு இல்லத்துக்கான சுயாதீன பயண தகவல் தளம். இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
+      <div><p class="font-black">விரைவு இணைப்புகள்</p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#guide">Guide</a><a class="block" href="#about">அறிமுகம்</a><a class="block" href="#boating">படகு</a><a class="block" href="#map">வரைபடம்</a><a class="block" href="#reviews">மதிப்புரைகள்</a><a class="block" href="#faq">FAQ</a><a class="block" href="#sources">மூலங்கள்</a></div></div>
       <div><p class="font-black">சட்டம்</p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="/privacy/">தனியுரிமை</a><a class="block" href="/terms/">சேவை விதிமுறைகள்</a><a class="block" href="/cookies/">Cookie அமைப்புகள்</a></div></div>
-      <div><p class="font-black">புகைப்பட உரிமங்கள்</p><p class="mt-3 text-xs leading-6 text-white/50">Wikimedia Commons: CC BY 4.0 / CC BY-SA 4.0. முழு attribution: <code>docs/IMAGE_SOURCES.md</code>.</p></div>
+      <div><p class="font-black">புகைப்பட உரிமங்கள்</p><p class="mt-3 text-xs leading-6 text-white/50">Wikimedia Commons: CC BY 4.0 / CC BY-SA 4.0. முழு attribution: <code>docs/IMAGE_SOURCES.md</code>. Google Maps மதிப்பீடு/மதிப்புரைகள் Google Maps பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்படுகின்றன ({ATTRACTION.ratingSyncedTa}); பதிப்புரிமை Google மற்றும் அசல் மதிப்புரையாளர்களுக்கு உரியது.</p></div>
     </div>
   </footer>
   <script is:inline>
-    document.getElementById('save-plan')?.addEventListener('click', (e) => {
-      localStorage.setItem('pykara-saved-plan', JSON.stringify({savedAt:new Date().toISOString(), stops:['Pykara Boat House','Pykara Falls','Pine Forest / 9th Mile']}));
-      e.currentTarget.textContent = 'சேமிக்கப்பட்டது ✓';
+    document.getElementById('save-plan')?.addEventListener('click', () => {
+      localStorage.setItem('pykara-saved-plan', JSON.stringify({ savedAt: new Date().toISOString(), stops: ['Pykara Boat House', 'Pykara Falls', 'Pine Forest / 9th Mile'] }));
+      const button = document.getElementById('save-plan');
+      if (button) button.textContent = 'சேமிக்கப்பட்டது ✓';
+    });
+    document.querySelector('[data-pwa-install]')?.addEventListener('click', async () => {
+      const install = window.__pykaraInstall;
+      const deferred = install?.deferred;
+      if (!install || !deferred || typeof deferred.prompt !== 'function') return;
+      deferred.prompt();
+      await deferred.userChoice;
+      install.deferred = null;
+      document.querySelector('[data-pwa-install]')?.setAttribute('hidden', '');
     });
   </script>
 </BaseLayout>
