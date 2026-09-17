@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+}
+const { title, description, image = '/images/pykara-boat-house.jpg', noindex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undefined;
+---
+<!doctype html>
+<html lang="ta-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#183f33" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
+    <title>{title}</title>
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ta_IN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {absoluteImage && <meta property="og:image" content={absoluteImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+    <div id="cookie-banner" class="fixed inset-x-4 bottom-4 z-[70] mx-auto hidden max-w-3xl rounded-3xl border border-white/30 bg-[#10251f]/95 p-5 text-white shadow-2xl backdrop-blur-xl">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <p class="text-sm leading-6 text-white/80">அனலிட்டிக்ஸ் குக்கீகள் உங்கள் ஒப்புதலுக்கு பிறகே இயக்கப்படும். அத்தியாவசிய சேமிப்பு மட்டும் இயல்பாக பயன்படுத்தப்படுகிறது.</p>
+        <div class="flex shrink-0 gap-2">
+          <button id="cookie-reject" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold">வேண்டாம்</button>
+          <button id="cookie-accept" class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33]">ஒப்புக்கொள்</button>
+        </div>
+      </div>
+    </div>
+    <script is:inline>
+      (() => {
+        const KEY = 'pykara-cookie-consent';
+        const GA = 'G-HXM22WWPKP';
+        const loadGA = () => {
+          if (document.querySelector('script[data-pykara-ga]')) return;
+          const s = document.createElement('script');
+          s.async = true; s.dataset.pykaraGa = '1';
+          s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function(){ window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', GA, { anonymize_ip: true });
+        };
+        const choice = localStorage.getItem(KEY);
+        const banner = document.getElementById('cookie-banner');
+        if (choice === 'granted') loadGA();
+        if (!choice && banner) banner.classList.remove('hidden');
+        document.getElementById('cookie-accept')?.addEventListener('click', () => { localStorage.setItem(KEY,'granted'); banner?.classList.add('hidden'); loadGA(); });
+        document.getElementById('cookie-reject')?.addEventListener('click', () => { localStorage.setItem(KEY,'denied'); banner?.classList.add('hidden'); });
+        window.__pykaraConsent = { key: KEY, loadGA };
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'பைக்காரா ஏரி படகு இல்லம் | நீலகிரி பயண வழிகாட்டி';
+const description = 'பைக்காரா ஏரி படகு இல்லம், நீலகிரி: படகு சவாரி, நீர்வீழ்ச்சி, நேரம், கட்டணம், போக்குவரத்து, பார்க்கிங், உணவு, அருகிலுள்ள இடங்கள் மற்றும் Google Maps வழிகாட்டி.';
+const commons = {
+  boat: 'https://upload.wikimedia.org/wikipedia/commons/8/81/Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg',
+  lake: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Scenic_View_of_Pykara_Lake_and_Surroundings.jpg',
+  boating: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG',
+  falls: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg'
+};
+const touristSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristAttraction',
+  name: 'Pykara Lake Boat House',
+  alternateName: 'பைக்காரா ஏரி படகு இல்லம்',
+  description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'FH3W+WXP, Pykara, Naduvattam',
+    addressRegion: 'Tamil Nadu',
+    postalCode: '643237',
+    addressCountry: 'IN'
+  },
+  ...(Astro.site ? { url: new URL('/', Astro.site).toString(), image: new URL('/images/pykara-boat-house.jpg', Astro.site).toString() } : {})
+};
+const faqs = [
+  ['பைக்காரா ஏரியை பார்க்க சிறந்த நேரம் எது?', 'அக்டோபர் முதல் மே வரை பொதுவாக மிதமான காலநிலை கிடைக்கும். மழைக்குப் பிறகு ஏரி மற்றும் நீர்வீழ்ச்சி பசுமையாக இருக்கும்; ஆனால் ஈரமான பாதைகளில் கவனம் தேவை.'],
+  ['படகு சவாரி தினமும் கிடைக்குமா?', 'படகு இயக்கம் வானிலை, நீர்மட்டம், பராமரிப்பு மற்றும் கூட்டம் ஆகியவற்றைப் பொறுத்து மாறலாம். பயண நாளில் TTDC அல்லது தளத்தில் உள்ள அறிவிப்பை உறுதிப்படுத்தவும்.'],
+  ['நுழைவு மற்றும் படகு கட்டணம் எவ்வளவு?', 'தமிழ்நாடு சுற்றுலா தகவலில் ஏரிக்கான குறைந்த நுழைவு கட்டணம் மற்றும் படகு வகைக்கு ஏற்ப தனி கட்டணம் குறிப்பிடப்படுகிறது. விலை மாறக்கூடியதால் தளத்தில் உள்ள தற்போதைய கட்டணப்பட்டியலை சரிபார்க்கவும்.'],
+  ['ஊட்டியிலிருந்து எப்படி செல்லலாம்?', 'பைக்காரா ஊட்டி–கூடலூர் சாலை வழியாக மேற்கே உள்ளது. டாக்சி, சுய ஓட்டுநர் வாகனம் அல்லது உள்ளூர் பேருந்து வழிகள் பயன்படும்; வார இறுதிகளில் கூடுதல் நேரம் ஒதுக்கவும்.'],
+  ['குடும்பத்துடன் செல்ல ஏற்றதா?', 'ஆம். படகு இல்லம், ஏரி காட்சி, ஓய்வு பகுதிகள் குடும்பங்களுக்கு ஏற்றவை. குழந்தைகள் எப்போதும் நீர்நிலைக்கு அருகில் பெரியவர் மேற்பார்வையில் இருக்க வேண்டும்.'],
+  ['பைக்காரா நீர்வீழ்ச்சியையும் சேர்த்து பார்க்க முடியுமா?', 'ஆம். ஏரி மற்றும் பைக்காரா நீர்வீழ்ச்சி ஒரே பயணத்தில் சேர்க்கப்படும் பிரபலமான இணைப்பு. சாலை மற்றும் நடைபாதை நிலை மழைக்காலத்தில் மாறலாம்.']
+];
+const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEntity: faqs.map(([q,a]) => ({ '@type':'Question', name:q, acceptedAnswer:{ '@type':'Answer', text:a } })) };
+---
+<BaseLayout {title} {description} image="/images/pykara-boat-house.jpg">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(touristSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  </Fragment>
+
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0d2e26]/65 text-white backdrop-blur-xl">
+    <div class="container-shell flex h-18 items-center justify-between gap-5 py-3">
+      <a href="#top" class="flex items-center gap-3 font-extrabold">
+        <img src="/brand/logo.svg" alt="பைக்காரா லோகோ" class="h-11 w-11" />
+        <span class="hidden sm:block">பைக்காரா <span class="text-white/55">நீலகிரி</span></span>
+      </a>
+      <nav class="hidden gap-6 text-sm font-bold text-white/80 lg:flex" aria-label="முதன்மை வழிசெலுத்தல்">
+        <a href="#about" class="hover:text-white">அறிமுகம்</a><a href="#boating" class="hover:text-white">படகு</a><a href="#plan" class="hover:text-white">பயணத் திட்டம்</a><a href="#map" class="hover:text-white">வரைபடம்</a><a href="#faq" class="hover:text-white">FAQ</a>
+      </nav>
+      <a class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33]" href="https://www.google.com/maps/search/?api=1&query=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India" target="_blank" rel="noreferrer">வழி காண்க ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero-photo relative isolate overflow-hidden text-white">
+      <img src="/images/pykara-boat-house.jpg" onerror={`this.onerror=null;this.src='${commons.boat}'`} alt="பைக்காரா ஏரி படகு இல்லம்" class="absolute inset-0 h-full w-full object-cover" width="1600" height="900" fetchpriority="high" />
+      <div class="container-shell relative z-10 flex min-h-[78vh] items-end pb-14 pt-32 md:items-center md:pb-0">
+        <div class="max-w-3xl">
+          <span class="pill mb-5 bg-white/12 text-white ring-1 ring-white/20">நீலகிரியின் அமைதியான நீர்பரப்பு</span>
+          <h1 class="font-serif text-[clamp(3.1rem,8vw,7.4rem)] font-semibold leading-[.88] tracking-[-.055em]">பைக்காரா<br/><span class="text-[#cfe6df]">ஏரி</span></h1>
+          <p class="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">பைன் காடுகள், மெல்லிய பனி, அமைதியான நீர் மற்றும் TTDC படகு இல்லம் — ஊட்டியைத் தாண்டி நீலகிரியின் இயற்கையை மெதுவாக அனுபவிக்க ஒரு நாள் பயணம்.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#plan" class="btn-primary !bg-[#d9a13a] !text-[#10251f]">பயணத்தைத் திட்டமிடு ↓</a>
+            <button id="save-plan" class="btn-secondary">இந்த திட்டத்தை சேமி</button>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-black/35 px-3 py-2 text-[11px] leading-5 text-white/75 backdrop-blur-md">புகைப்படம்: N. Vivekananthamoorthy · Wikimedia Commons · CC BY 4.0</div>
+    </section>
+
+    <section class="relative z-20 -mt-5">
+      <div class="container-shell grid gap-3 md:grid-cols-4">
+        {[
+          ['நேரம்','08:30–17:30','புறப்படுவதற்கு முன் உறுதி செய்யவும்'],
+          ['நுழைவு','₹10 குறிப்பு','தற்போதைய விலை மாறலாம்'],
+          ['படகு','₹700–₹1,000 குறிப்பு','படகு வகை/இருப்பிடத்தைப் பொறுத்தது'],
+          ['சிறந்த அனுபவம்','காலை / மாலை','பனி + மென்மையான ஒளி']
+        ].map(([k,v,n]) => <div class="card p-5"><p class="eyebrow">{k}</p><p class="mt-2 text-xl font-black">{v}</p><p class="mt-1 text-xs leading-5 text-[#65756f]">{n}</p></div>)}
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container-shell grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+        <div>
+          <p class="eyebrow">Pykara · Nilgiris</p>
+          <h2 class="section-title mt-3">ஒரு ஏரி மட்டும் அல்ல — நீலகிரியின் மெதுவான ரிதம்</h2>
+          <p class="prose-copy mt-6">பைக்காரா ஏரி ஊட்டி சுற்றுலாவின் மேற்கு வட்டத்தில் இருக்கும் பரந்த நீர்த்தேக்கம். நீல-பச்சை நீர், யூகலிப்டஸ் மற்றும் சோலை மலைச் சூழல், மங்கலான மேகங்கள் ஆகியவை நகர மையத்தின் கூட்டத்திலிருந்து வேறுபட்ட அனுபவத்தைத் தருகின்றன.</p>
+          <p class="prose-copy mt-4">படகு இல்லம் சுற்றுலாப் பயணிகளுக்கான முக்கிய அணுகுப் புள்ளி. படகு சவாரி கிடைக்கும் நேரம் காலநிலை மற்றும் இயக்க நிலையைப் பொறுத்து மாறலாம்; பாதுகாப்பு அறிவுறுத்தல்களைப் பின்பற்றி வாழ்க்கைக் கவசம் அணிவது அவசியம்.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl bg-[#e6f0eb] p-4"><b>01</b><p class="mt-2 text-sm">ஏரி + படகு</p></div>
+            <div class="rounded-2xl bg-[#e8f0f3] p-4"><b>02</b><p class="mt-2 text-sm">நீர்வீழ்ச்சி</p></div>
+            <div class="rounded-2xl bg-[#f3ead8] p-4"><b>03</b><p class="mt-2 text-sm">பைன் காடு / 9th Mile</p></div>
+          </div>
+        </div>
+        <figure class="relative overflow-hidden rounded-[2.5rem] shadow-2xl">
+          <img src="/images/pykara-lake.jpg" onerror={`this.onerror=null;this.src='${commons.lake}'`} alt="பைக்காரா ஏரி மற்றும் நீலகிரி மலைகள்" class="aspect-[4/5] w-full object-cover" width="1200" height="1500" loading="lazy" />
+          <figcaption class="absolute inset-x-4 bottom-4 rounded-2xl bg-white/88 p-4 text-xs leading-5 backdrop-blur-lg">Scenic View of Pykara Lake and Surroundings · Prasannakamble25 · CC BY-SA 4.0</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="boating" class="section bg-[#153b31] text-white">
+      <div class="container-shell grid gap-10 lg:grid-cols-2">
+        <div class="overflow-hidden rounded-[2.3rem]">
+          <img src="/images/pykara-from-boat.jpg" onerror={`this.onerror=null;this.src='${commons.boating}'`} alt="பைக்காரா ஏரியில் படகு சவாரி" class="h-full min-h-[420px] w-full object-cover" width="1400" height="950" loading="lazy" />
+        </div>
+        <div class="flex flex-col justify-center py-4">
+          <p class="eyebrow !text-[#91c9b4]">TTDC Boat House</p>
+          <h2 class="section-title mt-3">நீர்மேல் செல்லும் போது தான் பைக்காராவின் அளவு தெரியும்</h2>
+          <p class="mt-6 leading-8 text-white/70">படகு வகைகள் மற்றும் கட்டணங்கள் நாள்தோறும் மாறக்கூடும். TTDC படகு இல்லங்களில் பாதுகாப்பு உபகரணங்கள், வாழ்க்கைக் கவசங்கள் மற்றும் பணியாளர்கள் வழங்கப்படுவதாக அதிகாரப்பூர்வ தகவல் குறிப்பிடுகிறது.</p>
+          <div class="mt-8 space-y-3">
+            {['டிக்கெட் வாங்கும் முன் கடைசி படகு நேரத்தை உறுதிப்படுத்தவும்','குழந்தைகளுக்கு சரியான அளவு life jacket கேட்கவும்','மழை/காற்று அதிகமெனில் இயக்கம் நிறுத்தப்படலாம்','படகில் கைபேசி/கேமராவுக்கு பாதுகாப்புக் கயிறு உதவும்'].map((x,i)=><div class="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"><span class="font-black text-[#d9a13a]">0{i+1}</span><p class="text-sm leading-6 text-white/78">{x}</p></div>)}
+          </div>
+          <p class="mt-5 text-xs text-white/45">புகைப்படம்: KARTY JazZ · Wikimedia Commons · CC BY-SA 4.0</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="plan" class="section">
+      <div class="container-shell">
+        <div class="max-w-3xl"><p class="eyebrow">Half-day plan</p><h2 class="section-title mt-3">ஊட்டியிலிருந்து அரை நாள் பைக்காரா பயணம்</h2><p class="prose-copy mt-5">கூட்டத்தை குறைக்க காலை ஆரம்பிப்பது சிறந்தது. கீழே உள்ள நேரங்கள் கட்டாய அட்டவணை அல்ல; வானிலை மற்றும் போக்குவரத்துக்கு ஏற்ப மாற்றவும்.</p></div>
+        <div class="route-line mt-10 grid gap-5 lg:grid-cols-3">
+          {[
+            ['08:30','படகு இல்லம்','முதலில் ஏரிக்குச் சென்று டிக்கெட்/இயக்க நிலையை பார்த்து படகு சவாரியை முடிக்கவும்.'],
+            ['10:15','பைக்காரா நீர்வீழ்ச்சி','சாலை வழியாக நீர்வீழ்ச்சி அணுகுமிடத்துக்குச் சென்று பாதுகாப்பான பார்வைப் பகுதிகளில் மட்டும் நிற்கவும்.'],
+            ['12:00','Pine Forest / 9th Mile','திரும்பும் வழியில் பைன் காடு அல்லது Wenlock Downs பகுதியைச் சேர்த்து பிற்பகல் ஊட்டிக்குத் திரும்பவும்.']
+          ].map(([time,name,text]) => <article class="card relative p-6"><div class="mb-5 flex h-9 w-9 items-center justify-center rounded-full bg-[#4c8ea1] font-black text-white">•</div><p class="eyebrow">{time}</p><h3 class="mt-2 text-2xl font-black">{name}</h3><p class="prose-copy mt-3 text-sm">{text}</p></article>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-[#edf2ed]">
+      <div class="container-shell grid gap-8 lg:grid-cols-[.95fr_1.05fr]">
+        <div>
+          <p class="eyebrow">Pykara Falls</p><h2 class="section-title mt-3">மழைக்குப் பிறகு உயிர்ப்பெறும் நீர்வீழ்ச்சி</h2><p class="prose-copy mt-6">பைக்காரா ஆற்றின் தொடர்ச்சியான பாறை சரிவுகள் நீர்வீழ்ச்சி காட்சியை உருவாக்குகின்றன. மழைக்காலத்தில் நீர் வலிமையாக இருக்கும்; அதே நேரத்தில் நடைபாதை ஈரமாகவும் வழுக்கலாகவும் இருக்கலாம்.</p>
+          <div class="mt-6 rounded-2xl border border-[#d4ded8] bg-white/70 p-5 text-sm leading-7"><b>பாதுகாப்பு:</b> தடுப்புக் கம்பிகளைத் தாண்ட வேண்டாம். நீரின் வேகம் அமைதியாகத் தோன்றினாலும் பாறை மேற்பரப்பு மற்றும் அடிப்பகுதி ஆபத்தானதாக இருக்கலாம்.</div>
+        </div>
+        <figure class="overflow-hidden rounded-[2.3rem]">
+          <img src="/images/pykara-falls.jpg" onerror={`this.onerror=null;this.src='${commons.falls}'`} alt="பைக்காரா நீர்வீழ்ச்சி" class="aspect-[16/10] w-full object-cover" width="1500" height="950" loading="lazy" />
+          <figcaption class="bg-[#153b31] px-5 py-3 text-xs text-white/60">Prasannakamble25 · Wikimedia Commons · CC BY-SA 4.0</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container-shell grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {[
+          ['எப்படி செல்லலாம்','ஊட்டி → Gudalur Road வழி. டாக்சி/கார் மிகவும் வசதியானது; உள்ளூர் பேருந்து நேரங்கள் மாறலாம்.'],
+          ['பார்க்கிங்','படகு இல்லம் அருகே வாகன நிறுத்தம் இருக்கலாம்; விடுமுறை நாட்களில் இடம் விரைவாக நிரம்பும்.'],
+          ['உணவு','TTDC வசதிகளில் உணவு/சிற்றுண்டி கிடைக்கலாம். குடிநீர் மற்றும் சிறிய snack எடுத்துச் செல்வது உதவும்.'],
+          ['என்ன எடுத்துச் செல்லலாம்','மழைக்கோட், வெப்பமான மேலங்கி, வழுக்காத காலணி, தண்ணீர், power bank, சிறிய cash.']
+        ].map(([h,p]) => <article class="card p-6"><h3 class="text-xl font-black">{h}</h3><p class="prose-copy mt-3 text-sm">{p}</p></article>)}
+      </div>
+    </section>
+
+    <section id="map" class="section pt-0">
+      <div class="container-shell overflow-hidden rounded-[2.6rem] bg-[#153b31] p-2 shadow-xl">
+        <div class="grid overflow-hidden rounded-[2.2rem] bg-white lg:grid-cols-[.36fr_.64fr]">
+          <div class="p-8 md:p-10"><p class="eyebrow">Google Maps</p><h2 class="mt-3 text-3xl font-black">FH3W+WXP<br/>Pykara</h2><p class="prose-copy mt-4 text-sm">Pykara, Naduvattam, Tamil Nadu 643237, India</p><a class="btn-primary mt-6" href="https://www.google.com/maps/search/?api=1&query=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India" target="_blank" rel="noreferrer">Google Maps திறக்க ↗</a></div>
+          <iframe class="map-frame min-h-[420px] w-full border-0" title="Pykara Lake Boat House map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India&output=embed&hl=ta"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section bg-[#153b31] text-white">
+      <div class="container-shell grid gap-10 lg:grid-cols-[.38fr_.62fr]">
+        <div><p class="eyebrow !text-[#91c9b4]">FAQ</p><h2 class="section-title mt-3">செல்வதற்கு முன் தெரிந்துகொள்ள வேண்டியது</h2><p class="mt-5 text-sm leading-7 text-white/60">நேரம், விலை, படகு இயக்கம் போன்றவை மாறக்கூடியவை. இங்கே உள்ள தகவலைத் திட்டமிட உதவும் குறிப்பு என பயன்படுத்தி, பயண நாளில் அதிகாரப்பூர்வ தகவலை மீண்டும் பார்க்கவும்.</p></div>
+        <div class="space-y-3">{faqs.map(([q,a]) => <details class="rounded-2xl border border-white/10 bg-white/5 p-5 open:bg-white/10"><summary class="cursor-pointer list-none font-extrabold">{q}</summary><p class="mt-4 text-sm leading-7 text-white/65">{a}</p></details>)}</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#0b241e] py-10 text-white">
+    <div class="container-shell grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div><img src="/brand/logo.svg" class="h-12 w-12" alt=""/><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி & படகு இல்லத்துக்கான சுயாதீன பயண தகவல் தளம். இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
+      <div><p class="font-black">விரைவு இணைப்புகள்</p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#about">அறிமுகம்</a><a class="block" href="#boating">படகு</a><a class="block" href="#map">வரைபடம்</a><a class="block" href="#faq">FAQ</a></div></div>
+      <div><p class="font-black">சட்டம்</p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="/privacy/">தனியுரிமை</a><a class="block" href="/terms/">சேவை விதிமுறைகள்</a><a class="block" href="/cookies/">Cookie அமைப்புகள்</a></div></div>
+      <div><p class="font-black">புகைப்பட உரிமங்கள்</p><p class="mt-3 text-xs leading-6 text-white/50">Wikimedia Commons: CC BY 4.0 / CC BY-SA 4.0. முழு attribution: <code>docs/IMAGE_SOURCES.md</code>.</p></div>
+    </div>
+  </footer>
+  <script is:inline>
+    document.getElementById('save-plan')?.addEventListener('click', (e) => {
+      localStorage.setItem('pykara-saved-plan', JSON.stringify({savedAt:new Date().toISOString(), stops:['Pykara Boat House','Pykara Falls','Pine Forest / 9th Mile']}));
+      e.currentTarget.textContent = 'சேமிக்கப்பட்டது ✓';
+    });
+  </script>
+</BaseLayout>

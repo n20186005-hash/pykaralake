@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Cookie அமைப்புகள் | பைக்காரா" description="பைக்காரா பயணத் தளத்தின் analytics cookie அமைப்புகள்." noindex={true}>
+  <main class="container-shell py-20"><a href="/" class="eyebrow">← முகப்பு</a><h1 class="section-title mt-4">Cookie அமைப்புகள்</h1><p class="prose-copy mt-6 max-w-2xl">அனலிட்டிக்ஸ் உங்களின் ஒப்புதலுடன் மட்டுமே இயக்கப்படும். கீழே உங்கள் விருப்பத்தை மாற்றலாம்.</p><div class="mt-8 flex flex-wrap gap-3"><button id="grant" class="btn-primary">Analytics அனுமதி</button><button id="deny" class="btn-secondary">Analytics நிறுத்து</button></div><p id="status" class="mt-5 text-sm font-bold"></p></main>
+  <script is:inline>
+    const KEY='pykara-cookie-consent'; const status=document.getElementById('status');
+    const paint=()=>{const v=localStorage.getItem(KEY); status.textContent=v==='granted'?'தற்போதைய நிலை: Analytics அனுமதிக்கப்பட்டுள்ளது.':v==='denied'?'தற்போதைய நிலை: Analytics நிறுத்தப்பட்டுள்ளது.':'தற்போதைய நிலை: இன்னும் தேர்வு செய்யப்படவில்லை.'};
+    document.getElementById('grant')?.addEventListener('click',()=>{localStorage.setItem(KEY,'granted'); window.__pykaraConsent?.loadGA?.(); paint();});
+    document.getElementById('deny')?.addEventListener('click',()=>{localStorage.setItem(KEY,'denied'); paint();}); paint();
+  </script>
+</BaseLayout>

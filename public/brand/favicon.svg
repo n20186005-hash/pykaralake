@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Pykara logo">
+  <rect width="96" height="96" rx="28" fill="#183f33"/>
+  <path d="M12 61c14-11 23-12 36-3s24 7 36-3v18H12z" fill="#79afbb"/>
+  <path d="M20 49 38 22l10 15 10-19 19 31c-16-8-38-8-57 0Z" fill="#dbe9df"/>
+  <path d="M57 53c8-2 15 0 20 4-8 4-17 5-26 2 2-3 4-5 6-6Z" fill="#d9a13a"/>
+  <path d="M58 55h18" stroke="#183f33" stroke-width="2" stroke-linecap="round"/>
+</svg>
