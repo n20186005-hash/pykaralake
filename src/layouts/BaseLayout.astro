@@ -21,9 +21,21 @@ const absoluteImage = Astro.site ? new URL(image, Astro.site).toString() : undef
 const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
 ---
 <!doctype html>
-<html lang="ta-IN">
+<html lang="ta-IN" data-lang="ta">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      /* 语言切换：在首屏绘制前应用已保存的偏好，避免闪烁 */
+      (() => {
+        try {
+          if (localStorage.getItem('pykara-lang') === 'en') {
+            const el = document.documentElement;
+            el.setAttribute('data-lang', 'en');
+            el.setAttribute('lang', 'en');
+          }
+        } catch (_) {}
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#183f33" />
     <meta name="description" content={description} />
@@ -63,10 +75,13 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
     <slot />
     <div id="cookie-banner" class="fixed inset-x-4 bottom-4 z-[70] mx-auto hidden max-w-3xl rounded-3xl border border-white/30 bg-[#10251f]/95 p-5 text-white shadow-2xl backdrop-blur-xl">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p class="text-sm leading-6 text-white/80">அனலிட்டிக்ஸ் குக்கீகள் உங்கள் ஒப்புதலுக்கு பிறகே இயக்கப்படும். அத்தியாவசிய சேமிப்பு மட்டும் இயல்பாக பயன்படுத்தப்படுகிறது.</p>
+        <p class="text-sm leading-6 text-white/80 ta-only">அனலிட்டிக்ஸ் குக்கீகள் உங்கள் ஒப்புதலுக்கு பிறகே இயக்கப்படும். அத்தியாவசிய சேமிப்பு மட்டும் இயல்பாக பயன்படுத்தப்படுகிறது.</p>
+        <p class="text-sm leading-6 text-white/80 en-only">Analytics cookies load only after your consent. Essential storage works by default.</p>
         <div class="flex shrink-0 gap-2">
-          <button id="cookie-reject" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold">வேண்டாம்</button>
-          <button id="cookie-accept" class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33]">ஒப்புக்கொள்</button>
+          <button id="cookie-reject" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold ta-only">வேண்டாம்</button>
+          <button id="cookie-reject-en" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold en-only">Decline</button>
+          <button id="cookie-accept" class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33] ta-only">ஒப்புக்கொள்</button>
+          <button id="cookie-accept-en" class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33] en-only">Accept</button>
         </div>
       </div>
     </div>
@@ -89,8 +104,10 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
         const banner = document.getElementById('cookie-banner');
         if (choice === 'granted') loadGA();
         if (!choice && banner) banner.classList.remove('hidden');
-        document.getElementById('cookie-accept')?.addEventListener('click', () => { localStorage.setItem(KEY,'granted'); banner?.classList.add('hidden'); loadGA(); });
-        document.getElementById('cookie-reject')?.addEventListener('click', () => { localStorage.setItem(KEY,'denied'); banner?.classList.add('hidden'); });
+        const acceptCookies = () => { localStorage.setItem(KEY,'granted'); banner?.classList.add('hidden'); loadGA(); };
+        const rejectCookies = () => { localStorage.setItem(KEY,'denied'); banner?.classList.add('hidden'); };
+        document.querySelectorAll('#cookie-accept, #cookie-accept-en').forEach((b) => b.addEventListener('click', acceptCookies));
+        document.querySelectorAll('#cookie-reject, #cookie-reject-en').forEach((b) => b.addEventListener('click', rejectCookies));
         window.__pykaraConsent = { key: KEY, loadGA };
       })();
     </script>
@@ -107,6 +124,26 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
           e.preventDefault();
           if (window.__pykaraInstall) window.__pykaraInstall.deferred = e;
           document.querySelectorAll('[data-pwa-install]').forEach((el) => el.removeAttribute('hidden'));
+        });
+      })();
+    </script>
+    <script is:inline>
+      // 语言切换：同页客户端切换（ta / en），localStorage 持久化
+      (() => {
+        const KEY = 'pykara-lang';
+        const root = document.documentElement;
+        const apply = (lang) => {
+          const en = lang === 'en';
+          root.setAttribute('data-lang', en ? 'en' : 'ta');
+          root.setAttribute('lang', en ? 'en' : 'ta-IN');
+          try { localStorage.setItem(KEY, en ? 'en' : 'ta'); } catch (_) {}
+          document.querySelectorAll('[data-lang-toggle]').forEach((b) => {
+            b.setAttribute('aria-pressed', String(en));
+          });
+        };
+        const current = () => (root.getAttribute('data-lang') === 'en' ? 'en' : 'ta');
+        document.querySelectorAll('[data-lang-toggle]').forEach((btn) => {
+          btn.addEventListener('click', () => apply(current() === 'en' ? 'ta' : 'en'));
         });
       })();
     </script>

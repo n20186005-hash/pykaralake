@@ -66,6 +66,29 @@ export const ATTRACTION = {
   operatorUrl: 'https://ttdconline.com/',
   operatorLabel: 'Tamil Nadu Tourism Development Corporation (TTDC)',
 
+  /** {{VISIT_FACTS}} 到访参考事实（页面展示 + 结构化数据共用；均须在出行日复核） */
+  /** 开放时间（参考值） */
+  openingHoursText: '08:30–17:30',
+  openingHoursNote: 'Boating can be suspended for rain, wind, low water level or maintenance — reconfirm on the travel day.',
+  /** 结构化数据 openingHoursSpecification（每日相同，参考值） */
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '08:30',
+      closes: '17:30'
+    }
+  ],
+  /** 参考票价（页面展示用，非 JSON-LD 结构化价格，避免违反 Google 价格政策） */
+  entryFeeNote: '₹10 (reference)',
+  boatFareNote: '₹700–₹1,000 (reference)',
+  /** 最佳到访季节（参考） */
+  bestSeasonNote: 'October–May',
+  /** 与 Ooty 的距离/方位（命中 pykara lake ooty / ooty to pykara distance 等高意图查询） */
+  distanceFromOoty: '~20 km west of Ooty (Udhagamandalam) on the Ooty–Gudalur road',
+  /** 游客类型（JSON-LD touristType） */
+  touristType: ['Families', 'Nature lovers', 'Photographers', 'Day trippers', 'Boating enthusiasts'],
+
   /** 主视觉图与结构化数据图片（真实文件由 `pnpm fetch:images` 落到本地） */
   heroImage: '/images/pykara-boat-house.jpg',
   images: [
@@ -77,7 +100,7 @@ export const ATTRACTION = {
 
   /** Google 地图评分与评价数（页面展示用；来源与同步时间见下方） */
   googleRating: 4.4,
-  googleReviewCount: 15818,
+  googleReviewCount: 15839,
   /** 评分/评价数同步时间（英文展示） */
   ratingSyncedEn: 'September 2026',
   /** 评分/评价数同步时间（泰米尔文展示） */

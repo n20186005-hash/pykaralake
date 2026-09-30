@@ -71,7 +71,7 @@ const entityValues = [
   ['maps share url', 'maps.app.goo.gl/R3VCpqVVNYmssjpU9'],
   ['govt tourism url', 'tamilnadutourism.tn.gov.in'],
   ['rating', '4.4'],
-  ['review count', '15818'],
+  ['review count', '15839'],
   ['sync month', 'September 2026']
 ];
 for (const [label, value] of entityValues) {
@@ -132,7 +132,7 @@ if (existsSync(join(root, 'dist'))) {
   if (!existsSync(distIndexPath)) fail('dist/index.html was not generated.');
   const distIndex = readFileSync(distIndexPath, 'utf8');
   for (const token of [
-    '<title>Pykara Lake Boat House (Naduvattam) - Visitor Guide &amp; Location</title>',
+    '<title>Pykara Lake Boat House &amp; Falls, Ooty: Timings, Ticket Price &amp; Boating</title>',
     'rel="canonical"',
     'og:image:alt',
     'manifest.webmanifest',
@@ -146,7 +146,7 @@ if (existsSync(join(root, 'dist'))) {
   /* page copy checks: rating / attribution / PWA / entity semantics */
   const copyChecks = [
     ['latest rating value', '4.4'],
-    ['latest review count', '15,818'],
+    ['latest review count', '15,839'],
     ['hero attribution (English)', 'Rating and review count synced from Google Maps user reviews'],
     ['hero attribution (Tamil)', 'Google Maps (Google வரைபடம்) பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது'],
     ['review block copyright note', 'Copyright remains with the original reviewers and Google Maps'],
@@ -193,7 +193,7 @@ if (existsSync(join(root, 'dist'))) {
     if (!types.has(type)) fail(`Missing JSON-LD node: ${type}`);
   }
   const attraction = JSON.parse(ldBlocks.find(([, json]) => json.includes('TouristAttraction'))[1]);
-  for (const key of ['@id', 'name', 'alternateName', 'image', 'address', 'geo', 'hasMap', 'sameAs']) {
+  for (const key of ['@id', 'name', 'alternateName', 'image', 'address', 'geo', 'hasMap', 'sameAs', 'openingHoursSpecification']) {
     if (!attraction[key]) fail(`TouristAttraction JSON-LD missing "${key}"`);
   }
   if (attraction.geo.latitude !== 11.4548406 || attraction.geo.longitude !== 76.5974375) {

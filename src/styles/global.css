@@ -61,3 +61,16 @@ body {
 .source-row:first-child { border-top: 0; }
 
 @media (max-width: 767px){ .section{padding:3.5rem 0;} .hero-photo{min-height:88vh;} }
+
+/* —— 语言切换（客户端同页 ta / en 预渲染，CSS 控制可见性） —— */
+html:not([data-lang="en"]) .en-only { display: none !important; }
+html[data-lang="en"] .ta-only { display: none !important; }
+.lang-switch {
+  display: inline-flex; align-items: center; gap: .35rem;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,.28);
+  padding: .45rem .8rem; font-size: .8rem; font-weight: 800; color: #fff;
+  background: rgba(255,255,255,.08); cursor: pointer; line-height: 1;
+  transition: background .2s ease;
+}
+.lang-switch:hover { background: rgba(255,255,255,.18); }
+.lang-switch:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }

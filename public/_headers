@@ -1,0 +1,17 @@
+# Cloudflare Workers Static Assets _headers
+# HSTS + baseline security headers for the whole site.
+# Domain-level redirects (http:// -> https:// and https://www. -> https://)
+# are NOT possible via _headers/_redirects for Static Assets — configure them
+# in the Cloudflare dashboard (SSL/TLS -> Always Use HTTPS, and a Redirect Rule).
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' https://upload.wikimedia.org https://*.google.com https://*.gstatic.com https: data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; frame-src https://www.google.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com
+
+# Service worker must never be cached so updates roll out immediately.
+/sw.js
+  Cache-Control: no-cache
