@@ -1,0 +1,13 @@
+# Current guide record — 29 October 2026
+
+Independent nonprofit tourism and educational guide, not TTDC or a government service. Existing single bilingual root and three legal pages remain; language preference/plan saving/consent remain browser features. No private search-report data is included.
+
+Maps4.4/15,915 is a manual29October2026 snapshot. The day's17:30 close and reported lack of an accessible entrance are third-party observations, not a recurring timetable, operating notice or access survey. Exact current fare, first/last sailing and end-to-end accessible route remain unverified. The Maps administrative/Plus Code record differs from a government directory; broad Pykara, Naduvattam location and supplied share link are used, without a precise entrance or geo-schema claim.
+
+Primary sources and scope are linked visibly: Nilgiris District Pykara page (updated2018) for geography/cultural context; TTDC official booking portal and official app for date/product confirmation, not a quoted current price. Lake boat house, Ooty Boat House and Pykara Falls are distinguished. No fixed daily hours, ₹10 entry, ₹700–₹1,000 boat fare, guaranteed buses, speedboats or easy timed circuits remain.
+
+The three licensed historical Commons photographs are now committed as optimized local images, with 800px alternatives and social crop. Every exact work, author, source, license and modification is visible in Sources and public/IMAGE-SOURCES.txt. Pictures are not current facilities proof. No blanket subject/personality-rights clearance is claimed.
+
+Static Astro/Tailwind architecture and all exact dependencies/pnpm lock are retained. Node24.21.0, pnpm10.34.5, Wrangler4.129.1. Native thin asset Worker adds canonical redirect and noindex404 status/header behavior; actual project name pykaralake, compatibility2026-09-17, no new domain bindings. Replace SPA fallback with404-page. Legal pages noindex,follow and excluded from sitemap. Build has no image network dependency and fails if image binaries are missing.
+
+Optional GA still requires affirmative consent. Withdrawal disables GA, clears accessible first-party GA cookies and reloads if it was loaded; transmitted data cannot be retracted. Storage failures do not silently enable analytics. Separate possibleCloudflareWebAnalyticsvisit/pageview/performance processing is explicitly disclosed and not controlled by GA buttons. Maps now external, local image delivery, no map embed. LegacyPykara-onlycaches retired, no request interception. Original icon utility received JSDoc only to allow strict checking; type checks were not disabled.

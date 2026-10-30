@@ -49,7 +49,7 @@ export const ATTRACTION = {
   mapsShareUrl: 'https://maps.app.goo.gl/R3VCpqVVNYmssjpU9',
   /** Google Maps 地点检索（保留的既有外链，同时也是"查看全部评价"入口） */
   mapsListingUrl:
-    'https://www.google.com/maps/search/?api=1&query=FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India',
+    'https://maps.app.goo.gl/R3VCpqVVNYmssjpU9',
   /** {{MAPS_EMBED_SRC}} Google Maps 嵌入 iframe 的 src */
   mapsEmbedSrc:
     'https://www.google.com/maps?q=Pykara%20Lake%20Boat%20House%2C%20FH3W%2BWXP%2C%20Pykara%2C%20Naduvattam%2C%20Tamil%20Nadu%20643237%2C%20India&output=embed&hl=ta',
@@ -63,48 +63,30 @@ export const ATTRACTION = {
   govtTourismUrl: 'https://www.tamilnadutourism.tn.gov.in/',
   govtTourismLabel: 'Tamil Nadu Tourism, Government of Tamil Nadu',
   /** 官方运营方（.org，TTDC 公共部门企业） */
-  operatorUrl: 'https://ttdconline.com/',
+  operatorUrl: 'https://www.ttdcbooking.com/',
   operatorLabel: 'Tamil Nadu Tourism Development Corporation (TTDC)',
 
-  /** {{VISIT_FACTS}} 到访参考事实（页面展示 + 结构化数据共用；均须在出行日复核） */
-  /** 开放时间（参考值） */
-  openingHoursText: '08:30–17:30',
-  openingHoursNote: 'Boating can be suspended for rain, wind, low water level or maintenance — reconfirm on the travel day.',
-  /** 结构化数据 openingHoursSpecification（每日相同，参考值） */
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '08:30',
-      closes: '17:30'
-    }
-  ],
-  /** 参考票价（页面展示用，非 JSON-LD 结构化价格，避免违反 Google 价格政策） */
-  entryFeeNote: '₹10 (reference)',
-  boatFareNote: '₹700–₹1,000 (reference)',
-  /** 最佳到访季节（参考） */
-  bestSeasonNote: 'October–May',
-  /** 与 Ooty 的距离/方位（命中 pykara lake ooty / ooty to pykara distance 等高意图查询） */
-  distanceFromOoty: '~20 km west of Ooty (Udhagamandalam) on the Ooty–Gudalur road',
-  /** 游客类型（JSON-LD touristType） */
-  touristType: ['Families', 'Nature lovers', 'Photographers', 'Day trippers', 'Boating enthusiasts'],
+  openingHoursText: 'Operator confirmation needed',
+  openingHoursNote: 'Google Maps showed closing at 17:30 on 29 October 2026; this is not a recurring operator timetable.',
+  entryFeeNote: 'Check current admission',
+  boatFareNote: 'Check boat type and slot',
+  bestSeasonNote: 'Check weather and local notices',
+  distanceFromOoty: 'about 21 km from Ooty on the Ooty–Mysore road, according to the district tourism page',
+  touristType: ['Families', 'Nature lovers', 'Photographers'],
 
   /** 主视觉图与结构化数据图片（真实文件由 `pnpm fetch:images` 落到本地） */
-  heroImage: '/images/pykara-boat-house.jpg',
+  heroImage: '/images/pykara-from-boat.jpg',
   images: [
-    '/images/pykara-boat-house.jpg',
-    '/images/pykara-lake.jpg',
-    '/images/pykara-from-boat.jpg',
-    '/images/pykara-falls.jpg'
+    '/images/pykara-from-boat.jpg'
   ],
 
   /** Google 地图评分与评价数（页面展示用；来源与同步时间见下方） */
   googleRating: 4.4,
-  googleReviewCount: 15839,
+  googleReviewCount: 15915,
   /** 评分/评价数同步时间（英文展示） */
-  ratingSyncedEn: 'September 2026',
+  ratingSyncedEn: '29 October 2026',
   /** 评分/评价数同步时间（泰米尔文展示） */
-  ratingSyncedTa: 'செப்டம்பர் 2026',
+  ratingSyncedTa: '29 அக்டோபர் 2026',
 
   /** 知识图谱锚点 */
   attractionId: 'https://pykaralake.com/#attraction',
@@ -114,7 +96,7 @@ export const ATTRACTION = {
 /** 绝对地址拼接（无尾斜杠） */
 export const absolute = (path = '/'): string => new URL(path, ATTRACTION.siteUrl).toString();
 
-/** 2026-09 同步的评分展示文本：4.4 / 15,818 */
+/** Dated public Maps snapshot; not an automatic feed. */
 export const ratingText = `${ATTRACTION.googleRating.toFixed(1)}`;
 export const reviewCountText = ATTRACTION.googleReviewCount.toLocaleString('en-US');
 /** 星级宽度百分比（4.4 → 88%） */
@@ -122,16 +104,12 @@ export const ratingPercent = `${Math.round((ATTRACTION.googleRating / 5) * 100)}
 
 /** 页面可见 + 可复用的 Google 来源说明（规避 Google 内容/商标判违规风险） */
 export const googleReviewAttribution = {
-  /** 评分旁边的下一行小字（英文 / 泰米尔文） */
-  inlineEn: `Rating and review count synced from Google Maps user reviews · ${ATTRACTION.ratingSyncedEn} · See all reviews on Google Maps ↗`,
-  inlineTa: `மதிப்பீடு மற்றும் மதிப்புரை எண்ணிக்கை Google Maps (Google வரைபடம்) பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது · ${ATTRACTION.ratingSyncedTa} · Google Maps-இல் அனைத்து மதிப்புரைகளையும் காண ↗`,
-  /** 评价区块来源说明 */
-  blockEn: `Synced from Google Maps user reviews; last synced ${ATTRACTION.ratingSyncedEn}. Copyright remains with the original reviewers and Google Maps.`,
-  blockTa: `Google வரைபடம் பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது, ஒத்திசைவு நேரம் ${ATTRACTION.ratingSyncedTa}; பதிப்புரிமை அசல் மதிப்புரையாளர்கள் மற்றும் Google வரைபடத்திற்கு உரியது.`,
-  /** 按钮文案 */
-  ctaEn: 'See all reviews on Google Maps',
-  ctaTa: 'Google Maps-இல் அனைத்து மதிப்புரைகளையும் பார்க்க',
-  /** 资料来源区块 · 评价行 */
-  sourceLabelEn: `Reviews and rating · synced ${ATTRACTION.ratingSyncedEn}`,
-  sourceLabelTa: `மதிப்புரைகள் · ஒத்திசைவு ${ATTRACTION.ratingSyncedTa}`
+ inlineEn: `Google Maps user reviews: manually checked ${ATTRACTION.ratingSyncedEn}; not automatically updated.`,
+ inlineTa: `Google Maps பயனர் மதிப்புரைகள்: ${ATTRACTION.ratingSyncedTa} அன்று கையால் சரிபார்த்த பதிவு; தானாகப் புதுப்பிக்கப்படாது.`,
+ blockEn: `Dated Google Maps snapshot, checked ${ATTRACTION.ratingSyncedEn}; this guide does not collect these reviews or update them automatically. Copyright remains with the original reviewers and Google Maps.`,
+ blockTa: `${ATTRACTION.ratingSyncedTa} அன்று சரிபார்த்த Google Maps பதிவு. இத்தளம் மதிப்புரைகளைச் சேகரிப்பதில்லை; எண்ணிக்கை தானாகப் புதுப்பிக்கப்படாது. பதிப்புரிமை அசல் மதிப்புரையாளர்கள் மற்றும் Google Maps-க்கு உரியது.`,
+ ctaEn: 'See all reviews on Google Maps',
+ ctaTa: 'Google Maps-இல் அனைத்து மதிப்புரைகளையும் பார்க்க',
+ sourceLabelEn: `Reviews and rating · snapshot ${ATTRACTION.ratingSyncedEn}`,
+ sourceLabelTa: `மதிப்புரைகள் · தேதி ${ATTRACTION.ratingSyncedTa}`
 } as const;

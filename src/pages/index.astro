@@ -11,18 +11,11 @@ import { ATTRACTION } from '../data/attraction';
  * 覆盖高意图英文查询：pykara lake boat house / boating in ooty /
  * pykara waterfalls / timings / ticket price / how to reach from Ooty
  * ------------------------------------------------------------------ */
-const title = `${ATTRACTION.fullName} & Falls, Ooty: Timings, Ticket Price & Boating`;
-const description = `Plan your visit to ${ATTRACTION.fullName} near Ooty: boating ticket price ${ATTRACTION.boatFareNote}, timings ${ATTRACTION.openingHoursText}, speed boat rides, ${ATTRACTION.nearbyLandmark1} location, how to reach from Ooty ${ATTRACTION.distanceFromOoty}, and travel tips.`;
+const title = "Pykara Lake Boat House, Ooty | Timings & Boating Ticket Checks";
+const description = "Pykara Lake Boat House near Ooty: where to check current boating prices and hours, Google Maps, access questions and Pykara Falls as a separate visit.";
 
 const site = Astro.site ?? new URL(ATTRACTION.siteUrl);
 const url = (path = '/') => new URL(path, site).toString();
-
-const commons = {
-  boat: 'https://upload.wikimedia.org/wikipedia/commons/8/81/Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg',
-  lake: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Scenic_View_of_Pykara_Lake_and_Surroundings.jpg',
-  boating: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG',
-  falls: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg'
-};
 
 /* ------------------------------------------------------------------ *
  * 2. 结构化数据：TouristAttraction（补全 @id / image / geo / address）
@@ -41,30 +34,16 @@ const touristSchema = {
   description: `Comprehensive visitor guide to ${ATTRACTION.fullName} in ${ATTRACTION.city}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}.`,
   url: url('/'),
   image: ATTRACTION.images.map((image) => url(image)),
-  isAccessibleForFree: false,
-  publicAccess: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: ATTRACTION.streetAddress,
+    streetAddress: ATTRACTION.subLocality,
     addressLocality: ATTRACTION.city,
     addressRegion: ATTRACTION.stateProvince,
-    postalCode: ATTRACTION.postalCode,
     addressCountry: ATTRACTION.countryCode2
   },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: ATTRACTION.latitude,
-    longitude: ATTRACTION.longitude
-  },
   hasMap: ATTRACTION.mapsShareUrl,
-  sameAs: [
-    ATTRACTION.mapsShareUrl,
-    ATTRACTION.mapsListingUrl,
-    ATTRACTION.govtTourismUrl,
-    ATTRACTION.operatorUrl
-  ],
+  sameAs: [ATTRACTION.mapsShareUrl],
   touristType: ATTRACTION.touristType,
-  openingHoursSpecification: ATTRACTION.openingHoursSpecification,
   containedInPlace: {
     '@type': 'TouristDestination',
     name: `${ATTRACTION.district}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}`
@@ -82,93 +61,28 @@ const websiteSchema = {
 };
 
 /* 4.2 地理面包屑与归属层级 */
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: ATTRACTION.fullName, item: url('/') },
-    { '@type': 'ListItem', position: 2, name: ATTRACTION.city },
-    { '@type': 'ListItem', position: 3, name: ATTRACTION.stateProvince },
-    { '@type': 'ListItem', position: 4, name: ATTRACTION.country }
-  ]
-};
+const breadcrumbSchema = {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:ATTRACTION.fullName,item:url('/')} ]};
 
 /* ------------------------------------------------------------------ *
  * FAQPage（5~8 条以上常问问题；不含任何评分/评价结构化数据）
  * ------------------------------------------------------------------ */
-const faqs: Array<[string, string]> = [
-  [
-    'பைக்காரா ஏரியை பார்க்க சிறந்த நேரம் எது?',
-    'அக்டோபர் முதல் மே வரை பொதுவாக மிதமான காலநிலை கிடைக்கும். மழைக்குப் பிறகு ஏரி மற்றும் நீர்வீழ்ச்சி பசுமையாக இருக்கும்; ஆனால் ஈரமான பாதைகளில் கவனம் தேவை.'
-  ],
-  [
-    'படகு சவாரி தினமும் கிடைக்குமா?',
-    'படகு இயக்கம் வானிலை, நீர்மட்டம், பராமரிப்பு மற்றும் கூட்டம் ஆகியவற்றைப் பொறுத்து மாறலாம். பயண நாளில் TTDC அல்லது தளத்தில் உள்ள அறிவிப்பை உறுதிப்படுத்தவும்.'
-  ],
-  [
-    'நுழைவு மற்றும் படகு கட்டணம் எவ்வளவு?',
-    'தமிழ்நாடு சுற்றுலா தகவலில் ஏரிக்கான குறைந்த நுழைவு கட்டணம் மற்றும் படகு வகைக்கு ஏற்ப தனி கட்டணம் குறிப்பிடப்படுகிறது. விலை மாறக்கூடியதால் தளத்தில் உள்ள தற்போதைய கட்டணப்பட்டியலை சரிபார்க்கவும்.'
-  ],
-  [
-    'ஊட்டியிலிருந்து எப்படி செல்லலாம்?',
-    'பைக்காரா ஊட்டி–கூடலூர் சாலை வழியாக மேற்கே உள்ளது. டாக்சி, சுய ஓட்டுநர் வாகனம் அல்லது உள்ளூர் பேருந்து வழிகள் பயன்படும்; வார இறுதிகளில் கூடுதல் நேரம் ஒதுக்கவும்.'
-  ],
-  [
-    'குடும்பத்துடன் செல்ல ஏற்றதா?',
-    'ஆம். படகு இல்லம், ஏரி காட்சி, ஓய்வு பகுதிகள் குடும்பங்களுக்கு ஏற்றவை. குழந்தைகள் எப்போதும் நீர்நிலைக்கு அருகில் பெரியவர் மேற்பார்வையில் இருக்க வேண்டும்.'
-  ],
-  [
-    'பைக்காரா நீர்வீழ்ச்சியையும் சேர்த்து பார்க்க முடியுமா?',
-    'ஆம். ஏரி மற்றும் பைக்காரா நீர்வீழ்ச்சி ஒரே பயணத்தில் சேர்க்கப்படும் பிரபலமான இணைப்பு. சாலை மற்றும் நடைபாதை நிலை மழைக்காலத்தில் மாறலாம்.'
-  ],
-  [
-    `Where is ${ATTRACTION.fullName} located?`,
-    `${ATTRACTION.fullName} (${ATTRACTION.shortName}) is at Google Maps plus code ${ATTRACTION.plusCode} in ${ATTRACTION.subLocality}, ${ATTRACTION.city}, ${ATTRACTION.stateProvince} ${ATTRACTION.postalCode}, ${ATTRACTION.country} — on the Ooty–Gudalur road, roughly 20 km west of Ooty (Udhagamandalam).`
-  ],
-  [
-    `Is ${ATTRACTION.shortName} free to visit?`,
-    `There is a nominal entry and vehicle charge at the lake check post, and boating is ticketed separately at the TTDC boat house according to boat type. Tariffs change, so confirm the current rate on the day of travel.`
-  ],
-  [
-    `Which landmarks are near ${ATTRACTION.shortName}?`,
-    `${ATTRACTION.nearbyLandmark1} and ${ATTRACTION.nearbyLandmark2} are the two closest stops on the same Ooty–Gudalur road, and both are commonly combined with a boat house visit into a half-day loop.`
-  ],
-  [
-    `What are the ${ATTRACTION.fullName} timings?`,
-    `The boat house area is generally active through the day from ${ATTRACTION.openingHoursText}. Boating can be suspended for rain, wind, low water level or maintenance, so reconfirm the last boat time at the counter before buying tickets.`
-  ],
-  [
-    `What is the boating ticket price at ${ATTRACTION.shortName}?`,
-    `There is a nominal entry charge (${ATTRACTION.entryFeeNote}) at the lake check post, and boating is ticketed separately at the TTDC boat house — typically ${ATTRACTION.boatFareNote} depending on boat type. Tariffs change, so confirm the current rate on the travel day.`
-  ],
-  [
-    `Is speed boat available at ${ATTRACTION.shortName}?`,
-    `TTDC operates motor / speed boat rides on the lake. Availability depends on water level, weather and crowd, and rides may pause during wind or rain — ask at the boat house counter for the current schedule and fare.`
-  ],
-  [
-    `How far is ${ATTRACTION.shortName} from Ooty and how do I reach it?`,
-    `${ATTRACTION.fullName} is ${ATTRACTION.distanceFromOoty}. Taxis and self-drive cars are the most convenient; local government buses on the Ooty–Gudalur route stop near the lake entrance, but frequency varies. Allow extra time on weekends and holidays.`
-  ],
-  [
-    `What else can I see — is ${ATTRACTION.nearbyLandmark1} nearby?`,
-    `Yes. ${ATTRACTION.nearbyLandmark1} sits on the same Ooty–Gudalur road and is the natural companion stop to the lake; ${ATTRACTION.nearbyLandmark2} on the return leg makes an easy half-day loop.`
-  ],
-  [
-    `What is the best time to visit ${ATTRACTION.shortName}?`,
-    `${ATTRACTION.bestSeasonNote} usually brings pleasant weather, and the lake and falls look their greenest just after the monsoon. Misty mornings and late-afternoon light are the best for photography.`
-  ],
-  [
-    `Can ${ATTRACTION.shortName} be part of a 1-day Ooty trip?`,
-    `Yes. A common half-day loop runs boat house → ${ATTRACTION.nearbyLandmark1} → ${ATTRACTION.nearbyLandmark2} on the way back to Ooty, leaving the rest of the day for the town. Start early to beat the crowds.`
-  ],
-  [
-    `பைக்காரா ஏரிக்கும் ஊட்டிக்கும் எவ்வளவு தூரம்?`,
-    `பைக்காரா ஏரி ஊட்டி (உதகமண்டலம்) யிலிருந்து ${ATTRACTION.distanceFromOoty}. டாக்சி அல்லது சொந்த வாகனம் வசதியானது; ஊட்டி–கூடலூர் பேருந்துகளும் அருகில் நிற்கும், ஆனால் நேரம் மாறலாம்.`
-  ]
+const faqsTa: Array<[string,string]> = [
+ ['படகு இல்லத்தின் தற்போதைய நேரம் என்ன?','நடப்பு அதிகாரப்பூர்வ தினசரி அட்டவணை இங்கே உறுதிப்படுத்தப்படவில்லை. 2026-10-29 Google Maps பதிவு அன்று 17:30 மூடுவதாகக் காட்டியது; அது தினசரி இயக்குநர் நேரமல்ல. புறப்படுவதற்கு முன் TTDC-யிடம் முதல்/கடைசி படகு மற்றும் டிக்கெட் நேரத்தை உறுதி செய்யவும்.'],
+ ['நுழைவு மற்றும் படகு கட்டணம் எவ்வளவு?','நடப்பு கட்டணப்பட்டியல் உறுதிப்படுத்தப்படவில்லை. TTDC அதிகாரப்பூர்வ முன்பதிவு தளத்தில் பயண தேதி, Pykara படகு இல்லம் மற்றும் படகு வகையைத் தேர்ந்தெடுத்து இறுதி விலை மற்றும் கிடைப்பைச் சரிபார்க்கவும். நுழைவு, வாகனம் அல்லது பிற தனிக் கட்டணங்கள் உள்ளதா என்று கேட்கவும்.'],
+ ['சக்கர நாற்காலியில் செல்ல முடியுமா?','ஒருங்கிணைப்பாளர் பார்த்த Google Maps பட்டியல் அணுகக்கூடிய நுழைவாயில் இல்லை எனக் குறிப்பிட்டது. இது மூன்றாம் தரப்பு பதிவு; நேரடி அணுகல் ஆய்வு அல்ல. வாகனம் இறக்கும் இடம் முதல் படகு ஏறும் தளம் வரை படிகள், சரிவு, கழிப்பறை மற்றும் உதவி பற்றி TTDC-யிடம் முன்கூட்டியே கேட்கவும்.'],
+ ['பைக்காரா ஏரியும் நீர்வீழ்ச்சியும் ஒரே இடமா?','இல்லை. ஏரி படகு இல்லமும் பைக்காரா நீர்வீழ்ச்சி பார்வைப் பகுதியும் தனித்தனி இடங்கள். இரண்டின் நுழைவு, நேரம், போக்குவரத்து மற்றும் திறந்த நிலையைத் தனித்தனியாக உறுதி செய்யவும். தடைகளைத் தாண்டவோ நீரில் இறங்கவோ வேண்டாம்.'],
+ ['படகு தினமும் கிடைக்குமா?','குறிப்பிட்ட தேதியில் படகு அல்லது வேகப்படகு கிடைப்பதை இத்தளம் உறுதி செய்யாது. TTDC-யிடம் இருக்கைகள், படகு வகை, பாதுகாப்பு உபகரணங்கள் மற்றும் வானிலை ரத்து/திருப்பித் தரும் விதிகளைச் சரிபார்க்கவும்.'],
+ ['ஊட்டியிலிருந்து எப்படி செல்லலாம்?','நீலகிரி மாவட்ட சுற்றுலாப் பக்கம் ஏரியை ஊட்டியிலிருந்து சுமார் 21 கி.மீ., ஊட்டி–மைசூர் சாலையில் குறிப்பிடுகிறது. அது துல்லியமான பயண நேரமல்ல. உங்கள் தொடக்க இடத்திலிருந்து பாதை, சரியான படகு இல்ல நுழைவு மற்றும் திரும்பும் போக்குவரத்தை உறுதி செய்யவும்.'],
 ];
-/* 语言切换：FAQ 拆成泰米尔 / 英文两份用于页面展示；faqs 仍合并供 JSON-LD 使用 */
-const faqsTa: Array<[string, string]> = [faqs[0], faqs[1], faqs[2], faqs[3], faqs[4], faqs[5], faqs[16]];
-const faqsEn: Array<[string, string]> = faqs.slice(6, 16);
+const faqsEn: Array<[string,string]> = [
+ ['What are the Pykara Lake Boat House timings?','A current official recurring timetable has not been verified here. Google Maps showed closing at 17:30 in the 29 October 2026 snapshot, not confirmation of daily operator hours. Ask TTDC about ticket sales, the last sailing and operation for your date.'],
+ ['What is the Pykara boating ticket price?','No current fare table has been verified for this guide. Use the official TTDC booking portal, select Pykara, your date and boat type, and read the final quoted price and availability. Ask whether admission, vehicle charges, taxes or other fees are separate; do not apply a fare from Ooty Boat House to Pykara.'],
+ ['Is Pykara Lake Boat House wheelchair accessible?','The 29 October 2026 Google Maps listing snapshot reported no accessible entrance. This is a third-party listing observation, not an access survey. Ask TTDC about the complete route from drop-off to jetty, steps, gradients, toilets, boarding assistance and your specific needs before relying on access.'],
+ ['Are Pykara Lake, Ooty Boat House and Pykara Falls the same place?','No. This guide concerns Pykara Lake Boat House near Ooty. Ooty Boat House is a different booking location, and Pykara Falls has a separate approach. Check each destination, entry arrangement and opening status independently.'],
+ ['Are speed boats available every day?','This guide does not verify boat types or a sailing for a particular day. Check TTDC availability and ask about suitable life jackets, capacity, boarding, weather cancellation and refunds before paying. A booking listing is not a guarantee that a service is operating now.'],
+ ['How far is Pykara Lake from Ooty?','The Nilgiris district tourism page describes the lake as about 21 km from Ooty on the Ooty–Mysore road. That is an approximate destination distance, not a gate-to-gate route or journey-time guarantee. Check your route, the boat house entrance and return transport.'],
+];
+const faqs=[...faqsTa,...faqsEn];
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -182,8 +96,8 @@ const faqSchema = {
 <BaseLayout
   {title}
   {description}
-  image={ATTRACTION.heroImage}
-  imageAlt={`${ATTRACTION.fullName} in ${ATTRACTION.city}`}
+  image="/images/pykara-social.jpg"
+  imageAlt="Historical view from a boat on Pykara Lake toward the shore in 2016, by KARTY JazZ; cropped for this guide"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(touristSchema)}></script>
@@ -207,6 +121,7 @@ const faqSchema = {
         <a href="#reviews" class="hover:text-white"><span class="ta-only">மதிப்புரைகள்</span><span class="en-only">Reviews</span></a>
         <a href="#faq" class="hover:text-white"><span class="ta-only">கேள்விகள்</span><span class="en-only">FAQ</span></a>
       </nav>
+      <details class="compact-nav xl:hidden"><summary><span class="ta-only">மெனு ▾</span><span class="en-only">Menu ▾</span></summary><nav aria-label="Mobile navigation">{[['Guide','#guide'],['Boating','#boating'],['Plan','#plan'],['Map','#map'],['Reviews','#reviews'],['FAQ','#faq'],['Sources','#sources']].map(([label,href])=><a href={href}>{label}</a>)}</nav></details>
       <div class="flex items-center gap-2">
         <button type="button" data-lang-toggle aria-label="Switch language" class="lang-switch">
           <span class="ta-only">EN</span>
@@ -229,22 +144,22 @@ const faqSchema = {
   <main id="top">
     <section class="hero-photo relative isolate overflow-hidden text-white">
       <img
-        src={ATTRACTION.heroImage}
-        onerror={`this.onerror=null;this.src='${commons.boat}'`}
-        alt={`${ATTRACTION.fullName} - Main view in ${ATTRACTION.city}, ${ATTRACTION.country}`}
+        src={ATTRACTION.heroImage} srcset="/images/pykara-from-boat-800.jpg 800w, /images/pykara-from-boat.jpg 1600w" sizes="100vw"
+        alt="Pykara Lake shore seen from a boat in May 2016, photographed by KARTY JazZ; historical view"
         class="absolute inset-0 h-full w-full object-cover"
         width="1600"
-        height="900"
+        height="1067"
         loading="eager"
+        fetchpriority="high"
       />
-      <div class="container-shell relative z-10 flex min-h-[78vh] items-end pb-14 pt-32 md:items-center md:pb-0">
+      <div class="container-shell relative z-10 flex min-h-[78vh] items-end pb-14 pt-32 md:items-center">
         <div class="max-w-3xl">
           <span class="pill mb-5 bg-white/12 text-white ring-1 ring-white/20">
             <span class="ta-only">நீலகிரியின் அமைதியான நீர்பரப்பு</span>
             <span class="en-only">The quiet waters of the Nilgiris</span>
           </span>
           <h1 class="font-serif text-[clamp(3.1rem,8vw,7.4rem)] font-semibold leading-[.88] tracking-[-.055em]">
-            <span class="block">பைக்காரா<br /><span class="text-[#cfe6df]">ஏரி</span></span>
+            <span class="block ta-only">பைக்காரா<br /><span class="text-[#cfe6df]">ஏரி</span></span><span class="block en-only">Pykara<br /><span class="text-[#cfe6df]">Lake</span></span>
             <span class="mt-5 block font-sans text-[clamp(.95rem,2.1vw,1.3rem)] font-extrabold leading-snug tracking-normal text-white/85">
               {ATTRACTION.fullName} ({ATTRACTION.city}) · {ATTRACTION.stateProvince}, {ATTRACTION.country}
             </span>
@@ -262,18 +177,19 @@ const faqSchema = {
           <div class="mt-8">
             <RatingChip tone="dark" />
           </div>
+          <p id="hero-photo-credit" class="mt-5 max-w-xl rounded-xl bg-[#10251f]/85 px-3 py-2 text-xs leading-6 text-white/90">புகைப்படம்: KARTY JazZ · 2016 · CC BY-SA 4.0 · <a href="#sources" class="underline">Source / changes</a></p>
         </div>
       </div>
-      <div class="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-black/35 px-3 py-2 text-[11px] leading-5 text-white/75 backdrop-blur-md">புகைப்படம்: N. Vivekananthamoorthy · Wikimedia Commons · CC BY 4.0</div>
+
     </section>
 
     <section class="relative z-20 -mt-5">
       <div class="container-shell grid gap-3 md:grid-cols-4">
         {[
-          { k:['நேரம்','Hours'], v:[ATTRACTION.openingHoursText, ATTRACTION.openingHoursText], n:['புறப்படுவதற்கு முன் உறுதி செய்யவும்','Reconfirm before you set out'] },
-          { k:['நுழைவு','Entry'], v:[ATTRACTION.entryFeeNote, ATTRACTION.entryFeeNote], n:['தற்போதைய விலை மாறலாம்','Current rate may vary'] },
-          { k:['படகு','Boating'], v:[ATTRACTION.boatFareNote, ATTRACTION.boatFareNote], n:['படகு வகை/இருப்பிடத்தைப் பொறுத்தது','Depends on boat type / availability'] },
-          { k:['சிறந்த அனுபவம்','Best light'], v:['காலை / மாலை','Morning / Evening'], n:['பனி + மென்மையான ஒளி','Mist + soft light'] }
+          { k:['நேரம்','Hours'], v:['TTDC-யிடம் கேளுங்கள்','Confirm with TTDC'], n:['17:30: 29/10 Maps பதிவு மட்டும்','17:30: 29 Oct Maps snapshot only'] },
+          { k:['நுழைவு','Entry'], v:['நடப்பு கட்டணம் உறுதி செய்யவும்','Check current admission'], n:['தற்போதைய விலை மாறலாம்','Current rate may vary'] },
+          { k:['படகு','Boating'], v:['வகை / தேதி சரிபார்க்கவும்','Check type and date'], n:['படகு வகை/இருப்பிடத்தைப் பொறுத்தது','Depends on boat type / availability'] },
+          { k:['அணுகல்','Access'], v:['முன்கூட்டியே கேளுங்கள்','Ask before travel'], n:['Maps குறிப்பு: அணுகக்கூடிய நுழைவு இல்லை','Maps reports no accessible entrance; not an audit'] }
         ].map(({k,v,n}) => (
           <div class="card p-5">
             <p class="eyebrow"><span class="ta-only">{k[0]}</span><span class="en-only">{k[1]}</span></p>
@@ -292,25 +208,24 @@ const faqSchema = {
         <div>
           <p class="eyebrow">Pykara · Nilgiris</p>
           <h2 class="section-title mt-3"><span class="ta-only">ஒரு ஏரி மட்டும் அல்ல — நீலகிரியின் மெதுவான ரிதம்</span><span class="en-only">More than a lake — the slow rhythm of the Nilgiris</span></h2>
-          <p class="prose-copy mt-6">பைக்காரா ஏரி ஊட்டி சுற்றுலாவின் மேற்கு வட்டத்தில் இருக்கும் பரந்த நீர்த்தேக்கம். நீல-பச்சை நீர், யூகலிப்டஸ் மற்றும் சோலை மலைச் சூழல், மங்கலான மேகங்கள் ஆகியவை நகர மையத்தின் கூட்டத்திலிருந்து வேறுபட்ட அனுபவத்தைத் தருகின்றன.</p>
-          <p class="prose-copy mt-4">படகு இல்லம் சுற்றுலாப் பயணிகளுக்கான முக்கிய அணுகுப் புள்ளி. படகு சவாரி கிடைக்கும் நேரம் காலநிலை மற்றும் இயக்க நிலையைப் பொறுத்து மாறலாம்; பாதுகாப்பு அறிவுறுத்தல்களைப் பின்பற்றி வாழ்க்கைக் கவசம் அணிவது அவசியம்.</p>
+          <p class="prose-copy mt-6"><span class="ta-only">மாவட்ட சுற்றுலாப் பக்கம் பைக்காரா ஏரியையும் ஆற்றையும் விளக்குகிறது. ஏரி படகு இல்லமும் நீர்வீழ்ச்சி பார்வைப் பகுதியும் தனித்தனி இடங்கள்.</span><span class="en-only">The district tourism page describes the lake and river landscape. The lake boat house and waterfall viewing area are separate places.</span></p>
+          <p class="prose-copy mt-4"><span class="ta-only">பயண தேதிக்கான படகு கிடைப்பு, சரியான அளவு உயிர்காப்பு அங்கி மற்றும் ஏறும் வசதியை இயக்குநரிடம் உறுதி செய்யவும்.</span><span class="en-only">Ask the operator about availability, a suitable life jacket and boarding arrangements for your visit date.</span></p>
           <div class="mt-8 grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl bg-[#e6f0eb] p-4"><b>01</b><p class="mt-2 text-sm">ஏரி + படகு</p></div>
             <div class="rounded-2xl bg-[#e8f0f3] p-4"><b>02</b><p class="mt-2 text-sm">நீர்வீழ்ச்சி</p></div>
-            <div class="rounded-2xl bg-[#f3ead8] p-4"><b>03</b><p class="mt-2 text-sm">பைன் காடு / 9th Mile</p></div>
+            <div class="rounded-2xl bg-[#f3ead8] p-4"><b>03</b><p class="mt-2 text-sm">Wenlock Downs</p></div>
           </div>
         </div>
         <figure class="relative overflow-hidden rounded-[2.5rem] shadow-2xl">
           <img
-            src="/images/pykara-lake.jpg"
-            onerror={`this.onerror=null;this.src='${commons.lake}'`}
-            alt={`${ATTRACTION.shortName} (${ATTRACTION.fullName}) and the Nilgiri hills in ${ATTRACTION.city}, ${ATTRACTION.country}`}
+            src="/images/pykara-lake.jpg" srcset="/images/pykara-lake-800.jpg 800w, /images/pykara-lake.jpg 1600w" sizes="(max-width: 767px) 100vw, 50vw"
+            alt="Historical Pykara-area water and hills, photographed by Prasannakamble25 in 2025; not the boat house boarding area"
             class="aspect-[4/5] w-full object-cover"
-            width="1200"
-            height="1500"
+            width="1600"
+            height="1200"
             loading="lazy"
           />
-          <figcaption class="absolute inset-x-4 bottom-4 rounded-2xl bg-white/88 p-4 text-xs leading-5 backdrop-blur-lg">Scenic View of Pykara Lake and Surroundings · Prasannakamble25 · CC BY-SA 4.0</figcaption>
+          <figcaption class="absolute inset-x-4 bottom-4 rounded-2xl bg-white/88 p-4 text-xs leading-5 backdrop-blur-lg">Pykara-area landscape, not the boarding area · Prasannakamble25 · 2025 · CC BY-SA 4.0 · <a href="#sources" class="underline">Source / changes</a></figcaption>
         </figure>
       </div>
     </section>
@@ -319,39 +234,36 @@ const faqSchema = {
       <div class="container-shell grid gap-10 lg:grid-cols-2">
         <div class="overflow-hidden rounded-[2.3rem]">
           <img
-            src="/images/pykara-from-boat.jpg"
-            onerror={`this.onerror=null;this.src='${commons.boating}'`}
+            src="/images/pykara-from-boat.jpg" srcset="/images/pykara-from-boat-800.jpg 800w, /images/pykara-from-boat.jpg 1600w" sizes="(max-width: 767px) 100vw, 50vw"
             alt={`Boating at ${ATTRACTION.fullName}, ${ATTRACTION.city}, ${ATTRACTION.country}`}
             class="h-full min-h-[420px] w-full object-cover"
-            width="1400"
-            height="950"
+            width="1600"
+            height="1067"
             loading="lazy"
           />
         </div>
         <div class="flex flex-col justify-center py-4">
           <p class="eyebrow eyebrow-light">TTDC Boat House</p>
           <h2 class="section-title mt-3"><span class="ta-only">நீர்மேல் செல்லும் போது தான் பைக்காராவின் அளவு தெரியும்</span><span class="en-only">You only grasp Pykara's scale once you're on the water</span></h2>
-          <p class="mt-6 leading-8 text-white/70">படகு வகைகள் மற்றும் கட்டணங்கள் நாள்தோறும் மாறக்கூடும். TTDC படகு இல்லங்களில் பாதுகாப்பு உபகரணங்கள், வாழ்க்கைக் கவசங்கள் மற்றும் பணியாளர்கள் வழங்கப்படுவதாக அதிகாரப்பூர்வ தகவல் குறிப்பிடுகிறது.</p>
+          <p class="mt-6 leading-8 text-white/70"><span class="ta-only">TTDC அதிகாரப்பூர்வ முன்பதிவு தளத்தில் Pykara, பயண தேதி மற்றும் படகு வகையைத் தேர்ந்தெடுத்து நடப்பு கிடைப்பையும் இறுதி கட்டணத்தையும் சரிபார்க்கவும். சரியான அளவு உயிர்காப்பு அங்கி, ஏறும் உதவி மற்றும் ரத்து விதிகளை முன்கூட்டியே கேட்கவும்.</span><span class="en-only">Choose Pykara, your date and boat type on the official TTDC portal. Check the final fare, suitable safety equipment, boarding assistance and cancellation terms before paying.</span></p>
           <div class="mt-8 space-y-3">
-            {['டிக்கெட் வாங்கும் முன் கடைசி படகு நேரத்தை உறுதிப்படுத்தவும்','குழந்தைகளுக்கு சரியான அளவு life jacket கேட்கவும்','மழை/காற்று அதிகமெனில் இயக்கம் நிறுத்தப்படலாம்','படகில் கைபேசி/கேமராவுக்கு பாதுகாப்புக் கயிறு உதவும்'].map((x,i)=><div class="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"><span class="font-black text-[#d9a13a]">0{i+1}</span><p class="text-sm leading-6 text-white/78">{x}</p></div>)}
+            {[
+ ['கடைசி படகு மற்றும் டிக்கெட் நேரத்தை உறுதிப்படுத்தவும்','Confirm ticket sales and the last departure'],
+ ['குழந்தைகளுக்கு சரியான அளவு உயிர்காப்பு அங்கி கேட்கவும்','Ask for a correctly fitting life jacket for children'],
+ ['வானிலை ரத்து மற்றும் பணம் திருப்பும் விதிகளைப் படிக்கவும்','Read weather cancellation and refund terms'],
+ ['ஏறும் தளம் மற்றும் உதவி குறித்து முன்கூட்டியே கேட்கவும்','Ask about the boarding route and assistance before travel']
+ ].map(([ta,en],i)=><div class="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"><span class="font-black text-[#d9a13a]">0{i+1}</span><p class="text-sm leading-6 text-white/78"><span class="ta-only">{ta}</span><span class="en-only">{en}</span></p></div>)}
           </div>
-          <p class="mt-5 text-xs text-white/45">புகைப்படம்: KARTY JazZ · Wikimedia Commons · CC BY-SA 4.0</p>
+          <p class="mt-5 text-xs text-white/45">புகைப்படம்: KARTY JazZ · 2016 · CC BY-SA 4.0 · <a href="#sources" class="underline">Source / changes</a></p>
         </div>
       </div>
     </section>
 
-    <section id="plan" class="section">
-      <div class="container-shell">
-        <div class="max-w-3xl"><p class="eyebrow">Half-day plan</p><h2 class="section-title mt-3"><span class="ta-only">ஊட்டியிலிருந்து அரை நாள் பைக்காரா பயணம்</span><span class="en-only">A half-day Pykara trip from Ooty</span></h2><p class="prose-copy mt-5">கூட்டத்தை குறைக்க காலை ஆரம்பிப்பது சிறந்தது. கீழே உள்ள நேரங்கள் கட்டாய அட்டவணை அல்ல; வானிலை மற்றும் போக்குவரத்துக்கு ஏற்ப மாற்றவும்.</p></div>
-        <div class="route-line mt-10 grid gap-5 lg:grid-cols-3">
-          {[
-            ['08:30','படகு இல்லம்','முதலில் ஏரிக்குச் சென்று டிக்கெட்/இயக்க நிலையை பார்த்து படகு சவாரியை முடிக்கவும்.'],
-            ['10:15','பைக்காரா நீர்வீழ்ச்சி','சாலை வழியாக நீர்வீழ்ச்சி அணுகுமிடத்துக்குச் சென்று பாதுகாப்பான பார்வைப் பகுதிகளில் மட்டும் நிற்கவும்.'],
-            ['12:00','Pine Forest / 9th Mile','திரும்பும் வழியில் பைன் காடு அல்லது Wenlock Downs பகுதியைச் சேர்த்து பிற்பகல் ஊட்டிக்குத் திரும்பவும்.']
-          ].map(([time,name,text]) => <article class="card relative p-6"><div class="mb-5 flex h-9 w-9 items-center justify-center rounded-full bg-[#4c8ea1] font-black text-white">•</div><p class="eyebrow">{time}</p><h3 class="mt-2 text-2xl font-black">{name}</h3><p class="prose-copy mt-3 text-sm">{text}</p></article>)}
-        </div>
-      </div>
-    </section>
+    <section id="plan" class="section"><div class="container-shell"><p class="eyebrow">Flexible plan · நெகிழ்வான திட்டம்</p><h2 class="section-title mt-3"><span class="ta-only">பயண நாளுக்கேற்ப திட்டமிடுங்கள்</span><span class="en-only">Plan around your actual visit date</span></h2><p class="prose-copy mt-5 ta-only">இவை பரிந்துரைக்கப்பட்ட படிகள் மட்டுமே; குறிப்பிட்ட நேரமோ அரை நாளில் அனைத்தையும் முடிக்கலாம் என்ற உறுதியோ அல்ல.</p><p class="prose-copy mt-5 en-only">Suggested steps, not a fixed timetable or a promise to fit multiple attractions into half a day.</p><div class="route-line mt-10 grid gap-5 lg:grid-cols-3">{[
+ ['01','TTDC-யிடம் உறுதி செய்யவும்','Confirm with TTDC','Pykara, பயண தேதி, படகு வகை, விலை மற்றும் ரத்து விதிகளைச் சரிபார்க்கவும்.','Check Pykara, your date, boat type, final fare and cancellation terms.'],
+ ['02','நீர்வீழ்ச்சியைத் தனியாகச் சரிபார்க்கவும்','Check the falls separately','தனி அணுகுமிடம், திறந்த நிலை மற்றும் பாதுகாப்பு அறிவுறுத்தல்களை உறுதி செய்யவும்.','Verify the separate approach, opening status and local safety instructions.'],
+ ['03','திரும்பும் பயணத்தைத் திட்டமிடுங்கள்','Leave time for your return','மேலும் ஒரு இடம் சேர்ப்பதற்கு முன் நேரம், அனுமதி மற்றும் திரும்பும் போக்குவரத்தை உறுதி செய்யவும்.','Before adding another stop, confirm its access and permission and your return transport.']
+ ].map(([n,ta,en,t,e])=><article class="card p-6"><p class="eyebrow">{n}</p><h3 class="text-2xl font-black"><span class="ta-only">{ta}</span><span class="en-only">{en}</span></h3><p class="prose-copy mt-3"><span class="ta-only">{t}</span><span class="en-only">{e}</span></p></article>)}</div></div></section>
 
     <section class="section bg-[#edf2ed]">
       <div class="container-shell grid gap-8 lg:grid-cols-[.95fr_1.05fr]">
@@ -361,15 +273,14 @@ const faqSchema = {
         </div>
         <figure class="overflow-hidden rounded-[2.3rem]">
           <img
-            src="/images/pykara-falls.jpg"
-            onerror={`this.onerror=null;this.src='${commons.falls}'`}
+            src="/images/pykara-falls.jpg" srcset="/images/pykara-falls-800.jpg 800w, /images/pykara-falls.jpg 1600w" sizes="(max-width: 767px) 100vw, 50vw"
             alt={`${ATTRACTION.nearbyLandmark1} near ${ATTRACTION.shortName}, ${ATTRACTION.city}, ${ATTRACTION.stateProvince}, ${ATTRACTION.country}`}
             class="aspect-[16/10] w-full object-cover"
-            width="1500"
-            height="950"
+            width="1600"
+            height="2133"
             loading="lazy"
           />
-          <figcaption class="bg-[#153b31] px-5 py-3 text-xs text-white/60">Prasannakamble25 · Wikimedia Commons · CC BY-SA 4.0</figcaption>
+          <figcaption class="bg-[#153b31] px-5 py-3 text-xs text-white/60">Prasannakamble25 · 2025 · CC BY-SA 4.0 · <a href="#sources" class="underline">Source / changes</a></figcaption>
         </figure>
       </div>
     </section>
@@ -390,8 +301,8 @@ const faqSchema = {
         <div class="grid overflow-hidden rounded-[2.2rem] bg-white lg:grid-cols-[.36fr_.64fr]">
           <div class="p-8 md:p-10">
             <p class="eyebrow">Google Maps</p>
-            <h2 class="mt-3 text-3xl font-black">{ATTRACTION.plusCode}<br />{ATTRACTION.subLocality}</h2>
-            <p class="prose-copy mt-4 text-sm">{ATTRACTION.subLocality}, {ATTRACTION.city}, {ATTRACTION.stateProvince} {ATTRACTION.postalCode}, {ATTRACTION.country}</p>
+            <h2 class="mt-3 text-3xl font-black">Pykara Lake Boat House</h2>
+            <p class="prose-copy mt-4 text-sm">Pykara, Naduvattam, Tamil Nadu, India · Google Maps listing reference; confirm the entrance before travel.</p>
             <a class="btn-primary mt-6" href={ATTRACTION.mapsListingUrl} target="_blank" rel="noopener noreferrer"><span class="ta-only">Google Maps திறக்க ↗</span><span class="en-only">Open Google Maps ↗</span></a>
             <p class="mt-4 text-xs leading-6 text-[#65756f]">
               Official tourism portal:
@@ -404,13 +315,7 @@ const faqSchema = {
               </a>
             </p>
           </div>
-          <iframe
-            class="map-frame min-h-[420px] w-full border-0"
-            title={`${ATTRACTION.fullName} map`}
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            src={ATTRACTION.mapsEmbedSrc}
-          ></iframe>
+          <div class="p-8 bg-[#edf2ed]"><h3 class="text-xl font-bold">வரைபடம் வெளி இணைப்பு · External map</h3><p class="prose-copy mt-4">Google Maps இணைப்பை அழுத்தினால் மட்டுமே வரைபட சேவை திறக்கும். பட்டியல் குறியீடு உறுதிசெய்யப்பட்ட நுழைவாயில் அல்ல.</p><p class="prose-copy mt-4" lang="en">The selected Maps record and a government tourism directory use different Plus Codes/administrative labels. This guide uses the broad Maps-listed Pykara, Naduvattam address; confirm the actual boat house gate with TTDC, rather than treating either code as a surveyed entrance.</p><a class="btn-primary mt-5" href={ATTRACTION.operatorUrl} target="_blank" rel="noopener noreferrer">Official TTDC booking / availability ↗</a></div>
         </div>
       </div>
     </section>
@@ -435,15 +340,15 @@ const faqSchema = {
 
   <footer class="bg-[#0b241e] py-10 text-white">
     <div class="container-shell grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      <div><img src="/brand/logo.svg" class="h-12 w-12" alt={`${ATTRACTION.fullName} logo`} /><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி & படகு இல்லத்துக்கான சுயாதீன பயண தகவல் தளம். இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
+      <div><img src="/brand/logo.svg" class="h-12 w-12" alt={`${ATTRACTION.fullName} logo`} /><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி படகு இல்லத்துக்கான சுயாதீன, இலாப நோக்கற்ற சுற்றுலா மற்றும் அறிவியல் தகவல் வழிகாட்டி. இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
       <div><p class="font-black"><span class="ta-only">விரைவு இணைப்புகள்</span><span class="en-only">Quick links</span></p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#guide"><span class="ta-only">வழிகாட்டி</span><span class="en-only">Guide</span></a><a class="block" href="#about"><span class="ta-only">அறிமுகம்</span><span class="en-only">About</span></a><a class="block" href="#boating"><span class="ta-only">படகு</span><span class="en-only">Boating</span></a><a class="block" href="#map"><span class="ta-only">வரைபடம்</span><span class="en-only">Map</span></a><a class="block" href="#reviews"><span class="ta-only">மதிப்புரைகள்</span><span class="en-only">Reviews</span></a><a class="block" href="#faq"><span class="ta-only">கேள்விகள்</span><span class="en-only">FAQ</span></a><a class="block" href="#sources"><span class="ta-only">மூலங்கள்</span><span class="en-only">Sources</span></a></div></div>
       <div><p class="font-black"><span class="ta-only">சட்டம்</span><span class="en-only">Legal</span></p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="/privacy/"><span class="ta-only">தனியுரிமை</span><span class="en-only">Privacy</span></a><a class="block" href="/terms/"><span class="ta-only">சேவை விதிமுறைகள்</span><span class="en-only">Terms</span></a><a class="block" href="/cookies/"><span class="ta-only">Cookie அமைப்புகள்</span><span class="en-only">Cookies</span></a></div></div>
-      <div><p class="font-black"><span class="ta-only">புகைப்பட உரிமங்கள்</span><span class="en-only">Photo credits</span></p><p class="mt-3 text-xs leading-6 text-white/50"><span class="ta-only">Wikimedia Commons: CC BY 4.0 / CC BY-SA 4.0. முழு attribution: <code>docs/IMAGE_SOURCES.md</code>. Google Maps மதிப்பீடு/மதிப்புரைகள் Google Maps பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்படுகின்றன ({ATTRACTION.ratingSyncedTa}); பதிப்புரிமை Google மற்றும் அசல் மதிப்புரையாளர்களுக்கு உரியது.</span><span class="en-only">Wikimedia Commons: CC BY 4.0 / CC BY-SA 4.0. Full attribution: <code>docs/IMAGE_SOURCES.md</code>. Google Maps ratings/reviews are synced from Google Maps user reviews ({ATTRACTION.ratingSyncedEn}); copyright belongs to Google and the original reviewers.</span></p></div>
+      <div><p class="font-black"><span class="ta-only">புகைப்பட உரிமங்கள்</span><span class="en-only">Photo credits</span></p><p class="mt-3 text-xs leading-6 text-white/50"><span class="ta-only">Wikimedia Commons: CC BY-SA 4.0. முழு attribution: <a href="#sources" class="underline">புகைப்பட மூலங்கள்</a>. Google Maps மதிப்பீடு/எண்ணிக்கை தேதி குறிப்பிட்ட பதிவு; தானாகப் புதுப்பிக்கப்படாது ({ATTRACTION.ratingSyncedTa}); பதிப்புரிமை Google மற்றும் அசல் மதிப்புரையாளர்களுக்கு உரியது.</span><span class="en-only">Wikimedia Commons: CC BY-SA 4.0. Full attribution: <a href="#sources" class="underline">Sources &amp; photo credits</a>. Google Maps rating/count is a manually checked dated snapshot, not automatically updated ({ATTRACTION.ratingSyncedEn}); copyright belongs to Google and the original reviewers.</span></p></div>
     </div>
   </footer>
   <script is:inline>
     document.getElementById('save-plan')?.addEventListener('click', () => {
-      localStorage.setItem('pykara-saved-plan', JSON.stringify({ savedAt: new Date().toISOString(), stops: ['Pykara Boat House', 'Pykara Falls', 'Pine Forest / 9th Mile'] }));
+      try { localStorage.setItem('pykara-saved-plan', JSON.stringify({ savedAt: new Date().toISOString(), stops: ['Confirm TTDC date and boat type', 'Check Pykara Falls separately', 'Arrange return transport'] })); } catch (_) { return; }
       const button = document.getElementById('save-plan');
       if (button) button.innerHTML = '<span class="ta-only">சேமிக்கப்பட்டது ✓</span><span class="en-only">Saved ✓</span>';
     });

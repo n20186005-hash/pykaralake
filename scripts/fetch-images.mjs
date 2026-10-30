@@ -1,33 +1,23 @@
-import { createHash } from 'node:crypto';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
-
-const items = [
-  ['pykara-boat-house.jpg', 'Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg'],
-  ['pykara-lake.jpg', 'Scenic View of Pykara Lake and Surroundings.jpg'],
-  ['pykara-from-boat.jpg', 'Boating in Pykara Lake in Ooty, Tamil Nadu.JPG'],
-  ['pykara-falls.jpg', 'Pykara Falls in the Nilgiris, Tamil Nadu - Front View.jpg']
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {mkdir} from 'node:fs/promises';
+const require=createRequire(import.meta.url);
+const astroRequire=createRequire(require.resolve('astro/package.json'));
+const sharp=astroRequire('sharp'); // Already locked Astro image dependency; no dependency added.
+const items=[
+ ['pykara-lake','Scenic View of Pykara Lake and Surroundings.jpg','b4bf5d79a90a82169db4819be7fe20a7f622adfc'],
+ ['pykara-from-boat','Boating in Pykara Lake in Ooty, Tamil Nadu.JPG','7d60ea2e68a7fe36d16b7a4895f2ad09fd75dce9'],
+ ['pykara-falls','Pykara Falls in the Nilgiris, Tamil Nadu - Front View.jpg','7bd8e156eea67f751c94bb72e1b9ff0367f5b1c9']
 ];
-
-const commonsOriginal = (name) => {
-  const normalized = name.replaceAll(' ', '_');
-  const md5 = createHash('md5').update(normalized).digest('hex');
-  return `https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0,2)}/${encodeURIComponent(normalized).replaceAll('%2F','/')}`;
-};
-
-const output = resolve('public/images');
-await mkdir(output, { recursive: true });
-
-for (const [local, commonsName] of items) {
-  const url = commonsOriginal(commonsName);
-  console.log(`Fetching ${local}...`);
-  const response = await fetch(url, { headers: { 'User-Agent': 'PykaraTravelSite/1.0 (local asset vendoring)' } });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
-  const type = response.headers.get('content-type') || '';
-  if (!type.startsWith('image/')) throw new Error(`Unexpected content-type ${type}: ${url}`);
-  const bytes = new Uint8Array(await response.arrayBuffer());
-  if (bytes.length < 50_000) throw new Error(`Image looks unexpectedly small (${bytes.length} bytes): ${url}`);
-  await writeFile(resolve(output, local), bytes);
-  console.log(`  ✓ ${local} (${(bytes.length/1024/1024).toFixed(2)} MiB)`);
+await mkdir('public/images',{recursive:true});
+for(const [local,name,expected]of items){
+ const normalized=name.replaceAll(' ','_');const md5=createHash('md5').update(normalized).digest('hex');
+ const url=`https://upload.wikimedia.org/wikipedia/commons/${md5[0]}/${md5.slice(0,2)}/${encodeURIComponent(normalized)}`;
+ const response=await fetch(url,{signal:AbortSignal.timeout(30000)});
+ if(!response.ok)throw Error(`Image download failed: ${response.status}`);
+ const bytes=Buffer.from(await response.arrayBuffer());
+ if(createHash('sha1').update(bytes).digest('hex')!==expected)throw Error(`Original changed; review provenance before replacing ${local}`);
+ for(const width of [800,1600])await sharp(bytes).rotate().resize({width,withoutEnlargement:true}).jpeg({quality:80,mozjpeg:true}).toFile(`public/images/${local}${width===800?'-800':''}.jpg`);
+ if(local==='pykara-from-boat')await sharp(bytes).rotate().resize(1200,630,{fit:'cover'}).jpeg({quality:82}).toFile('public/images/pykara-social.jpg');
+ console.log(`Verified and optimized ${local}`);
 }
-console.log('All four real Pykara photos are now local in public/images/.');

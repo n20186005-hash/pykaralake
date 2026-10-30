@@ -1,3 +1,5 @@
+> Historical baseline notes below. Current content and source limits are in CURRENT-REVIEW.md; previous times, rates, counts and checks are not current acceptance.
+
 # 交付说明
 
 本项目为 **pykaralake.com** 单景点实体站，对应 Google 地图实体 **Pykara Lake Boat House**

@@ -1,3 +1,5 @@
+> Historical baseline notes below. Current content and source limits are in CURRENT-REVIEW.md; previous times, rates, counts and checks are not current acceptance.
+
 # Editorial fact sources
 
 Primary planning references used for this project:

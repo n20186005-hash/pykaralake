@@ -1,0 +1,31 @@
+Pykara guide — checked29October2026
+
+pykara-lake.jpg / pykara-lake-800.jpg
+Scenic View of Pykara Lake and Surroundings.jpg
+Author: Prasannakamble25
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Scenic_View_of_Pykara_Lake_and_Surroundings.jpg
+Original: https://upload.wikimedia.org/wikipedia/commons/9/95/Scenic_View_of_Pykara_Lake_and_Surroundings.jpg
+Original SHA-1 (downloaded bytes): b4bf5d79a90a82169db4819be7fe20a7f622adfc
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
+
+pykara-from-boat.jpg / pykara-from-boat-800.jpg
+Boating in Pykara Lake in Ooty, Tamil Nadu.JPG
+Author: KARTY JazZ
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG
+Original: https://upload.wikimedia.org/wikipedia/commons/2/22/Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG
+Original SHA-1 (downloaded bytes): 7d60ea2e68a7fe36d16b7a4895f2ad09fd75dce9
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
+
+pykara-falls.jpg / pykara-falls-800.jpg
+Pykara Falls in the Nilgiris, Tamil Nadu - Front View.jpg
+Author: Prasannakamble25
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg
+Original: https://upload.wikimedia.org/wikipedia/commons/3/32/Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg
+Original SHA-1 (downloaded bytes): 7bd8e156eea67f751c94bb72e1b9ff0367f5b1c9
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
+
+pykara-social.jpg:1200x630crop of the2016pykara-from-boat.jpg; same author KARTY JazZ, source and CC BY-SA4.0 license.
+Historical views, not a current access or operational survey.

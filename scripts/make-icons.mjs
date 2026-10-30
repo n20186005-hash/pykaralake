@@ -19,6 +19,7 @@ const VIEWBOX = 96;
 
 /* ---------------------------------------------------------------- SVG parsing */
 
+/** @param {string} value */
 const parseColor = (value) => {
   const hex = value.trim().replace(/^#/, '');
   const full = hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex;
@@ -29,14 +30,19 @@ const parseColor = (value) => {
   ];
 };
 
+/** @param {string} tag @returns {Record<string,string>} */
 const parseAttrs = (tag) => {
+  /** @type {Record<string,string>} */
   const attrs = {};
   for (const [, name, value] of tag.matchAll(/([a-zA-Z-]+)="([^"]*)"/g)) attrs[name] = value;
   return attrs;
 };
 
+/** @param {number} x @param {number} y @param {number} w @param {number} h @param {number} r @param {number} [steps] */
 const roundRectPolygon = (x, y, w, h, r, steps = 16) => {
+  /** @type {number[][]} */
   const pts = [];
+  /** @param {number} cx @param {number} cy @param {number} from @param {number} to */
   const arc = (cx, cy, from, to) => {
     for (let i = 0; i <= steps; i++) {
       const a = from + ((to - from) * i) / steps;
@@ -50,6 +56,7 @@ const roundRectPolygon = (x, y, w, h, r, steps = 16) => {
   return pts;
 };
 
+/** @param {number[]} p0 @param {number[]} c1 @param {number[]} c2 @param {number[]} p1 @param {number} [steps] */
 const flattenCubic = (p0, c1, c2, p1, steps = 24) => {
   const out = [];
   for (let i = 1; i <= steps; i++) {
@@ -67,6 +74,7 @@ const flattenCubic = (p0, c1, c2, p1, steps = 24) => {
   return out;
 };
 
+/** @param {number[]} p0 @param {number[]} c @param {number[]} p1 @param {number} [steps] */
 const flattenQuad = (p0, c, p1, steps = 20) => {
   const out = [];
   for (let i = 1; i <= steps; i++) {
@@ -81,21 +89,27 @@ const flattenQuad = (p0, c, p1, steps = 20) => {
 };
 
 /** Subset parser: M L H V C S Q T Z (absolute + relative). Returns arrays of subpaths. */
+/** @param {string} d */
 const parsePath = (d) => {
   const tokens = d.match(/[MmLlHhVvCcSsQqTtZz]|-?\d*\.?\d+(?:e[-+]?\d+)?/gi) ?? [];
   const subpaths = [];
+  /** @type {number[][]} */
   let current = [];
   let cursor = [0, 0];
   let start = [0, 0];
+  /** @type {number[]|null} */
   let lastCubicCtrl = null;
+  /** @type {number[]|null} */
   let lastQuadCtrl = null;
   let command = null;
   let i = 0;
 
+  /** @param {number[]} pt */
   const push = (pt) => {
     current.push(pt);
     cursor = pt;
   };
+  /** @param {number[]} pt */
   const begin = (pt) => {
     if (current.length > 1) subpaths.push(current);
     current = [pt];
@@ -168,6 +182,7 @@ const parsePath = (d) => {
         break;
       }
       case 'T': {
+        /** @type {number[]} */
         const c = lastQuadCtrl
           ? [cursor[0] * 2 - lastQuadCtrl[0], cursor[1] * 2 - lastQuadCtrl[1]]
           : cursor;
@@ -193,11 +208,13 @@ const parsePath = (d) => {
   return subpaths;
 };
 
+/** @param {number[]} p1 @param {number[]} p2 @param {number} width @param {number} [steps] */
 const capsulePolygon = (p1, p2, width, steps = 16) => {
   const r = width / 2;
   const dx = p2[0] - p1[0];
   const dy = p2[1] - p1[1];
   const base = Math.atan2(dy, dx);
+  /** @type {number[][]} */
   const pts = [];
   for (let i = 0; i <= steps; i++) {
     const a = base - Math.PI / 2 + (Math.PI * i) / steps;
@@ -248,6 +265,7 @@ const loadShapes = () => {
 
 /* ---------------------------------------------------------------- Rasteriser */
 
+/** @param {Buffer} buffer @param {number} width @param {number} height @param {number[][][]} polygons @param {number[]} color */
 const fillPolygons = (buffer, width, height, polygons, color) => {
   const [r, g, b] = color;
   for (const poly of polygons) {
@@ -287,11 +305,13 @@ const fillPolygons = (buffer, width, height, polygons, color) => {
   }
 };
 
+/** @param {{polygons:number[][][],color:number[]}[]} shapes @param {number} size @param {{supersample?:number,scale?:number,background?:number[]|null}} [options] */
 const render = (shapes, size, { supersample = 4, scale = 1, background = null } = {}) => {
   const big = size * supersample;
   const buffer = Buffer.alloc(big * big * 4);
   const factor = (big / VIEWBOX) * scale;
   const shift = (big - VIEWBOX * factor) / 2;
+  /** @param {number[][]} poly */
   const transform = (poly) => poly.map(([x, y]) => [x * factor + shift, y * factor + shift]);
 
   if (background) {
@@ -349,12 +369,14 @@ const CRC_TABLE = (() => {
   return table;
 })();
 
+/** @param {Buffer} buf */
 const crc32 = (buf) => {
   let c = -1;
   for (const byte of buf) c = CRC_TABLE[(c ^ byte) & 0xff] ^ (c >>> 8);
   return (c ^ -1) >>> 0;
 };
 
+/** @param {string} type @param {Buffer} data */
 const chunk = (type, data) => {
   const length = Buffer.alloc(4);
   length.writeUInt32BE(data.length, 0);
@@ -364,6 +386,7 @@ const chunk = (type, data) => {
   return Buffer.concat([length, typeBuf, data, crc]);
 };
 
+/** @param {number} size @param {Buffer} rgba */
 const encodePng = (size, rgba) => {
   const raw = Buffer.alloc((size * 4 + 1) * size);
   for (let y = 0; y < size; y++) {

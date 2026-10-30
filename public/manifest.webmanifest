@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Pykara Lake Boat House - Nilgiris Visitor Guide",
   "short_name": "Pykara Lake",
-  "description": "Independent visitor guide to Pykara Lake Boat House, Naduvattam, Tamil Nadu: boating, timings, fees, how to reach, nearby Pykara Falls and Pine Forest.",
+  "description": "Independent visitor guide to Pykara Lake Boat House, Naduvattam, Tamil Nadu: boating availability, current hours and fee checks, directions and Pykara Falls as a separate visit.",
   "lang": "ta-IN",
   "dir": "ltr",
   "start_url": "/",
@@ -50,7 +50,7 @@
     {
       "name": "Location & map",
       "short_name": "Map",
-      "description": "Plus code, address and Google Maps embed",
+      "description": "Broad place information and an external Google Maps link",
       "url": "/#map",
       "icons": [{ "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },

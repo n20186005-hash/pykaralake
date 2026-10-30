@@ -1,3 +1,5 @@
+> Historical baseline notes below. Current content and source limits are in CURRENT-REVIEW.md; previous times, rates, counts and checks are not current acceptance.
+
 # Delivery / QA status
 
 ## Completed — entity-binding + Google review sync + PWA delivery

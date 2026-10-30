@@ -1,29 +1,35 @@
-# Pykara photo provenance
+# Current photographs
 
-The site is designed to use **real Pykara photographs** locally from `public/images/`. Run `pnpm fetch:images` on a network-enabled machine to vendor the originals.
+Pykara guide — checked29October2026
 
-| Local file | Wikimedia Commons work | Author | License | Source page |
-|---|---|---|---|---|
-| `public/images/pykara-boat-house.jpg` | Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg | N. Vivekananthamoorthy | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Pykara-Boat-House-Ooty-Tamil-Nadu-India.jpg |
-| `public/images/pykara-lake.jpg` | Scenic View of Pykara Lake and Surroundings.jpg | Prasannakamble25 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Scenic_View_of_Pykara_Lake_and_Surroundings.jpg |
-| `public/images/pykara-from-boat.jpg` | Boating in Pykara Lake in Ooty, Tamil Nadu.JPG | KARTY JazZ | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Boating_in_Pykara_Lake_in_Ooty,_Tamil_Nadu.JPG |
-| `public/images/pykara-falls.jpg` | Pykara Falls in the Nilgiris, Tamil Nadu - Front View.jpg | Prasannakamble25 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Pykara_Falls_in_the_Nilgiris,_Tamil_Nadu_-_Front_View.jpg |
+pykara-lake.jpg / pykara-lake-800.jpg
+Scenic View of Pykara Lake and Surroundings.jpg
+Author: Prasannakamble25
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Scenic_View_of_Pykara_Lake_and_Surroundings.jpg
+Original: https://upload.wikimedia.org/wikipedia/commons/9/95/Scenic_View_of_Pykara_Lake_and_Surroundings.jpg
+Original SHA-1 (downloaded bytes): b4bf5d79a90a82169db4819be7fe20a7f622adfc
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
 
-Keep attribution visible when publishing. For CC BY-SA works, follow the share-alike terms if you distribute adaptations.
+pykara-from-boat.jpg / pykara-from-boat-800.jpg
+Boating in Pykara Lake in Ooty, Tamil Nadu.JPG
+Author: KARTY JazZ
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG
+Original: https://upload.wikimedia.org/wikipedia/commons/2/22/Boating_in_Pykara_Lake_in_Ooty%2C_Tamil_Nadu.JPG
+Original SHA-1 (downloaded bytes): 7d60ea2e68a7fe36d16b7a4895f2ad09fd75dce9
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
 
-Credits are rendered in the page footer and in the *Sources & references* section (`SourcesSection.astro`).
+pykara-falls.jpg / pykara-falls-800.jpg
+Pykara Falls in the Nilgiris, Tamil Nadu - Front View.jpg
+Author: Prasannakamble25
+License: CC BY-SA4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Source: https://commons.wikimedia.org/wiki/File:Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg
+Original: https://upload.wikimedia.org/wikipedia/commons/3/32/Pykara_Falls_in_the_Nilgiris%2C_Tamil_Nadu_-_Front_View.jpg
+Original SHA-1 (downloaded bytes): 7bd8e156eea67f751c94bb72e1b9ff0367f5b1c9
+Changes: EXIF orientation applied; resized to1600/800pixels wide and JPEG compressed. CSS may crop. Adaptations retain CC BY-SA4.0.
 
-## PWA icons (generated, not downloaded)
+pykara-social.jpg:1200x630crop of the2016pykara-from-boat.jpg; same author KARTY JazZ, source and CC BY-SA4.0 license.
+Historical views, not a current access or operational survey.
 
-| File | Origin | How to regenerate |
-|---|---|---|
-| `public/brand/icon-192.png` | `public/brand/logo.svg` (project's own artwork) | `pnpm make:icons` |
-| `public/brand/icon-512.png` | idem | `pnpm make:icons` |
-| `public/brand/icon-maskable-512.png` | idem (full-bleed brand background, 78% safe-zone foreground) | `pnpm make:icons` |
-
-`scripts/make-icons.mjs` rasterises the SVG with an internal scanline renderer and PNG encoder — no
-third-party dependency and no network access. Re-run it whenever `logo.svg` changes.
-
-No Google imagery is copied or re-hosted: Google Maps content appears only as an embed/link, and the
-rating/review snapshot is quoted with attribution in
-`docs/SEO-ENTITY-BINDING.md` style wording on the page.
+The2018boat-house/jetty photograph is not delivered. Photographer licenses are not asserted to clear all subject/personality rights.

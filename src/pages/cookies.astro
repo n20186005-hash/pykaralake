@@ -1,12 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Cookie அமைப்புகள் | பைக்காரா" description="பைக்காரா பயணத் தளத்தின் analytics cookie அமைப்புகள்." noindex={true}>
-  <main class="container-shell py-20"><a href="/" class="eyebrow">← முகப்பு</a><h1 class="section-title mt-4">Cookie அமைப்புகள்</h1><p class="prose-copy mt-6 max-w-2xl">அனலிட்டிக்ஸ் உங்களின் ஒப்புதலுடன் மட்டுமே இயக்கப்படும். கீழே உங்கள் விருப்பத்தை மாற்றலாம்.</p><div class="mt-8 flex flex-wrap gap-3"><button id="grant" class="btn-primary">Analytics அனுமதி</button><button id="deny" class="btn-secondary">Analytics நிறுத்து</button></div><p id="status" class="mt-5 text-sm font-bold"></p></main>
-  <script is:inline>
-    const KEY='pykara-cookie-consent'; const status=document.getElementById('status');
-    const paint=()=>{const v=localStorage.getItem(KEY); status.textContent=v==='granted'?'தற்போதைய நிலை: Analytics அனுமதிக்கப்பட்டுள்ளது.':v==='denied'?'தற்போதைய நிலை: Analytics நிறுத்தப்பட்டுள்ளது.':'தற்போதைய நிலை: இன்னும் தேர்வு செய்யப்படவில்லை.'};
-    document.getElementById('grant')?.addEventListener('click',()=>{localStorage.setItem(KEY,'granted'); window.__pykaraConsent?.loadGA?.(); paint();});
-    document.getElementById('deny')?.addEventListener('click',()=>{localStorage.setItem(KEY,'denied'); paint();}); paint();
-  </script>
-</BaseLayout>
+<BaseLayout title="Google Analytics அமைப்புகள் | Analytics preferences" description="Allow or decline optional Google Analytics for this independent Pykara guide." noindex={true}><main class="container-shell py-20"><a href="/" class="eyebrow">← முகப்பு · Home</a><h1 class="section-title mt-4">Google Analytics அமைப்புகள்</h1><p class="prose-copy mt-6 max-w-3xl">விருப்ப Google Analytics உங்கள் ஒப்புதலுக்குப் பிறகே ஏற்றப்படும். மறுத்தால் எதிர்கால ஏற்றம் தடுக்கப்படும்; ஏற்கெனவே ஏற்றப்பட்டிருந்தால் பக்கம் மீண்டும் ஏற்றப்படும். ஏற்கெனவே அனுப்பிய தரவு நீக்கப்படாது. Cloudflare சுயாதீன வலைத்தள ஹோஸ்டிங் அளவீடுகளை இந்தப் பொத்தான்கள் கட்டுப்படுத்தாது.</p><p lang="en" class="prose-copy mt-4 max-w-3xl">Allow or decline optional Google Analytics. Declining blocks future loading; withdrawing after loading disables collection and reloads the page. This does not retract earlier data or control separate Cloudflare hosting measurements. Storage restrictions may prevent a saved choice. <a href="/privacy/" class="underline">Privacy details</a>.</p><div class="mt-8 flex flex-wrap gap-3"><button id="grant" class="btn-primary">Analytics அனுமதி · Allow</button><button id="deny" class="btn-secondary">Analytics வேண்டாம் · Decline</button></div><p id="status" aria-live="polite" class="mt-5 text-sm font-bold"></p></main>
+<script is:inline>
+(()=>{const key='pykara-cookie-consent';const status=document.getElementById('status');const paint=()=>{let v=null;try{v=localStorage.getItem(key);}catch(_){}if(status)status.textContent=v==='granted'?'அனுமதிக்கப்பட்டுள்ளது · Allowed':v==='denied'?'மறுக்கப்பட்டது · Declined':'தேர்வு சேமிக்கப்படவில்லை · No saved choice';};document.getElementById('grant')?.addEventListener('click',()=>{window.__pykaraConsent?.setChoice('granted');paint();});document.getElementById('deny')?.addEventListener('click',()=>{window.__pykaraConsent?.setChoice('denied');paint();});paint();})();
+</script></BaseLayout>

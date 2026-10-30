@@ -1,8 +1,6 @@
 # Cloudflare Workers Static Assets _headers
 # HSTS + baseline security headers for the whole site.
-# Domain-level redirects (http:// -> https:// and https://www. -> https://)
-# are NOT possible via _headers/_redirects for Static Assets — configure them
-# in the Cloudflare dashboard (SSL/TLS -> Always Use HTTPS, and a Redirect Rule).
+# Canonical redirects and true404 responses are handled by the native asset Worker.
 
 /*
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
@@ -15,3 +13,9 @@
 # Service worker must never be cached so updates roll out immediately.
 /sw.js
   Cache-Control: no-cache
+
+/404.html
+  X-Robots-Tag: noindex, follow
+
+/404
+  X-Robots-Tag: noindex, follow

@@ -8,7 +8,7 @@ const SITE_URL = process.env.SITE_URL?.trim() || 'https://pykaralake.com';
 export default defineConfig({
   site: SITE_URL,
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [sitemap({filter: (page) => !/\/(privacy|terms|cookies|404)\/?$/.test(new URL(page).pathname)})],
   vite: {
     plugins: [tailwindcss()]
   }

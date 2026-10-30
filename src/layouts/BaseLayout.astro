@@ -39,7 +39,7 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#183f33" />
     <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'} />
     <title>{title}</title>
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
@@ -69,15 +69,18 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,inLanguage:['ta-IN','en']})} />
     <slot name="head" />
   </head>
   <body>
     <slot />
+    <footer class="container-shell py-6 text-sm leading-7"><p class="ta-only">சுயாதீன, இலாப நோக்கற்ற சுற்றுலா மற்றும் அறிவியல் தகவல் வழிகாட்டி; TTDC அல்லது அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p><p class="en-only">Independent nonprofit tourism and educational guide; not an official TTDC or government website.</p><a href="/privacy/">Privacy</a> · <a href="/cookies/">Google Analytics preferences</a> · <a href="/">Home</a></footer>
+    <a href="/privacy/" class="sr-only focus:not-sr-only">Privacy / தனியுரிமை</a>
     <div id="cookie-banner" class="fixed inset-x-4 bottom-4 z-[70] mx-auto hidden max-w-3xl rounded-3xl border border-white/30 bg-[#10251f]/95 p-5 text-white shadow-2xl backdrop-blur-xl">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p class="text-sm leading-6 text-white/80 ta-only">அனலிட்டிக்ஸ் குக்கீகள் உங்கள் ஒப்புதலுக்கு பிறகே இயக்கப்படும். அத்தியாவசிய சேமிப்பு மட்டும் இயல்பாக பயன்படுத்தப்படுகிறது.</p>
-        <p class="text-sm leading-6 text-white/80 en-only">Analytics cookies load only after your consent. Essential storage works by default.</p>
-        <div class="flex shrink-0 gap-2">
+        <p class="text-sm leading-6 text-white/80 ta-only">விருப்ப Google Analytics உங்கள் ஒப்புதலுக்குப் பிறகே ஏற்றப்படும். Cloudflare சுயாதீன அணுகல்/செயல்திறன் அளவீட்டை தனியுரிமைப் பக்கத்தில் பார்க்கவும்.</p>
+        <p class="text-sm leading-6 text-white/80 en-only">Optional Google Analytics loads after consent. Separate hosting/Cloudflare measurement is explained in Privacy.</p>
+        <div class="flex shrink-0 flex-wrap gap-2">
           <button id="cookie-reject" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold ta-only">வேண்டாம்</button>
           <button id="cookie-reject-en" class="rounded-full border border-white/25 px-4 py-2 text-sm font-bold en-only">Decline</button>
           <button id="cookie-accept" class="rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#183f33] ta-only">ஒப்புக்கொள்</button>
@@ -89,30 +92,41 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
       (() => {
         const KEY = 'pykara-cookie-consent';
         const GA = 'G-HXM22WWPKP';
-        const loadGA = () => {
-          if (document.querySelector('script[data-pykara-ga]')) return;
-          const s = document.createElement('script');
-          s.async = true; s.dataset.pykaraGa = '1';
-          s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
-          document.head.appendChild(s);
-          window.dataLayer = window.dataLayer || [];
-          window.gtag = function(){ window.dataLayer.push(arguments); };
-          window.gtag('js', new Date());
-          window.gtag('config', GA, { anonymize_ip: true });
-        };
-        const choice = localStorage.getItem(KEY);
         const banner = document.getElementById('cookie-banner');
-        if (choice === 'granted') loadGA();
-        if (!choice && banner) banner.classList.remove('hidden');
-        const acceptCookies = () => { localStorage.setItem(KEY,'granted'); banner?.classList.add('hidden'); loadGA(); };
-        const rejectCookies = () => { localStorage.setItem(KEY,'denied'); banner?.classList.add('hidden'); };
-        document.querySelectorAll('#cookie-accept, #cookie-accept-en').forEach((b) => b.addEventListener('click', acceptCookies));
-        document.querySelectorAll('#cookie-reject, #cookie-reject-en').forEach((b) => b.addEventListener('click', rejectCookies));
-        window.__pykaraConsent = { key: KEY, loadGA };
+        const get = () => {try {return localStorage.getItem(KEY);} catch (_) {return null;}};
+        /** @param {string} v */
+        const put = (v) => {try {localStorage.setItem(KEY,v);} catch (_) {}};
+        const loadGA = () => {
+          window['ga-disable-G-HXM22WWPKP'] = false;
+          if (document.querySelector('script[data-pykara-ga]')) return;
+          const s=document.createElement('script');s.async=true;s.dataset.pykaraGa='1';
+          s.src=`https://www.googletagmanager.com/gtag/js?id=${GA}`;document.head.appendChild(s);
+          window.dataLayer=window.dataLayer||[];
+          window.gtag=function(){window.dataLayer.push(arguments);};
+          window.gtag('js',new Date());window.gtag('config',GA);
+        };
+        /** @param {string} v */
+        const setChoice = (v) => {
+          put(v);banner?.classList.add('hidden');
+          if(v==='granted'){loadGA();return;}
+          window['ga-disable-G-HXM22WWPKP']=true;
+          for(const pair of document.cookie.split(';')){
+            const name=pair.split('=')[0].trim();
+            if(!/^_ga(?:_|$)/.test(name))continue;
+            document.cookie=name+'=; Max-Age=0; path=/';
+            for(const domain of [location.hostname,'.'+location.hostname.replace(/^www\./,'')])document.cookie=name+'=; Max-Age=0; path=/; domain='+domain;
+          }
+          if(document.querySelector('script[data-pykara-ga]'))location.reload();
+        };
+        const choice=get();
+        if(choice==='granted')loadGA();else if(choice!=='denied')banner?.classList.remove('hidden');
+        document.querySelectorAll('#cookie-accept, #cookie-accept-en').forEach(b=>b.addEventListener('click',()=>setChoice('granted')));
+        document.querySelectorAll('#cookie-reject, #cookie-reject-en').forEach(b=>b.addEventListener('click',()=>setChoice('denied')));
+        window.__pykaraConsent={key:KEY,loadGA,setChoice};
       })();
     </script>
     <script is:inline>
-      // PWA: progressive enhancement only — offline app shell via /sw.js, never touched by analytics.
+      // Register the legacy-cache retirement update; analytics consent is handled separately.
       (() => {
         if (!('serviceWorker' in navigator)) return;
         if (location.protocol !== 'https:') return;
@@ -132,6 +146,7 @@ const appTitle = `${ATTRACTION.fullName} (${ATTRACTION.shortName})`;
       (() => {
         const KEY = 'pykara-lang';
         const root = document.documentElement;
+        /** @param {string} lang */
         const apply = (lang) => {
           const en = lang === 'en';
           root.setAttribute('data-lang', en ? 'en' : 'ta');

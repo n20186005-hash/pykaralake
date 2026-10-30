@@ -1,3 +1,5 @@
+> Historical baseline notes below. Current content and source limits are in CURRENT-REVIEW.md; previous times, rates, counts and checks are not current acceptance.
+
 # 单景点 SEO 实体绑定 · 变量实例化与本项目落地位置
 
 本源站为 **单景点站点**：`pykaralake.com` ↔ Google Maps 实体 **Pykara Lake Boat House**。

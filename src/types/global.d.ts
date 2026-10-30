@@ -11,11 +11,13 @@ interface PykaraInstallPromptEvent extends Event {
 }
 
 interface Window {
+  [key: `ga-disable-${string}`]: boolean;
   dataLayer: unknown[];
   gtag: (...args: unknown[]) => void;
   __pykaraConsent?: {
     key: string;
     loadGA: () => void;
+    setChoice: (value: string) => void;
   };
   __pykaraInstall?: {
     deferred: PykaraInstallPromptEvent | null;

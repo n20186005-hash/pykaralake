@@ -1,3 +1,5 @@
+> Historical baseline notes below. Current content and source limits are in CURRENT-REVIEW.md; previous times, rates, counts and checks are not current acceptance.
+
 # Pykara Lake Boat House — தமிழ் சுற்றுலா தளம்
 
 A custom, non-template tourism microsite for **Pykara Lake Boat House, Naduvattam, The Nilgiris, Tamil Nadu, India**.

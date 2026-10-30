@@ -1,5 +1,1 @@
-# Real JPG destination
-
-Run `pnpm fetch:images` on a network-enabled machine. It will download four verified real Pykara photographs from Wikimedia Commons into this folder.
-
-The delivery sandbox intentionally does not create fake `.jpg` files when the binary download is unavailable.
+Local optimized licensed photographs are committed and required by the build self-check. Credits and modifications: /IMAGE-SOURCES.txt. Optional pnpm fetch:images verifies pinned original hashes and regenerates these derivatives; build requires no image network fetch.
