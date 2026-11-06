@@ -46,8 +46,8 @@ The instantiated variable table and the requirement → file mapping are documen
 ### Google rating & reviews (compliance)
 - Latest synced values: **4.4** from **15,922** Google Maps reviews (synced **6 November 2026**).
 - Displayed on the page in three places: hero rating chip (with the "synced from Google Maps user
-  reviews · September 2026 · see all reviews" line), the reviews section, and the sources section.
-- Attribution + copyright line: *“Synced from Google Maps user reviews; last synced September 2026.
+  reviews · 6 November 2026 · see all reviews" line), the reviews section, and the sources section.
+- Attribution + copyright line: *“Synced from Google Maps user reviews; last synced 6 November 2026.
   Copyright remains with the original reviewers and Google Maps.”*
 - **Never** written to JSON-LD: no `aggregateRating`, no `review`. `pnpm selfcheck` fails the build
   if any rating/review token leaks into structured data.
@@ -103,3 +103,8 @@ Measurement ID: `G-HXM22WWPKP`. Analytics loads only after explicit consent; the
 `pnpm build` runs `astro build` followed by `node scripts/selfcheck.mjs`, which asserts the entity
 values, the manifest/service-worker wiring, the presence of the four JSON-LD nodes, and that no
 Google rating/review data reached structured data. Current status: `QA-STATUS.md`.
+
+## Long-tail topic pages
+The site ships **35** bilingual (Tamil + English) long-tail topic pages driven by `src/data/topics.ts`
+(the registry, the homepage `#guides` cluster, and `scripts/selfcheck.mjs` all stay in sync). `pnpm build`
+generates them and `pnpm selfcheck` asserts all 35 appear in the sitemap.

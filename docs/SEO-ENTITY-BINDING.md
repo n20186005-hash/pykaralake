@@ -56,7 +56,7 @@
 | 评分与评价数同步为最新（4.4 · 15,922） | `src/data/attraction.ts` → `googleRating: 4.4`、`googleReviewCount: 15922` |
 | 评分 + 下一行小字（来源 / 同步时间 / 跳转全部评价） | `src/components/RatingChip.astro`（hero 与评分卡共用） |
 | 评价区块：来源说明 + 「查看全部评价」按钮 | `src/components/ReviewsSection.astro` |
-| 资料来源区块：评价 · 同步时间 2026 年 9 月 + 同样来源说明与链接 | `src/components/SourcesSection.astro` 第 4 行 |
+| 资料来源区块：评价 · 同步时间 2026 年 11 月 + 同样来源说明与链接 | `src/components/SourcesSection.astro` 第 4 行 |
 | 评价只展示、**不进 JSON-LD** | `selfcheck.mjs` 第 5 / 8 项强制断言：源码与 `dist/index.html` 中不得出现 `aggregateRating` / `ratingValue` / `reviewCount` / `"review"` |
 | 所有 Google 外部链接保留 | `mapsListingUrl`（原有 search 外链）、`mapsShareUrl`（新增分享短链）、`mapsEmbedSrc`（原有 iframe）全部保留 |
 
@@ -64,13 +64,13 @@
 
 | 原文要求（中文） | 页面呈现（英文 / 泰米尔文，受众语言） |
 | --- | --- |
-| 评分与评价数同步自谷歌地图（Google Maps）用户评价 · 2026 年 9 月 · 点击查看谷歌地图全部评价↗ | `Rating and review count synced from Google Maps user reviews · September 2026 · See all reviews on Google Maps ↗` / `மதிப்பீடு மற்றும் மதிப்புரை எண்ணிக்கை Google Maps (Google வரைபடம்) பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது · செப்டம்பர் 2026 · Google Maps-இல் அனைத்து மதிப்புரைகளையும் காண ↗` |
-| 同步自 Google 地图用户评价，同步时间 2026 年 9 月；版权归原作者与 Google 地图所有 | `Synced from Google Maps user reviews; last synced September 2026. Copyright remains with the original reviewers and Google Maps.` / `Google வரைபடம் பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது, ஒத்திசைவு நேரம் செப்டம்பர் 2026; பதிப்புரிமை அசல் மதிப்புரையாளர்கள் மற்றும் Google வரைபடத்திற்கு உரியது.` |
+| 评分与评价数同步自谷歌地图（Google Maps）用户评价 · 2026 年 11 月 · 点击查看谷歌地图全部评价↗ | `Rating and review count synced from Google Maps user reviews · November 2026 · See all reviews on Google Maps ↗` / `மதிப்பீடு மற்றும் மதிப்புரை எண்ணிக்கை Google Maps (Google வரைபடம்) பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது · நவம்பர் 2026 · Google Maps-இல் அனைத்து மதிப்புரைகளையும் காண ↗` |
+| 同步自 Google 地图用户评价，同步时间 2026 年 11 月；版权归原作者与 Google 地图所有 | `Synced from Google Maps user reviews; last synced November 2026. Copyright remains with the original reviewers and Google Maps.` / `Google வரைபடம் பயனர் மதிப்புரைகளிலிருந்து ஒத்திசைக்கப்பட்டது, ஒத்திசைவு நேரம் நவம்பர் 2026; பதிப்புரிமை அசல் மதிப்புரையாளர்கள் மற்றும் Google வரைபடத்திற்கு உரியது.` |
 | 在谷歌地图查看全部评价（按钮） | `See all reviews on Google Maps ↗` / `Google Maps-இல் அனைத்து மதிப்புரைகளையும் பார்க்க` |
 
 > 页面主语言为 `ta-IN`（面向泰米尔纳德邦读者），因此来源说明按页面语言本地化，
 > 英文版同步保留以兼顾 Google 审核与英文用户；两版语义完全一致，均含「来源 = Google Maps
-> 用户评价 / 同步时间 = 2026 年 9 月 / 版权归原作者与 Google / 可跳转全部评价」。
+> 用户评价 / 同步时间 = 2026 年 11 月 / 版权归原作者与 Google / 可跳转全部评价」。
 
 ## 4. 与模版的少量偏差（为避免结构化数据与实际不符）
 

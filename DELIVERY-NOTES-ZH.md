@@ -25,8 +25,8 @@
    - 展示位置三处：hero 评分条（`RatingChip.astro`）、评价区块（`ReviewsSection.astro`）、
      资料来源区块（`SourcesSection.astro` 第 4 行）。
    - 评分条下一行小字：`Rating and review count synced from Google Maps user reviews ·
-     September 2026 · See all reviews on Google Maps ↗`（泰米尔文同义句并列展示，整行可点击）。
-   - 评价区块来源说明：`Synced from Google Maps user reviews; last synced September 2026.
+     November 2026 · See all reviews on Google Maps ↗`（泰米尔文同义句并列展示，整行可点击）。
+   - 评价区块来源说明：`Synced from Google Maps user reviews; last synced November 2026.
      Copyright remains with the original reviewers and Google Maps.`（泰米尔文同义句并列）。
    - 按钮：「Google Maps-இல் அனைத்து மதிப்புரைகளையும் பார்க்க」+ 英文 `See all reviews on Google Maps`。
    - **评价只做页面展示，绝不进入 JSON-LD**：源码与 `dist/index.html` 中断言不存在
@@ -60,3 +60,8 @@ pnpm selfcheck
 ```
 
 详细状态见 `QA-STATUS.md`；实体变量表见 `docs/SEO-ENTITY-BINDING.md`。
+
+## 长尾专题页规模（当前）
+- 长尾专题页共 **35** 个（ta+en 双语），由 `src/data/topics.ts` 注册表驱动、首页 `#guides`
+  集群内链、`pnpm build` 自动生成、`pnpm selfcheck` 校验全部收录于 sitemap（阈值 36）。
+- 其中 23 个为初始专题，12 个为后续扩展（Pykara 本地玩法 + Ooty 周边大景点 + 实用意图型）。
