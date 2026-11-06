@@ -28,6 +28,12 @@ export interface TopicFaq {
   a: Bilingual;
 }
 
+export interface TopicFact {
+  /** 基础信息表键（开放时间 / 门票 / 最佳季节 / 位置等） */
+  label: Bilingual;
+  value: Bilingual;
+}
+
 export interface TopicContent {
   slug: string;
   group: 'core' | 'transport' | 'nearby' | 'itinerary' | 'season' | 'services';
@@ -35,6 +41,8 @@ export interface TopicContent {
   description: Bilingual;
   h1: Bilingual;
   lead: Bilingual;
+  /** 副标题：hero 下方的一句话定位 */
+  tagline?: Bilingual;
   /** 最后核实日期（英文展示；泰米尔文版本在页面调用处拼装） */
   updated: string;
   image: string;
@@ -43,6 +51,10 @@ export interface TopicContent {
   faqs: TopicFaq[];
   /** 互链专题 slug（3–6 个，形成主题集群） */
   related: string[];
+  /** 基础信息表键值对（开放时间 / 门票 / 最佳季节 / 位置等） */
+  facts?: TopicFact[];
+  /** 游览路线：编号步骤（ta/en 各一条） */
+  itinerary?: Bilingual[];
 }
 
 export const TOPICS: TopicContent[] = [
@@ -811,6 +823,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'பைக்காரா நீர்வீழ்ச்சி ஏரி படகு இல்லத்திலிருந்து தனித்தனி வருகைப் பகுதி. இரண்டின் நுழைவு, நேரம், போக்குவரத்து மற்றும் திறந்த நிலையைத் தனித்தனியே உறுதி செய்யவும். தடைகளைத் தாண்டவோ நீரில் இறங்கவோ வேண்டாம்.',
       en: 'Pykara Falls is a separate visiting area from the lake boat house. Confirm each destination’s entry, timing, transport and opening status independently. Do not cross barriers or enter the water.'
     },
+    tagline: {
+      ta: 'பைக்காரா நீர்வீழ்ச்சி — மலை நீர், படிக்கட்டு அருவி மற்றும் புகைப்படக் காட்சி',
+      en: 'Pykara Falls — mountain water, a stepped cascade and photo views'
+    },
+    facts: [
+      { label: { ta: 'செயல்பாட்டு நேரம்', en: 'Operating hours' }, value: { ta: 'மாறலாம்; அரசிடம் உறுதி செய்யவும்', en: 'Can change; confirm with the authorities' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'மாறலாம்; இயக்குநரிடம் உறுதி செய்யவும்', en: 'Can change; check with the operator' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (பருவமழையில் நீர் நிறைந்தது)', en: 'September–May (full flow in the monsoon)' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'பைக்காரா ஏரிக்கு அருகில், ஊட்டியிலிருந்து சுமார் 21 கி.மீ.', en: 'Near Pykara Lake, about 21 km from Ooty' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியிலிருந்து பைக்காரா சாலை வழி அருவிக்குச் செல்லவும்.', en: 'Take the Ooty–Pykara road to the falls.' },
+      { ta: 'ஏரிச் சாளரத்திற்கு (10:00–16:00) வெளியே நேரத்தைத் திட்டமிடவும்.', en: 'Plan your visit outside the lake window (10:00–16:00).' },
+      { ta: 'பைக்காரா ஏரி படகு இல்லம் மற்றும் அணையையும் ஒரே நாளில் இணைக்கவும்.', en: 'Add the Pykara Lake Boat House and dam on the same day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-falls.jpg',
     imageAlt: {
@@ -916,6 +943,21 @@ export const TOPICS: TopicContent[] = [
       ta: '9-ம் மைல் பைன் காடு என்றும் அழைக்கப்படும் இந்தப் பைன் காடு, ஊட்டி–பைக்காரா சாலையில் அமைந்துள்ளது; உயரமான மரங்களின் கீழ் புகைப்படம் எடுக்க இலவசமான விரைவான நிறுத்தமாகும். செல்வதற்கு முன் அணுகல் மற்றும் நுழைவிடங்களை உள்ளூர் தகவலில் உறுதி செய்யவும்.',
       en: 'The Pine Forest, often called the 9th Mile Pine Forest, sits on the Ooty–Pykara road and is a quick, free stop for photos under tall trees. Confirm access and any entry points with local information before you go.'
     },
+    tagline: {
+      ta: 'பைன் காடு — உயரமான மரங்கள் மற்றும் இலவச புகைப்பட நிறுத்தம்',
+      en: 'Pine Forest — tall trees and a free photo stop'
+    },
+    facts: [
+      { label: { ta: 'திறந்த நேரம்', en: 'Hours' }, value: { ta: 'சாலையோர நிறுத்தம்; நிலையான நேரம் இல்லை, உள்ளூரில் உறுதி செய்யவும்', en: 'Roadside stop; no fixed hours, confirm locally' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'பொதுவாக இலவசம்; உள்ளூரில் உறுதி செய்யவும்', en: 'Usually free; confirm locally' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே', en: 'September–May' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டி–பைக்காரா சாலை, 9-ம் மைல்', en: 'Ooty–Pykara road, 9th Mile' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியிலிருந்து பைக்காரா சாலை வழி 9-ம் மைல் பைன் காட்டிற்குச் செல்லவும்.', en: 'Take the Ooty–Pykara road to the 9th Mile Pine Forest.' },
+      { ta: 'உயரமான மரங்களின் கீழ் புகைப்படம் எடுத்து, அமைதியான நேரத்தைக் கழிக்கவும்.', en: 'Take photos under the tall trees and enjoy a quiet break.' },
+      { ta: 'பிற்பகலில் பைக்காரா ஏரி அல்லது வென்லாக் டவுன்ஸ் நோக்கிச் செல்லவும்.', en: 'Continue toward Pykara Lake or Wenlock Downs later in the day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -1009,6 +1051,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'வென்லாக் டவுன்ஸ் ஊட்டி–பைக்காரா சாலையில் உள்ள அகலமான, உருளும் புற்கள் நிலங்கள்; அமைதியான நடைகளுக்கும் புகைப்படங்களுக்கும் பிரபலமானவை. அணுகலும் பணம் செலுத்தும் புள்ளிகளும் மாறலாம், எனவே பார்வையிட முன் உள்ளூரில் உறுதி செய்யவும்.',
       en: 'Wenlock Downs are wide, rolling grasslands on the Ooty–Pykara road, popular for quiet walks and photos. Access and any paid viewpoints can change, so confirm locally before visiting.'
     },
+    tagline: {
+      ta: 'வென்லாக் டவுன்ஸ் — உருளும் புற்கள் நிலங்கள் மற்றும் நடைப்பாதை',
+      en: 'Wenlock Downs — rolling grasslands and walking trails'
+    },
+    facts: [
+      { label: { ta: 'திறந்த நேரம்', en: 'Hours' }, value: { ta: 'பகல் நேரம்; உள்ளூரில் உறுதி செய்யவும்', en: 'Daylight hours; confirm locally' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'பொதுவாக இலவசம்; சில காட்சிப் புள்ளிகள் கட்டணம் வசூலிக்கலாம்', en: 'Usually free; some viewpoints may charge' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே', en: 'September–May' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டி–பைக்காரா சாலை', en: 'Ooty–Pykara road' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியிலிருந்து பைக்காரா சாலை வழி வென்லாக் டவுன்ஸ் வரை செல்லவும்.', en: 'Take the Ooty–Pykara road to Wenlock Downs.' },
+      { ta: 'புற்கள் நிலங்களில் அமைதியான நடை மேற்கொள்ளவும்.', en: 'Take a quiet walk across the grasslands.' },
+      { ta: 'பைக்காரா ஏரி அல்லது பைன் காட்டை ஒரே நாளில் இணைக்கவும்.', en: 'Combine Pykara Lake or the Pine Forest on the same day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -1090,6 +1147,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'மேல் பவானி (Upper Bhavani) என்பது நீலகிரி வழியாக அடையப்படும் தொலைதூர உயரமான ஏரி; இது பாதுகாக்கப்பட்ட பகுதிகளுக்கு அடிக்கடி கட்டுப்படுத்தப்பட்ட வழியாகும். அணுகல் காட்டுத் துறை அனுமதியைச் சார்ந்தது என்பதால், எந்தப் பார்வைத் திட்டத்தையும் அனுமதிச் சார்ந்ததாகக் கருதி, தற்போதைய விதிகளைக் காட்டுத் துறையுடன் உறுதி செய்யவும்.',
       en: 'Upper Bhawani (Upper Bhavani) is a remote high-altitude lake reached via the Nilgiris through a route that is often restricted to protected areas. Because access requires forest-department permission, treat any visiting plan as permit-dependent and verify current rules with the forest department.'
     },
+    tagline: {
+      ta: 'மேல் பவானி ஏரி — அனுமதி தேவைப்படும் தொலைதூர உயர்நிலை ஏரி',
+      en: 'Upper Bhawani Lake — a remote, permit-dependent high lake'
+    },
+    facts: [
+      { label: { ta: 'திறந்த நேரம்', en: 'Hours' }, value: { ta: 'கட்டுப்படுத்தப்பட்டது; காட்டுத் துறையுடன் உறுதி செய்யவும்', en: 'Controlled; confirm with the forest department' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry / permit' }, value: { ta: 'அனுமதி மற்றும் கட்டணம் மாறலாம்; காட்டுத் துறையுடன் உறுதி செய்யவும்', en: 'Permit and fee can vary; confirm with the forest department' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (பாதுகாக்கப்பட்ட பருவம்)', en: 'September–May (outside the closed season)' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'நீலகிரி வழியாக, மேல் பவானி பாதை', en: 'Via the Nilgiris, Upper Bhavani route' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியில் இருந்து முன்பதிவு / அனுமதியை காட்டுத் துறையிடம் உறுதி செய்யவும்.', en: 'From Ooty, confirm the booking/permit with the forest department in advance.' },
+      { ta: 'மேல் பவானி பாதை வழி ஏரிக்குச் செல்லவும் (அனுமதி இருந்தால் மட்டும்).', en: 'Travel to the lake via the Upper Bhavani route (only if permitted).' },
+      { ta: 'நேரத்தைக் கட்டுப்படுத்தவும்; திரும்பும் பயணத்தை நாள் வெளிச்சத்திற்குள் முடிக்கவும்.', en: 'Keep to permitted timings and finish the return drive before dark.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-falls.jpg',
     imageAlt: {
@@ -1174,6 +1246,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'எமரால்ட் ஏரி ஊட்டிக்கு அருகிலுள்ள சிறிய, கூட்டமின்றிய ஏரி; பைக்காரா ஏரி மற்றும் பைக்காரா நீர்வீழ்ச்சியுடன் அதே அரைநாளில் அடிக்கடி பார்வையிடப்படுகிறது. செல்வதற்கு முன் அணுகல் மற்றும் நுழைவிடங்களை உள்ளூரில் உறுதி செய்யவும்.',
       en: 'Emerald Lake is a small, less-crowded lake near Ooty, often visited on the same half-day as Pykara Lake and Pykara Falls. Confirm access and any entry points locally before you go.'
     },
+    tagline: {
+      ta: 'எமரால்ட் ஏரி — பைக்காரா வழியிலுள்ள அமைதியான ஏரி',
+      en: 'Emerald Lake — a quiet lake off the Pykara route'
+    },
+    facts: [
+      { label: { ta: 'திறந்த நேரம்', en: 'Hours' }, value: { ta: 'பகல் நேரம்; உள்ளூரில் உறுதி செய்யவும்', en: 'Daylight hours; confirm locally' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'பொதுவாக இலவசம்; உள்ளூரில் உறுதி செய்யவும்', en: 'Usually free; confirm locally' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே', en: 'September–May' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டிக்கு அருகில், பைக்காரா வழியில்', en: 'Near Ooty, off the Pykara route' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியிலிருந்து பைக்காரா சாலை வழி எமரால்ட் ஏரிக்குச் செல்லவும்.', en: 'Take the Ooty–Pykara road to Emerald Lake.' },
+      { ta: 'அமைதியான நீரின் ஓரம் நடந்து, புகைப்படம் எடுக்கவும்.', en: 'Walk along the quiet shoreline and take photos.' },
+      { ta: 'பைக்காரா ஏரி / நீர்வீழ்ச்சியை ஒரே அரைநாளில் இணைக்கவும்.', en: 'Combine Pykara Lake / Falls on the same half-day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2047,6 +2134,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'பைக்காரா அணை பைக்காரா ஏரி அமைப்பின் ஒரு பகுதி; இது நீர்த்தேக்கம் மற்றும் நீர்மின் உற்பத்திக்குப் பயன்படுத்தப்படுகிறது. பார்வையாளர் அணுகல் மாறக்கூடியது; உங்கள் பயண நாளில் அதிகாரப்பூர்வ அனுமதியை உறுதி செய்யவும்.',
       en: 'Pykara Dam is part of the Pykara lake system and is used for storage and hydroelectric power. Visitor access can vary; confirm official permission on your travel date.'
     },
+    tagline: {
+      ta: 'பைக்காரா அணை — நீர்த்தேக்கம், மின் உற்பத்தி மற்றும் அமைதியான காட்சிப் புள்ளி',
+      en: 'Pykara Dam — reservoir, hydropower and a quiet viewpoint'
+    },
+    facts: [
+      { label: { ta: 'செயல்பாட்டு நேரம்', en: 'Operating hours' }, value: { ta: 'மாறலாம்; TTDC அல்லது அரசிடம் உறுதி செய்யவும்', en: 'Can change; confirm with TTDC or the authorities' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'மாறலாம்; இயக்குநரிடம் உறுதி செய்யவும்', en: 'Can change; check with the operator' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (பருவமழைக்குப் பிறகு பசுமை)', en: 'September–May (green after the monsoon)' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'பைக்காரா ஏரிக்கு அருகில், ஊட்டியிலிருந்து சுமார் 21 கி.மீ.', en: 'Near Pykara Lake, about 21 km from Ooty' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டி அல்லது பைக்காரா ஏரி படகு இல்லத்திலிருந்து அணைக்குச் சாலை வழி செல்லவும்.', en: 'Drive from Ooty or the Pykara Lake Boat House to the dam.' },
+      { ta: 'அனுமதிக்கப்பட்ட பகுதியிலிருந்து நீர்த்தேக்கத்தையும் பழைய நீர்மின் நிலையத்தையும் பார்க்கவும்.', en: 'View the reservoir and the older hydro station from the permitted area.' },
+      { ta: 'அன்றைய நாளில் பைக்காரா நீர்வீழ்ச்சி மற்றும் படகு இல்லத்தை இணைக்கவும்.', en: 'Combine Pykara Falls and the boat house on the same day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2173,6 +2275,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'காமராஜ் சாகர் அணை (சிலர் சாண்டி நல்லா என்பர்) ஊட்டிக்கு அருகில் உள்ள அமைதியான நீர்த்தேக்கம். படகு மற்றும் புகைப்படங்களுக்குப் பிரபலமானது, ஆனால் நேரம் மாறலாம்; உறுதி செய்யவும்.',
       en: 'Kamaraj Sagar Dam (sometimes called Sandynalla) is a quiet reservoir near Ooty. Popular for boating and photos, but timing can vary; confirm.'
     },
+    tagline: {
+      ta: 'காமராஜ் சாகர் அணை — அமைதியான நீர்த்தேக்கம் மற்றும் படகு',
+      en: 'Kamaraj Sagar Dam — a quiet reservoir and boating spot'
+    },
+    facts: [
+      { label: { ta: 'செயல்பாட்டு நேரம்', en: 'Operating hours' }, value: { ta: 'மாறலாம்; அதிகாரப்பூர்வமாக உறுதி செய்யவும்', en: 'Can change; confirm officially' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'மாறலாம்; இயக்குநரிடம் உறுதி செய்யவும்', en: 'Can change; check with the operator' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே', en: 'September–May' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டிக்கு அருகில்', en: 'Near Ooty' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டியிலிருந்து அணைக்குச் சாலை வழி செல்லவும்.', en: 'Drive from Ooty to the dam.' },
+      { ta: 'நீர்த்தேக்கத்தின் ஓரம் நடந்து, படகு / புகைப்படங்களை அனுபவிக்கவும்.', en: 'Walk along the reservoir and enjoy boating / photos.' },
+      { ta: 'பிற்பகலில் பைக்காரா ஏரி அல்லது ஊட்டி நகரத்திற்குத் திரும்பவும்.', en: 'Return toward Pykara Lake or Ooty town later in the day.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2299,6 +2416,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'டாடபெட்டா ஊட்டியின் மிக உயரமான சிகரம் மற்றும் பிரபலமான காட்சிப் புள்ளி. இது நீலகிரியின் ஒரு பகுதி; நேரம் மற்றும் கட்டணம் மாறலாம், எனவே அதிகாரப்பூர்வ விவரங்களை உறுதி செய்யவும்.',
       en: 'Doddabetta is the highest peak in Ooty and a popular viewpoint. It is part of the Nilgiris; timing and fee can change, so confirm official details.'
     },
+    tagline: {
+      ta: 'டாடபெட்டா சிகரம் — ஊட்டியின் மிக உயரமான காட்சிப் புள்ளி',
+      en: 'Doddabetta Peak — Ooty’s highest viewpoint'
+    },
+    facts: [
+      { label: { ta: 'செயல்பாட்டு நேரம்', en: 'Operating hours' }, value: { ta: 'மாறலாம்; அதிகாரப்பூர்வமாக உறுதி செய்யவும்', en: 'Can change; confirm officially' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'மாறலாம்; இயக்குநரிடம் உறுதி செய்யவும்', en: 'Can change; check with the operator' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (தெளிவான பார்வை)', en: 'September–May (clear views)' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டியிலிருந்து சுமார் 9 கி.மீ.', en: 'About 9 km from Ooty' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டி நகரத்திலிருந்து டாடபெட்டா சாலை வழி செல்லவும்.', en: 'Take the Ooty–Doddabetta road from town.' },
+      { ta: 'உச்சிக் கோபுரத்திலிருந்து பள்ளத்தாக்குகளைப் பார்க்கவும்.', en: 'View the valleys from the peak tower.' },
+      { ta: 'காலை நேரத்தில் மூடுபனியைத் தவிர்க்கச் செல்லவும்.', en: 'Go in the morning to avoid mist.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2362,6 +2494,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'ஊட்டி அரசு தாவரவியல் பூங்கா நீலகிரியின் புகழ்பெற்ற பூங்காக்களில் ஒன்று. நேரம் மற்றும் கட்டணம் மாறலாம், எனவே அதிகாரப்பூர்வ விவரங்களை உறுதி செய்யவும்.',
       en: 'The Ooty Government Botanical Garden is among the famous Nilgiris gardens. Timing and fee can change, so confirm official details.'
     },
+    tagline: {
+      ta: 'ஊட்டி தாவரவியல் பூங்கா — நீலகிரியின் புகழ்பெற்ற பூங்கா',
+      en: 'Ooty Botanical Garden — a famous Nilgiris garden'
+    },
+    facts: [
+      { label: { ta: 'செயல்பாட்டு நேரம்', en: 'Operating hours' }, value: { ta: 'மாறலாம்; அதிகாரப்பூர்வமாக உறுதி செய்யவும்', en: 'Can change; confirm officially' } },
+      { label: { ta: 'நுழைவுக் கட்டணம்', en: 'Entry fee' }, value: { ta: 'மாறலாம்; இயக்குநரிடம் உறுதி செய்யவும்', en: 'Can change; check with the operator' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (பூக்காலம்)', en: 'September–May (blooming season)' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'ஊட்டி நகரம்', en: 'Ooty town' } }
+    ],
+    itinerary: [
+      { ta: 'ஊட்டி நகர மையத்திலிருந்து பூங்காவிற்குச் செல்லவும்.', en: 'Reach the garden from Ooty town centre.' },
+      { ta: 'பூக்காட்சிகள் மற்றும் மரப் பூங்காவைப் பார்வையிடவும்.', en: 'Explore the flower shows and the fossil tree.' },
+      { ta: 'காலை நேரத்தில் கூட்டத்தைத் தவிர்க்கச் செல்லவும்.', en: 'Visit in the morning to avoid crowds.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2425,6 +2572,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'நீலகிரி மலை ரயில் ஊட்டியை மேட்டுப்பாளையம் மற்றும் குன்னூருடன் இணைக்கும் புகழ்பெற்ற பொம்மை ரயில். இது உலகப் பாரம்பரியம்; பயணம் மற்றும் முன்பதிவை அதிகாரப்பூர்வமாக உறுதி செய்யவும்.',
       en: 'The Nilgiri Mountain Railway is the famous toy train linking Ooty with Mettupalayam and Coonoor. It is world heritage; confirm the journey and booking officially.'
     },
+    tagline: {
+      ta: 'நீலகிரி மலை ரயில் — உலகப் பாரம்பரிய பொம்மை ரயில்',
+      en: 'Nilgiri Mountain Railway — a world-heritage toy train'
+    },
+    facts: [
+      { label: { ta: 'சேவை நேரம்', en: 'Service' }, value: { ta: 'பருவநிலை மற்றும் அட்டவணைக்கு உட்பட்டது; அதிகாரப்பூர்வமாக உறுதி செய்யவும்', en: 'Subject to schedule; confirm officially' } },
+      { label: { ta: 'முன்பதிவு', en: 'Booking' }, value: { ta: 'அதிகாரப்பூர்வ இரயில் முன்பதிவு தேவை', en: 'Book via official railway reservations' } },
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே', en: 'September–May' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Route' }, value: { ta: 'மேட்டுப்பாளையம் – ஊட்டி – குன்னூர்', en: 'Mettupalayam – Ooty – Coonoor' } }
+    ],
+    itinerary: [
+      { ta: 'மேட்டுப்பாளையத்திலிருந்து ஊட்டி வரையிலான மலைப் பயணத்தை முன்பதிவு செய்யவும்.', en: 'Reserve the Mettupalayam–Ooty mountain journey in advance.' },
+      { ta: 'காட்சிப் பெட்டியிலிருந்து மலைப் பாதையை அனுபவிக்கவும்.', en: 'Enjoy the hill route from the viewing carriage.' },
+      { ta: 'ஊட்டியில் இறங்கிய பின் பைக்காரா அல்லது நகரப் பயணத்தைத் திட்டமிடவும்.', en: 'After Ooty, plan a Pykara or town trip.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
@@ -2677,6 +2839,21 @@ export const TOPICS: TopicContent[] = [
       ta: 'நீலகிரியில் பல மலை நடைப் பாதைகள் உள்ளன. பைக்காரா அருகில் பைன் காடு மற்றும் வென்லாக் டவுன்ஸ் போன்ற தட்டையான பகுதிகள் நடைக்கு ஏற்றது. அனுமதி மற்றும் வழிகாட்டியை உறுதி செய்யவும்.',
       en: 'The Nilgiris have many hilly trails. Near Pykara, pine forest and Wenlock Downs offer flatter walking. Confirm permission and a guide.'
     },
+    tagline: {
+      ta: 'நீலகிரி நடைப்பயணப் பாதைகள் — பைக்காரா அருகே நடை மற்றும் மலைப் பயணம்',
+      en: 'Nilgiris trekking trails — walks and hikes near Pykara'
+    },
+    facts: [
+      { label: { ta: 'சிறந்த காலம்', en: 'Best time' }, value: { ta: 'செப்டம்பர்–மே (பருவமழைக்குப் பிறகு)', en: 'September–May (after the monsoon)' } },
+      { label: { ta: 'நிலை', en: 'Terrain' }, value: { ta: 'மலைப்பகுதி; சில தட்டையான பகுதிகள்', en: 'Hilly terrain; some flat sections' } },
+      { label: { ta: 'அனுமதி', en: 'Permit' }, value: { ta: 'பாதுகாக்கப்பட்ட பகுதிகளில் காட்டுத் துறை அனுமதி தேவை', en: 'Forest-department permit needed in protected areas' } },
+      { label: { ta: 'இருப்பிடம்', en: 'Location' }, value: { ta: 'பைக்காரா மற்றும் ஊட்டி சுற்றுப்புறங்கள்', en: 'Around Pykara and Ooty' } }
+    ],
+    itinerary: [
+      { ta: 'பைக்காரா அருகே உள்ள பைன் காடு / வென்லாக் டவுன்ஸ் போன்ற தட்டையான பகுதியில் இருந்து தொடங்கவும்.', en: 'Start on a flat stretch like the Pine Forest / Wenlock Downs near Pykara.' },
+      { ta: 'நடைக்கு ஏற்ற நேரம் மற்றும் நீரைக் கொண்டு செல்லவும்.', en: 'Pick a good time and carry water.' },
+      { ta: 'பாதுகாக்கப்பட்ட பாதைகளில் காட்டுத் துறை அனுமதி / வழிகாட்டியை உறுதி செய்யவும்.', en: 'In protected trails, confirm forest-department permission / a guide.' }
+    ],
     updated: '6 November 2026',
     image: '/images/pykara-lake.jpg',
     imageAlt: {
