@@ -4,6 +4,7 @@ import { ATTRACTION, ratingText, reviewCountText, ratingPercent, googleReviewAtt
 import { getTopic, type TopicContent } from '../data/topics';
 import { PLACE_GUIDES } from '../data/placeGuides';
 import { PLACE_GUIDES_TA } from '../data/placeGuidesTa';
+import { PLACE_STORIES } from '../data/placeStories';
 
 interface Props {
   topic: TopicContent;
@@ -14,6 +15,7 @@ const url = (path = '/') => new URL(path, site).toString();
 const selfUrl = url(`/${topic.slug}/`);
 const place = PLACE_GUIDES[topic.slug];
 const placeTa = PLACE_GUIDES_TA[topic.slug];
+const story = PLACE_STORIES[topic.slug];
 const displayImage = place?.photo ?? topic.image;
 const locationUrl = place ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(topic.h1.en + ', Nilgiris, Tamil Nadu')}` : ATTRACTION.mapsListingUrl;
 
@@ -84,7 +86,7 @@ const faqSchema = {
           </p>
         )}
         <p class="prose-copy mt-5 max-w-3xl text-white/80"><span class="ta-only">{topic.lead.ta}</span><span class="en-only">{topic.lead.en}</span></p>
-        {place && <p class="mt-4 text-sm text-white/70"><span class="ta-only">திறப்பு நேரம் மற்றும் கட்டணம்: பயணத்திற்கு முன் உறுதி செய்யவும்</span><span class="en-only">Hours & tickets: verify locally before visiting</span> · <span class="ta-only">இந்த இடத்தின் மதிப்பீடு சரிபார்க்கப்படவில்லை</span><span class="en-only">Place-specific rating not verified</span></p>}
+        {place && <div class="mt-5 flex flex-wrap gap-3 text-sm"><a class="pill border border-white/25 hover:bg-white/10" href={locationUrl} target="_blank" rel="noopener noreferrer"><span class="ta-only">★ பயணிகள் மதிப்புரைகள் ↗</span><span class="en-only">★ Visitor reviews ↗</span></a><a class="pill border border-white/25 hover:bg-white/10" href="#hours-tickets-transport"><span class="ta-only">நேரம் மற்றும் கட்டணம் ↓</span><span class="en-only">Hours & tickets ↓</span></a></div>}
         <div class="mt-6 flex flex-wrap items-center gap-3">
           <a class="btn-primary" href={locationUrl} target="_blank" rel="noopener noreferrer">
             <span class="ta-only">Google Maps-இல் பார்க்க ↗</span><span class="en-only">View on Google Maps ↗</span>
@@ -94,6 +96,8 @@ const faqSchema = {
       </div>
     </section>
 
+    {story && <section class="section" id="explore-place"><div class="container-shell grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]"><div><p class="eyebrow"><span class="ta-only">இந்த இடத்தை அறியுங்கள்</span><span class="en-only">Explore the destination</span></p><h2 class="section-title mt-3"><span class="ta-only">{topic.h1.ta} – கண்டறியுங்கள்</span><span class="en-only">Discover {topic.h1.en}</span></h2><p class="prose-copy mt-6"><span class="ta-only">{story.taIntro}</span><span class="en-only">{story.intro}</span></p><p class="prose-copy mt-5"><span class="ta-only">{placeTa?.[3]}</span><span class="en-only">{place?.experience}</span></p></div><figure class="overflow-hidden rounded-[2rem] shadow-xl"><img src={displayImage} alt={topic.h1.en} class="aspect-[5/4] w-full object-cover" loading="eager" width="1280" height="960" /><figcaption class="bg-[#153b31] px-4 py-2 text-xs text-white/80">{place?.credit}</figcaption></figure></div></section>}
+
     {place && <section class="section bg-[#f7f2e7]" id="visit-advice">
       <div class="container-shell grid gap-8 lg:grid-cols-2">
         <div><p class="eyebrow">Visit planning</p><h2 class="section-title mt-3 text-[clamp(1.5rem,3vw,2.2rem)]"><span class="ta-only">பயண ஆலோசனைகள்</span><span class="en-only">Visit tips</span></h2><p class="prose-copy mt-4"><span class="ta-only">{placeTa?.[0]}</span><span class="en-only">{place.tip}</span></p></div>
@@ -102,7 +106,7 @@ const faqSchema = {
     </section>}
 
     {/* 探索 / 引言 + 现有叙事区块（景区特色 / 关于 / 开放时间 / 门票 / 交通 / 发现魅力 / 游览须知 / 拍照 / 住宿） */}
-    <section class="section">
+    {!place && <section class="section">
       <div class="container-shell grid gap-10 lg:grid-cols-[1.1fr_.9fr]">
         <div>
           {topic.sections.map((s, i) => (
@@ -115,18 +119,12 @@ const faqSchema = {
           ))}
         </div>
         <figure class="relative overflow-hidden rounded-[2.3rem] shadow-2xl self-start">
-          <img src={displayImage} alt={place ? `${topic.h1.en} — place-specific or clearly identified regional photograph` : topic.imageAlt.en} class="aspect-[4/5] w-full object-cover" width="1600" height="1200" loading="lazy" />
-          {place && <figcaption class="bg-[#153b31] px-5 py-3 text-xs text-white/80">Photo: {place.credit}</figcaption>}
+          <img src={displayImage} alt={topic.imageAlt.en} class="aspect-[4/5] w-full object-cover" width="1600" height="1200" loading="lazy" />
         </figure>
       </div>
-    </section>
-
-    {place && <section class="section" id="discover-place">
-      <div class="container-shell grid gap-8 lg:grid-cols-2">
-        <div><p class="eyebrow">About & character</p><h2 class="section-title mt-3 text-[clamp(1.5rem,3vw,2.2rem)]"><span class="ta-only">இடத்தின் பின்னணி</span><span class="en-only">History, nature & character</span></h2><p class="prose-copy mt-4"><span class="ta-only">{placeTa?.[2]}</span><span class="en-only">{place.about}</span></p><h3 class="mt-7 text-xl font-bold"><span class="ta-only">அனுபவம்</span><span class="en-only">What to experience</span></h3><p class="prose-copy mt-3"><span class="ta-only">{placeTa?.[3]}</span><span class="en-only">{place.experience}</span></p></div>
-        <div class="card p-7"><h2 class="text-2xl font-bold"><span class="ta-only">கவனிக்க வேண்டியவை</span><span class="en-only">Visitor essentials</span></h2><p class="prose-copy mt-4"><span class="ta-only">{placeTa?.[4]}</span><span class="en-only">{place.caution}</span></p><h3 class="mt-7 text-xl font-bold"><span class="ta-only">புகைப்படக் குறிப்புகள்</span><span class="en-only">Photo viewpoints</span></h3><p class="prose-copy mt-3"><span class="ta-only">{placeTa?.[5]}</span><span class="en-only">{place.photoTip}</span></p><h3 class="mt-7 text-xl font-bold"><span class="ta-only">தங்குமிடம்</span><span class="en-only">Where to stay</span></h3><p class="prose-copy mt-3"><span class="ta-only">{placeTa?.[6]}</span><span class="en-only">{place.stay}</span></p></div>
-      </div>
     </section>}
+
+    {story && <section class="section" id="about-place"><div class="container-shell max-w-4xl"><p class="eyebrow"><span class="ta-only">இந்த இடத்தைப் பற்றி</span><span class="en-only">About the attraction</span></p><h2 class="section-title mt-3"><span class="ta-only">{topic.h1.ta} – வரலாறும் பின்னணியும்</span><span class="en-only">About {topic.h1.en}</span></h2><p class="prose-copy mt-6"><span class="ta-only">{story.taHistory}</span><span class="en-only">{story.history}</span></p><p class="prose-copy mt-5"><span class="ta-only">{placeTa?.[2]}</span><span class="en-only">{place?.about}</span></p></div></section>}
 
     {/* 基础信息表 */}
     {topic.facts && topic.facts.length > 0 && (
@@ -148,11 +146,13 @@ const faqSchema = {
 
     {place && <section class="section bg-[#edf2ed]" id="hours-tickets-transport">
       <div class="container-shell grid gap-5 md:grid-cols-3">
-        <article class="card p-6"><h2 class="text-xl font-bold"><span class="ta-only">திறப்பு நேரம்</span><span class="en-only">Opening hours</span></h2><p class="prose-copy mt-3"><span class="ta-only">நேரம் இடம், பருவம் மற்றும் பாதுகாப்பு விதிகளைப் பொறுத்து மாறலாம். பயண நாளில் அதிகாரப்பூர்வ நிர்வாகியிடம் உறுதி செய்யவும்.</span><span class="en-only">Access hours may vary by site, season and safety restrictions. Confirm with the responsible local authority for your date.</span></p></article>
-        <article class="card p-6"><h2 class="text-xl font-bold"><span class="ta-only">நுழைவுக் கட்டணம்</span><span class="en-only">Ticket prices</span></h2><p class="prose-copy mt-3"><span class="ta-only">நடப்பு கட்டணம் தனியாகச் சரிபார்க்கப்படவில்லை. நுழைவு, வாகன நிறுத்தம், வழிகாட்டி மற்றும் முன்பதிவு கட்டணங்களை நேரடியாகக் கேட்கவும்.</span><span class="en-only">No current attraction-specific fare is verified here. Check entry, parking, guide and reservation charges separately.</span></p></article>
-        <article class="card p-6"><h2 class="text-xl font-bold"><span class="ta-only">போக்குவரத்து</span><span class="en-only">Transport options</span></h2><p class="prose-copy mt-3"><span class="ta-only">ஊட்டியிலிருந்து செல்லும் சாலை, உள்ளூர் வாகனம் அல்லது பொதுப் போக்குவரத்து வசதிகளை இடத்துக்கேற்ப சரிபார்க்கவும். சில பகுதிகளுக்கு வன அனுமதி தேவைப்படலாம்.</span><span class="en-only">Check the specific route from Ooty and whether a local vehicle, public transport or permit is needed. Some remote areas have restricted access.</span></p></article>
+        <article class="card p-6"><p class="eyebrow"><span class="ta-only">பயண நேரம்</span><span class="en-only">Plan your visit</span></p><h2 class="mt-2 text-xl font-bold"><span class="ta-only">திறப்பு நேரம்</span><span class="en-only">Opening hours</span></h2><p class="prose-copy mt-3"><span class="ta-only">இடம் மற்றும் பருவத்தைப் பொறுத்து நுழைவு நேரம் மாறலாம். அன்றைய நுழைவு நேரத்தை வரைபடப் பட்டியல் அல்லது உள்ளூர் அறிவிப்பில் பார்க்கவும்.</span><span class="en-only">Visiting windows vary by location and season. See the attraction’s map listing or entrance notice when planning your day.</span></p><a class="mt-4 inline-block font-bold text-[#183f33] underline" href={locationUrl} target="_blank" rel="noopener noreferrer"><span class="ta-only">இடத்தைப் பார்க்க ↗</span><span class="en-only">View location ↗</span></a></article>
+        <article class="card p-6"><p class="eyebrow"><span class="ta-only">செலவுகள்</span><span class="en-only">Admission</span></p><h2 class="mt-2 text-xl font-bold"><span class="ta-only">நுழைவுக் கட்டணம்</span><span class="en-only">Ticket prices</span></h2><p class="prose-copy mt-3"><span class="ta-only">நுழைவு, வாகன நிறுத்தம், வழிகாட்டி அல்லது பயண முன்பதிவு ஆகியவை இடத்துக்கு ஏற்ப வேறுபடும். பயணத்திற்கு முன் பொருந்தும் கட்டண வகையைத் தேர்வு செய்யவும்.</span><span class="en-only">Entry, parking, guided visits and advance bookings are separate considerations. Choose the services relevant to your itinerary and check the posted rates.</span></p></article>
+        <article class="card p-6"><p class="eyebrow"><span class="ta-only">செல்லும் வழி</span><span class="en-only">Getting there</span></p><h2 class="mt-2 text-xl font-bold"><span class="ta-only">போக்குவரத்து</span><span class="en-only">Transport options</span></h2><p class="prose-copy mt-3"><span class="ta-only">ஊட்டியிலிருந்து சாலை வழி, உள்ளூர் வாகனம் அல்லது கிடைக்கும் பொதுப் போக்குவரத்தைப் பயன்படுத்தலாம். தொலைதூர வனப் பகுதிகளில் முன் அனுமதி தேவைப்படலாம்.</span><span class="en-only">Travel from Ooty by the suitable road route, local vehicle or available public transport. Remote forest areas may require an arranged excursion or access permit.</span></p></article>
       </div>
     </section>}
+
+    {story && <section class="section" id="discover-place"><div class="container-shell"><p class="eyebrow"><span class="ta-only">இடத்தின் சிறப்பு</span><span class="en-only">Discover the appeal</span></p><h2 class="section-title mt-3"><span class="ta-only">இயற்கை, நில அமைப்பு மற்றும் அனுபவம்</span><span class="en-only">Landscape, heritage & core experiences</span></h2><div class="mt-8 grid gap-10 lg:grid-cols-[.9fr_1.1fr]"><div class="rounded-[2rem] bg-[#f7f2e7] p-7"><h3 class="text-2xl font-bold"><span class="ta-only">இயற்கைக் காட்சி</span><span class="en-only">Nature & landscape</span></h3><p class="prose-copy mt-4"><span class="ta-only">{story.taLandscape}</span><span class="en-only">{story.landscape}</span></p><h3 class="mt-7 text-2xl font-bold"><span class="ta-only">முக்கிய அனுபவம்</span><span class="en-only">Signature experience</span></h3><p class="prose-copy mt-4"><span class="ta-only">{story.taVisit}</span><span class="en-only">{story.visit}</span></p></div><div class="space-y-7">{topic.sections.map((s)=><article><h3 class="text-xl font-extrabold"><span class="ta-only">{s.heading.ta}</span><span class="en-only">{s.heading.en}</span></h3><p class="prose-copy mt-3"><span class="ta-only">{s.body.ta}</span><span class="en-only">{s.body.en}</span></p></article>)}</div></div></div></section>}
 
     {/* 游览路线（编号步骤） */}
     {topic.itinerary && topic.itinerary.length > 0 && (
@@ -172,13 +172,15 @@ const faqSchema = {
       </section>
     )}
 
+    {place && <section class="section bg-[#f7f2e7]" id="visitor-tips"><div class="container-shell"><div class="grid gap-6 lg:grid-cols-3"><article class="card p-7"><p class="eyebrow"><span class="ta-only">புறப்படுவதற்கு முன்</span><span class="en-only">Before you go</span></p><h2 class="mt-3 text-2xl font-bold"><span class="ta-only">பயண அறிவுறுத்தல்கள்</span><span class="en-only">Visitor essentials</span></h2><p class="prose-copy mt-5"><span class="ta-only">{placeTa?.[4]}</span><span class="en-only">{place.caution}</span></p><p class="prose-copy mt-4"><span class="ta-only">{placeTa?.[7]}</span><span class="en-only">{place.tip}</span></p></article><article class="card p-7"><p class="eyebrow"><span class="ta-only">படப்பிடிப்பு</span><span class="en-only">Photography</span></p><h2 class="mt-3 text-2xl font-bold"><span class="ta-only">புகைப்பட இடங்கள்</span><span class="en-only">Best photo angles</span></h2><p class="prose-copy mt-5"><span class="ta-only">{placeTa?.[5]}</span><span class="en-only">{place.photoTip}</span></p><p class="prose-copy mt-4"><span class="ta-only">{story?.taLandscape}</span><span class="en-only">{story?.landscape}</span></p></article><article class="card p-7"><p class="eyebrow"><span class="ta-only">சுற்றுலா தளம்</span><span class="en-only">Travel base</span></p><h2 class="mt-3 text-2xl font-bold"><span class="ta-only">தங்குமிட ஆலோசனை</span><span class="en-only">Where to stay</span></h2><p class="prose-copy mt-5"><span class="ta-only">{placeTa?.[6]}</span><span class="en-only">{place.stay}</span></p><p class="prose-copy mt-4"><span class="ta-only">பயண வழியைப் பொறுத்து ஊட்டி மற்றும் அருகிலுள்ள நகரங்களில் தங்குமிடத்தைத் தேர்வு செய்யலாம்.</span><span class="en-only">Choose accommodation around your route and travel pace; Ooty is a convenient base for many of these destinations.</span></p></article></div></div></section>}
+
     {/* 游客评价（区域 Google Maps 评分快照，不作伪原创） */}
     <section id="reviews" class="section bg-[#153b31] text-white">
       <div class="container-shell grid gap-10 lg:grid-cols-[.4fr_.6fr]">
         <div>
           <p class="eyebrow eyebrow-light"><span class="ta-only">பார்வையாளர் மதிப்பீடு</span><span class="en-only">Visitor rating</span></p>
           <h2 class="section-title mt-3"><span class="ta-only">{place ? 'இந்த இடத்தின் பயணிகள் கருத்துகள்' : 'பைக்காரா பகுதி மதிப்பீடு'}</span><span class="en-only">{place ? 'Visitor reviews for this place' : 'Pykara area rating'}</span></h2>
-          {place ? <p class="prose-copy mt-5 text-white/80"><span class="ta-only">இந்த இடத்திற்கான மதிப்பீடும் விமர்சன எண்ணிக்கையும் தனியாகச் சரிபார்க்கப்படவில்லை. அண்மைய பயணிகள் கருத்துகளையும் சரியான இடத்தையும் Google Maps-இல் பார்க்கவும்.</span><span class="en-only">Ratings and review counts for this individual attraction have not been independently verified. Open its map listing to see recent visitor feedback and check the listing identity.</span></p> : <>
+          {place ? <p class="prose-copy mt-5 text-white/80"><span class="ta-only">மற்ற பயணிகளின் அண்மைய அனுபவங்கள், புகைப்படங்கள் மற்றும் பயணக் குறிப்புகளை Google Maps-இல் பாருங்கள். பருவம் மற்றும் வானிலைக்கு ஏற்ப அனுபவம் மாறும்.</span><span class="en-only">Read recent visitor impressions, browse real trip photos and compare tips for different seasons on Google Maps. The experience can change with weather, access and time of day.</span></p> : <>
           <div class="mt-4 flex items-end gap-4">
             <strong class="font-serif text-6xl font-semibold leading-none">{ratingText}</strong>
             <div class="pb-1">
@@ -192,14 +194,14 @@ const faqSchema = {
           <a class="btn-primary btn-google mt-6 w-full" href={locationUrl} target="_blank" rel="noopener noreferrer">
             <span class="ta-only">{googleReviewAttribution.ctaTa} ↗</span><span class="en-only">{googleReviewAttribution.ctaEn} ↗</span>
           </a>
-          <p class="mt-3 text-xs leading-5 text-white/60">
+          {!place && <p class="mt-3 text-xs leading-5 text-white/60">
             <span class="ta-only">{googleReviewAttribution.inlineTa}</span><span class="en-only">{googleReviewAttribution.inlineEn}</span>
-          </p>
+          </p>}
         </div>
         <div class="card p-7 text-[#3d514b]">
           <p class="eyebrow"><span class="ta-only">மதிப்புரை மூலம்</span><span class="en-only">Review source</span></p>
-          <p class="prose-copy mt-4 text-sm">{place ? <><span class="ta-only">இந்த இடத்தின் தனிப்பட்ட விமர்சனங்களுக்கான உறுதிப்படுத்தப்பட்ட தரவு இல்லை. இணைக்கப்பட்ட வரைபடப் பட்டியலின் பெயர் மற்றும் அண்மைய கருத்துகளை நேரடியாகச் சரிபார்க்கவும்.</span><span class="en-only">No verified review snapshot is available for this particular attraction. Check the linked map result and its recent visitor feedback directly.</span></> : <><span class="ta-only">{googleReviewAttribution.blockTa}</span><span class="en-only">{googleReviewAttribution.blockEn}</span></>}</p>
-          <p class="mt-4 text-xs leading-5 text-[#65756f]">Google Maps™ and Google™ are trademarks of Google LLC. This independent guide is not affiliated with, endorsed by or sponsored by Google.</p>
+          <p class="prose-copy mt-4 text-sm">{place ? <><span class="ta-only">புகைப்படங்களில் காணும் நிலப்பரப்பு, நடைபாதை நிலை, கூட்டம் மற்றும் போக்குவரத்து அனுபவங்களை ஒப்பிட்டுப் பாருங்கள். உங்கள் பயணத்திற்கான சிறந்த நேரத்தையும் வழியையும் தீர்மானிக்க இது உதவும்.</span><span class="en-only">Look at recent photos of the landscape, paths and visitor facilities. Compare comments about crowds, road approaches and visibility to shape a more comfortable visit.</span></> : <><span class="ta-only">{googleReviewAttribution.blockTa}</span><span class="en-only">{googleReviewAttribution.blockEn}</span></>}</p>
+          {!place && <p class="mt-4 text-xs leading-5 text-[#65756f]">Google Maps™ and Google™ are trademarks of Google LLC. This independent guide is not affiliated with, endorsed by or sponsored by Google.</p>}
         </div>
       </div>
     </section>
@@ -210,12 +212,12 @@ const faqSchema = {
         <div>
           <p class="eyebrow"><span class="ta-only">போக்குவரத்து வழிகாட்டி</span><span class="en-only">Getting here</span></p>
           <h2 class="section-title mt-3 text-[clamp(1.6rem,3vw,2.4rem)]"><span class="ta-only">முகவரி மற்றும் வரைபடம்</span><span class="en-only">Address &amp; map</span></h2>
-          {place ? <><p class="prose-copy mt-5"><span class="ta-only">{topic.h1.ta}, நீலகிரி மாவட்டம், தமிழ்நாடு, இந்தியா. சரியான நுழைவிடம் அல்லது நடைபாதைத் தொடக்கத்தை வரைபடத்தில் உறுதி செய்யவும்; தனி தெரு முகவரி சரிபார்க்கப்படவில்லை.</span><span class="en-only">{topic.h1.en}, Nilgiris district, Tamil Nadu, India. Confirm the precise entrance or trailhead from the relevant map result; no street address has been independently verified.</span></p><p class="prose-copy mt-4 text-sm"><span class="ta-only">பயண நேரமும் சாலை அணுகலும் இடம் மற்றும் வானிலையைப் பொறுத்து மாறும். பைக்காரா ஏரியின் முகவரி எல்லா இடங்களுக்கும் பொருந்தாது.</span><span class="en-only">Travel time and road access vary by attraction and weather. The main Pykara Lake address and distance do not apply to every nearby stop.</span></p></> : <><p class="prose-copy mt-5"><span class="ta-only">முகவரி: {ATTRACTION.fullName}, {ATTRACTION.streetAddress}, {ATTRACTION.city}, {ATTRACTION.stateProvince}.</span><span class="en-only">Address: {ATTRACTION.fullName}, {ATTRACTION.streetAddress}, {ATTRACTION.city}, {ATTRACTION.stateProvince}.</span></p><p class="prose-copy mt-4 text-sm"><span class="ta-only">{ATTRACTION.distanceFromOoty}.</span><span class="en-only">{ATTRACTION.distanceFromOoty}.</span></p></>}
+          {place ? <><p class="prose-copy mt-5"><span class="ta-only">{topic.h1.ta}, நீலகிரி மாவட்டம், தமிழ்நாடு, இந்தியா.</span><span class="en-only">{topic.h1.en}, Nilgiris district, Tamil Nadu, India.</span></p><p class="prose-copy mt-4 text-sm"><span class="ta-only">பயணத்திற்கு முன் வரைபடத்தில் நுழைவிடம், சாலை வழி மற்றும் அருகிலுள்ள நிறுத்துமிடங்களைப் பாருங்கள்.</span><span class="en-only">Open the place listing for the approach road, entrance area and nearby stopping points before setting out.</span></p></> : <><p class="prose-copy mt-5"><span class="ta-only">முகவரி: {ATTRACTION.fullName}, {ATTRACTION.streetAddress}, {ATTRACTION.city}, {ATTRACTION.stateProvince}.</span><span class="en-only">Address: {ATTRACTION.fullName}, {ATTRACTION.streetAddress}, {ATTRACTION.city}, {ATTRACTION.stateProvince}.</span></p><p class="prose-copy mt-4 text-sm"><span class="ta-only">{ATTRACTION.distanceFromOoty}.</span><span class="en-only">{ATTRACTION.distanceFromOoty}.</span></p></>}
           <a class="btn-primary mt-6" href={locationUrl} target="_blank" rel="noopener noreferrer">
             <span class="ta-only">Google Maps இல் திற ↗</span><span class="en-only">Open in Google Maps ↗</span>
           </a>
         </div>
-        {place ? <div class="overflow-hidden rounded-[2rem] border border-black/10 bg-[#dce8dc] p-8 shadow-xl"><h3 class="text-xl font-bold"><span class="ta-only">{topic.h1.ta}</span><span class="en-only">{topic.h1.en}</span></h3><p class="mt-4 text-[#3d514b]"><span class="ta-only">சரியான நுழைவிடத்தையும் தற்போதைய அணுகல் வழியையும் Google Maps-இல் சரிபார்க்கவும். பைக்காரா ஏரிக்கான வரைபடம் இந்த இடத்திற்கானது அல்ல.</span><span class="en-only">Find the exact entrance and current approach on Google Maps. The main Pykara Lake map is not a map of this attraction.</span></p><a class="btn-primary mt-6 inline-block" href={locationUrl} target="_blank" rel="noopener noreferrer"><span class="ta-only">வரைபடத்தில் பார்க்க ↗</span><span class="en-only">View this place on Google Maps ↗</span></a></div> : <div class="overflow-hidden rounded-[2rem] border border-black/10 shadow-xl">
+        {place ? <div class="overflow-hidden rounded-[2rem] border border-black/10 bg-[#dce8dc] p-8 shadow-xl"><h3 class="text-xl font-bold"><span class="ta-only">{topic.h1.ta}</span><span class="en-only">{topic.h1.en}</span></h3><p class="mt-4 text-[#3d514b]"><span class="ta-only">ஊட்டியிலிருந்து இந்த இடத்திற்கான பயண வழியைத் திட்டமிடுங்கள். வழியில் பிற நீலகிரி சுற்றுலா இடங்களையும் இணைக்கலாம்.</span><span class="en-only">Plan your route from Ooty and save the place on your map. Nearby Nilgiri stops can be combined into a relaxed excursion.</span></p><a class="btn-primary mt-6 inline-block" href={locationUrl} target="_blank" rel="noopener noreferrer"><span class="ta-only">வரைபடத்தில் பார்க்க ↗</span><span class="en-only">View this place on Google Maps ↗</span></a></div> : <div class="overflow-hidden rounded-[2rem] border border-black/10 shadow-xl">
           <iframe
             title="Google Maps"
             class="h-80 w-full"
