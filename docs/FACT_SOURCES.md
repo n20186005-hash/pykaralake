@@ -16,8 +16,8 @@ Primary planning references used for this project:
 
 - Source of the displayed rating/review count: the Google Maps listing **Pykara Lake Boat House**
   (`FH3W+WXP, Pykara, Naduvattam, Tamil Nadu 643237, India`), user reviews.
-- Synced value: **4.4 / 5** from **15,818** reviews.
-- Sync month: **September 2026**.
+- Synced value: **4.4 / 5** from **15,922** reviews.
+- Sync month: **November 2026**.
 - The numbers are a snapshot. They are shown on the page with attribution to Google Maps user
   reviews and a link to the live listing, and they are deliberately **excluded from JSON-LD**
   (no `aggregateRating`, no `review`), so no rating rich result is built from copied review data.

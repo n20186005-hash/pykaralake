@@ -21,7 +21,7 @@
    Landmarks & Attractions Around / History & Significance）、首段等位声明、
    可见面包屑链、周边地标集群；所有图片 `alt` 改为「全称 + 城市 + 国家」语义串。
 5. **评分与评价同步（重点合规项）**
-   - 最新值：**4.4 分 / 15,818 条**，同步时间 **2026 年 9 月**。
+   - 最新值：**4.4 分 / 15,922 条**，同步时间 **2026 年 11 月**。
    - 展示位置三处：hero 评分条（`RatingChip.astro`）、评价区块（`ReviewsSection.astro`）、
      资料来源区块（`SourcesSection.astro` 第 4 行）。
    - 评分条下一行小字：`Rating and review count synced from Google Maps user reviews ·

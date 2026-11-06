@@ -53,7 +53,7 @@
 
 | 需求 | 落地位置 |
 | --- | --- |
-| 评分与评价数同步为最新（4.4 · 15,818） | `src/data/attraction.ts` → `googleRating: 4.4`、`googleReviewCount: 15818` |
+| 评分与评价数同步为最新（4.4 · 15,922） | `src/data/attraction.ts` → `googleRating: 4.4`、`googleReviewCount: 15922` |
 | 评分 + 下一行小字（来源 / 同步时间 / 跳转全部评价） | `src/components/RatingChip.astro`（hero 与评分卡共用） |
 | 评价区块：来源说明 + 「查看全部评价」按钮 | `src/components/ReviewsSection.astro` |
 | 资料来源区块：评价 · 同步时间 2026 年 9 月 + 同样来源说明与链接 | `src/components/SourcesSection.astro` 第 4 行 |

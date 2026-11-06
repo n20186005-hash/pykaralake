@@ -11,8 +11,8 @@ import { ATTRACTION } from '../data/attraction';
  * 覆盖高意图英文查询：pykara lake boat house / boating in ooty /
  * pykara waterfalls / timings / ticket price / how to reach from Ooty
  * ------------------------------------------------------------------ */
-const title = "Pykara Lake Boat House, Ooty | Timings & Boating Ticket Checks";
-const description = "Pykara Lake Boat House near Ooty: where to check current boating prices and hours, Google Maps, access questions and Pykara Falls as a separate visit.";
+const title = "Pykara Lake Boat House, Ooty – Timings, Tickets & 2026 Rules";
+const description = "Plan your visit to Pykara Lake Boat House near Ooty. Check the updated 2026 boating restrictions, visitor hours, ticket information, directions and nearby attractions.";
 
 const site = Astro.site ?? new URL(ATTRACTION.siteUrl);
 const url = (path = '/') => new URL(path, site).toString();
@@ -73,13 +73,15 @@ const faqsTa: Array<[string,string]> = [
  ['பைக்காரா ஏரியும் நீர்வீழ்ச்சியும் ஒரே இடமா?','இல்லை. ஏரி படகு இல்லமும் பைக்காரா நீர்வீழ்ச்சி பார்வைப் பகுதியும் தனித்தனி இடங்கள். இரண்டின் நுழைவு, நேரம், போக்குவரத்து மற்றும் திறந்த நிலையைத் தனித்தனியாக உறுதி செய்யவும். தடைகளைத் தாண்டவோ நீரில் இறங்கவோ வேண்டாம்.'],
  ['படகு தினமும் கிடைக்குமா?','குறிப்பிட்ட தேதியில் படகு அல்லது வேகப்படகு கிடைப்பதை இத்தளம் உறுதி செய்யாது. TTDC-யிடம் இருக்கைகள், படகு வகை, பாதுகாப்பு உபகரணங்கள் மற்றும் வானிலை ரத்து/திருப்பித் தரும் விதிகளைச் சரிபார்க்கவும்.'],
  ['ஊட்டியிலிருந்து எப்படி செல்லலாம்?','நீலகிரி மாவட்ட சுற்றுலாப் பக்கம் ஏரியை ஊட்டியிலிருந்து சுமார் 21 கி.மீ., ஊட்டி–மைசூர் சாலையில் குறிப்பிடுகிறது. அது துல்லியமான பயண நேரமல்ல. உங்கள் தொடக்க இடத்திலிருந்து பாதை, சரியான படகு இல்ல நுழைவு மற்றும் திரும்பும் போக்குவரத்தை உறுதி செய்யவும்.'],
+  ['2026 பைக்காரா ஏரி நீதிமன்ற உத்தரவில் என்ன மாற்றம்?','2026 அக்டோபர் 30 அன்று சென்னை உயர் நீதிமன்ற உத்தரவு சில கட்டுப்பாடுகளை நிலையானவையாக்கியது: பெட்ரோல்/டீசல் மோட்டார் படகுகள், வேகப்படகுகள் மற்றும் ஜெட் ஸ்கிக்கள் தடைசெய்யப்பட்டன; பார்வையாளர் நேரம் 10:00–16:00; தினசரி வருகை வரம்புகள், மேலாண்மை முன்பதிவு மற்றும் கட்டுப்படுத்தப்பட்ட படகு இயக்கம் பொருந்தும். படகு வலிக்கும், மிதவைப் படகும் மற்றும் குறைந்த திறன் மின்சாரப் படகுகள் நிபந்தனைகளின் கீழ் அனுமதிக்கப்படலாம். இந்த உத்தரவு அனைத்துப் படகு வகைகளுக்கும் டிக்கெட் விற்பனை நடப்பதை உறுதி செய்யாது — இயக்க நிலை, கட்டணம் மற்றும் முன்பதிவு வழியை TTDC-யிடம் உறுதி செய்யவும். அடுத்த நீதிமன்ற முன்னேற்ற அறிக்கை 2026 டிசம்பர் 4 அன்று திட்டமிடப்பட்டுள்ளது.'],
 ];
 const faqsEn: Array<[string,string]> = [
- ['What are the Pykara Lake Boat House timings?','A current official recurring timetable has not been verified here. Google Maps showed closing at 17:30 in the 29 October 2026 snapshot, not confirmation of daily operator hours. Ask TTDC about ticket sales, the last sailing and operation for your date.'],
- ['What is the Pykara boating ticket price?','No current fare table has been verified for this guide. Use the official TTDC booking portal, select Pykara, your date and boat type, and read the final quoted price and availability. Ask whether admission, vehicle charges, taxes or other fees are separate; do not apply a fare from Ooty Boat House to Pykara.'],
+ ['What are the Pykara Lake Boat House timings?','On 30 October 2026 the Madras High Court set Pykara Lake’s visitor window at 10:00–16:00 and ordered daily visitor-capacity limits with managed booking and controlled boat operations. Treat 10:00–16:00 as the court-ordered visitor window, not a guaranteed ticket-counter timetable; ask TTDC about counter opening, the last sailing and operation for your date. Older 8:30–17:30 or 17:30 closing times from past tourism material are not shown here as current.'],
+ ['What is the Pykara boating ticket price?','No current fare table has been verified for this guide. The 2026 court ruling restricts which boats may operate, so older Pykara or Ooty Boat House fares are not a reliable current price. Use the official TTDC booking portal, select Pykara, your date and an allowed boat type, and read the final quoted price and availability. Ask whether admission, vehicle charges, taxes or other fees are separate.'],
+ ['What changed under the 2026 Pykara Lake court ruling?','The Madras High Court order of 30 October 2026 made several restrictions standing: petrol/diesel motorboats, speed boats and jet skis are banned; the visitor window is 10:00–16:00; and daily visitor caps, managed booking and controlled boat operations apply. Rowing, pedal and low-power electric boats may be allowed under conditions. The order does not by itself mean tickets are on sale for every boat type — confirm the operating status, fares and booking channel with TTDC. The next court progress report is scheduled for 4 December 2026.'],
  ['Is Pykara Lake Boat House wheelchair accessible?','The 29 October 2026 Google Maps listing snapshot reported no accessible entrance. This is a third-party listing observation, not an access survey. Ask TTDC about the complete route from drop-off to jetty, steps, gradients, toilets, boarding assistance and your specific needs before relying on access.'],
  ['Are Pykara Lake, Ooty Boat House and Pykara Falls the same place?','No. This guide concerns Pykara Lake Boat House near Ooty. Ooty Boat House is a different booking location, and Pykara Falls has a separate approach. Check each destination, entry arrangement and opening status independently.'],
- ['Are speed boats available every day?','This guide does not verify boat types or a sailing for a particular day. Check TTDC availability and ask about suitable life jackets, capacity, boarding, weather cancellation and refunds before paying. A booking listing is not a guarantee that a service is operating now.'],
+ ['Are speed boats available every day?','No. The 30 October 2026 Madras High Court order banned petrol/diesel motorboats, speed boats and jet skis at Pykara Lake. Only rowing boats, pedal boats and low-power electric boats may operate under conditions set by the authorities, and even those are subject to TTDC ticketing and daily capacity. This guide does not confirm a sailing for a particular day; check TTDC availability, suitable life jackets, capacity, weather cancellation and refunds before paying.'],
  ['How far is Pykara Lake from Ooty?','The Nilgiris district tourism page describes the lake as about 21 km from Ooty on the Ooty–Mysore road. That is an approximate destination distance, not a gate-to-gate route or journey-time guarantee. Check your route, the boat house entrance and return transport.'],
 ];
 const faqs=[...faqsTa,...faqsEn];
@@ -120,8 +122,9 @@ const faqSchema = {
         <a href="#map" class="hover:text-white"><span class="ta-only">வரைபடம்</span><span class="en-only">Map</span></a>
         <a href="#reviews" class="hover:text-white"><span class="ta-only">மதிப்புரைகள்</span><span class="en-only">Reviews</span></a>
         <a href="#faq" class="hover:text-white"><span class="ta-only">கேள்விகள்</span><span class="en-only">FAQ</span></a>
+        <a href="#guides" class="hover:text-white"><span class="ta-only">வழிகாட்டிகள்</span><span class="en-only">Guides</span></a>
       </nav>
-      <details class="compact-nav xl:hidden"><summary><span class="ta-only">மெனு ▾</span><span class="en-only">Menu ▾</span></summary><nav aria-label="Mobile navigation">{[['Guide','#guide'],['Boating','#boating'],['Plan','#plan'],['Map','#map'],['Reviews','#reviews'],['FAQ','#faq'],['Sources','#sources']].map(([label,href])=><a href={href}>{label}</a>)}</nav></details>
+      <details class="compact-nav xl:hidden"><summary><span class="ta-only">மெனு ▾</span><span class="en-only">Menu ▾</span></summary><nav aria-label="Mobile navigation">{[['Guide','#guide'],['Boating','#boating'],['Plan','#plan'],['Map','#map'],['Reviews','#reviews'],['FAQ','#faq'],['Guides','#guides'],['Sources','#sources']].map(([label,href])=><a href={href}>{label}</a>)}</nav></details>
       <div class="flex items-center gap-2">
         <button type="button" data-lang-toggle aria-label="Switch language" class="lang-switch">
           <span class="ta-only">EN</span>
@@ -159,7 +162,7 @@ const faqSchema = {
             <span class="en-only">The quiet waters of the Nilgiris</span>
           </span>
           <h1 class="font-serif text-[clamp(3.1rem,8vw,7.4rem)] font-semibold leading-[.88] tracking-[-.055em]">
-            <span class="block ta-only">பைக்காரா<br /><span class="text-[#cfe6df]">ஏரி</span></span><span class="block en-only">Pykara<br /><span class="text-[#cfe6df]">Lake</span></span>
+            <span class="block ta-only">பைக்காரா<br /><span class="text-[#cfe6df]">ஏரி</span></span><span class="block en-only">Pykara Lake<br /><span class="text-[#cfe6df]">Boat House</span></span>
             <span class="mt-5 block font-sans text-[clamp(.95rem,2.1vw,1.3rem)] font-extrabold leading-snug tracking-normal text-white/85">
               {ATTRACTION.fullName} ({ATTRACTION.city}) · {ATTRACTION.stateProvince}, {ATTRACTION.country}
             </span>
@@ -186,7 +189,7 @@ const faqSchema = {
     <section class="relative z-20 -mt-5">
       <div class="container-shell grid gap-3 md:grid-cols-4">
         {[
-          { k:['நேரம்','Hours'], v:['TTDC-யிடம் கேளுங்கள்','Confirm with TTDC'], n:['17:30: 29/10 Maps பதிவு மட்டும்','17:30: 29 Oct Maps snapshot only'] },
+          { k:['நேரம்','Hours'], v:['10:00–16:00 நீதிமன்ற நிர்ணயம்','10:00–16:00 court-set window'], n:['30/10 நீதிமன்ற உத்தரவு; டிக்கெட் நேரம் TTDC','30 Oct 2026 court order; ticket times with TTDC'] },
           { k:['நுழைவு','Entry'], v:['நடப்பு கட்டணம் உறுதி செய்யவும்','Check current admission'], n:['தற்போதைய விலை மாறலாம்','Current rate may vary'] },
           { k:['படகு','Boating'], v:['வகை / தேதி சரிபார்க்கவும்','Check type and date'], n:['படகு வகை/இருப்பிடத்தைப் பொறுத்தது','Depends on boat type / availability'] },
           { k:['அணுகல்','Access'], v:['முன்கூட்டியே கேளுங்கள்','Ask before travel'], n:['Maps குறிப்பு: அணுகக்கூடிய நுழைவு இல்லை','Maps reports no accessible entrance; not an audit'] }
@@ -197,6 +200,22 @@ const faqSchema = {
             <p class="mt-1 text-xs leading-5 text-[#65756f]"><span class="ta-only">{n[0]}</span><span class="en-only">{n[1]}</span></p>
           </div>
         ))}
+      </div>
+    </section>
+
+    <!-- 2026 法院裁定：游船规则变化（最高优先级事实更新） -->
+    <section id="rules" class="section bg-[#fbe9e7]">
+      <div class="container-shell">
+        <p class="eyebrow"><span class="ta-only">2026 புதுப்பிப்பு</span><span class="en-only">2026 update · court ruling</span></p>
+        <h2 class="section-title mt-3"><span class="ta-only">2026 நீதிமன்ற உத்தரவு: படகு விதிகள் மாறின</span><span class="en-only">2026 court ruling: Pykara Lake boating rules changed</span></h2>
+        <p class="prose-copy mt-5"><span class="ta-only">2026 அக்டோபர் 30 அன்று சென்னை உயர் நீதிமன்ற உத்தரவு சில கட்டுப்பாடுகளை நிலையானவையாக்கியது. இது படகு இயக்கம், பார்வையாளர் நேரம் மற்றும் டிக்கெட் முறையை பாதிக்கிறது; பயணத்திற்கு முன் TTDC-யிடம் உறுதி செய்யவும்.</span><span class="en-only">On 30 October 2026 the Madras High Court made several restrictions standing at Pykara Lake. It affects which boats may run, the visitor window and ticketing — confirm the current status with TTDC before you travel.</span></p>
+        <ul class="mt-5 space-y-2 text-sm leading-7">
+          <li><span class="ta-only">🚫 தடைசெய்யப்பட்டவை: பெட்ரோல்/டீசல் மோட்டார் படகுகள், வேகப்படகுகள், ஜெட் ஸ்கிக்கள்.</span><span class="en-only">🚫 <b>Banned:</b> petrol/diesel motorboats, speed boats and jet skis.</span></li>
+          <li><span class="ta-only">🕙 பார்வையாளர் நேரம் 10:00–16:00; தினசரி வருகை வரம்பு மற்றும் மேலாண்மை முன்பதிவு.</span><span class="en-only">🕙 <b>Visitor window 10:00–16:00</b>, with daily visitor caps and managed booking.</span></li>
+          <li><span class="ta-only">🛶 நிபந்தனைகளின் கீழ் அனுமதிக்கப்படுவன: படகு வலிக்கும், மிதவைப் படகு, குறைந்த திறன் மின்சாரப் படகு.</span><span class="en-only">🛶 <b>Allowed under conditions:</b> rowing boats, pedal boats and low-power electric boats.</span></li>
+          <li><span class="ta-only">🎟️ அனுமதிக்கப்பட்ட படகுகளுக்கான டிக்கெட் இன்னும் TTDC-யிடம் உறுதி செய்யப்பட வேண்டும். அடுத்த நீதிமன்ற முன்னேற்ற அறிக்கை 4 டிசம்பர் 2026.</span><span class="en-only">🎟️ Ticketing for allowed boats is still to be confirmed with TTDC. The next court progress report is scheduled for 4 December 2026.</span></li>
+        </ul>
+        <p class="mt-6 font-bold"><a class="underline" href="/boating-status/"><span class="ta-only">படகு நிலைமை →</span><span class="en-only">Boating status →</span></a> · <a class="underline" href="/boating-rules/"><span class="ta-only">படகு விதிகள் →</span><span class="en-only">Boating rules →</span></a> · <a class="underline" href="/timings/"><span class="ta-only">நேரம் →</span><span class="en-only">Timings →</span></a></p>
       </div>
     </section>
 
@@ -335,13 +354,16 @@ const faqSchema = {
       </div>
     </section>
 
-    <SourcesSection />
+    <!-- 长尾专题集群：首页内链 23 个长尾专题（A 组 8 + B–F 组 15） -->
+  <section id="guides" class="section"><div class="container-shell"><p class="eyebrow">Guides · வழிகாட்டிகள்</p><h2 class="section-title mt-3"><span class="ta-only">கூடுதல் வழிகாட்டிகள்</span><span class="en-only">Pykara guides &amp; quick answers</span></h2><p class="prose-copy mt-5"><span class="ta-only">2026 நீதிமன்ற உத்தரவுக்குப் பிறகு நேரம், விலை மற்றும் படகு விதிகளை இங்கே உறுதி செய்யவும்.</span><span class="en-only">After the 2026 court order, confirm timings, price and boating rules on these pages.</span></p><div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{[['timings','நேரம்','Timings'],['ticket-price','டிக்கெட் விலை','Ticket price'],['boating-status','படகு நிலைமை','Boating status'],['boating-rules','படகு விதிகள்','Boating rules'],['how-to-reach','எப்படி செல்லலாம்','How to reach'],['ooty-to-pykara','ஊட்டி → பைக்காரா','Ooty to Pykara'],['parking','பார்க்கிங்','Parking'],['pykara-falls','நீர்வீழ்ச்சி','Pykara Falls'],['pine-forest','பைன் காடு','Pine forest'],['wenlock-downs','வென்லாக் டவுன்ஸ்','Wenlock Downs'],['upper-bhawani','மேல் பவானி','Upper Bhawani'],['emerald-lake','எமரால்ட் ஏரி','Emerald Lake'],['avalanche','அவலான்ஷ் ஏரி','Avalanche Lake'],['half-day-tour','அரைநாள் சுற்றுலா','Half-day tour'],['ooty-day-trip','ஊட்டி நாள் பயணம்','Ooty day trip'],['two-day-tour','2-நாள் பயணம்','2-day tour'],['family-trip','குடும்பப் பயணம்','Family trip'],['restaurants','உணவகங்கள்','Restaurants'],['hotels','தங்கும் இடங்கள்','Hotels'],['best-season','சிறந்த பருவம்','Best season'],['weather','வானிலை','Weather'],['photography','புகைப்படம்','Photography'],['accessibility','அணுகல்','Accessibility']].map(([slug,ta,en])=>(<a href={`/${slug}/`} class="card p-5 hover:bg-white"><p class="font-extrabold"><span class="ta-only">{ta}</span><span class="en-only">{en}</span></p></a>))}</div></div></section>
+
+  <SourcesSection />
   </main>
 
   <footer class="bg-[#0b241e] py-10 text-white">
     <div class="container-shell grid gap-8 md:grid-cols-2 lg:grid-cols-4">
       <div><img src="/brand/logo.svg" class="h-12 w-12" alt={`${ATTRACTION.fullName} logo`} /><p class="mt-4 text-sm leading-7 text-white/55">பைக்காரா ஏரி படகு இல்லத்துக்கான சுயாதீன, இலாப நோக்கற்ற சுற்றுலா மற்றும் அறிவியல் தகவல் வழிகாட்டி. இது TTDC அல்லது தமிழ்நாடு அரசின் அதிகாரப்பூர்வ தளம் அல்ல.</p></div>
-      <div><p class="font-black"><span class="ta-only">விரைவு இணைப்புகள்</span><span class="en-only">Quick links</span></p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#guide"><span class="ta-only">வழிகாட்டி</span><span class="en-only">Guide</span></a><a class="block" href="#about"><span class="ta-only">அறிமுகம்</span><span class="en-only">About</span></a><a class="block" href="#boating"><span class="ta-only">படகு</span><span class="en-only">Boating</span></a><a class="block" href="#map"><span class="ta-only">வரைபடம்</span><span class="en-only">Map</span></a><a class="block" href="#reviews"><span class="ta-only">மதிப்புரைகள்</span><span class="en-only">Reviews</span></a><a class="block" href="#faq"><span class="ta-only">கேள்விகள்</span><span class="en-only">FAQ</span></a><a class="block" href="#sources"><span class="ta-only">மூலங்கள்</span><span class="en-only">Sources</span></a></div></div>
+      <div><p class="font-black"><span class="ta-only">விரைவு இணைப்புகள்</span><span class="en-only">Quick links</span></p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="#guide"><span class="ta-only">வழிகாட்டி</span><span class="en-only">Guide</span></a><a class="block" href="#about"><span class="ta-only">அறிமுகம்</span><span class="en-only">About</span></a><a class="block" href="#boating"><span class="ta-only">படகு</span><span class="en-only">Boating</span></a><a class="block" href="#map"><span class="ta-only">வரைபடம்</span><span class="en-only">Map</span></a><a class="block" href="#reviews"><span class="ta-only">மதிப்புரைகள்</span><span class="en-only">Reviews</span></a><a class="block" href="#faq"><span class="ta-only">கேள்விகள்</span><span class="en-only">FAQ</span></a><a class="block" href="#guides"><span class="ta-only">வழிகாட்டிகள்</span><span class="en-only">Guides</span></a><a class="block" href="#sources"><span class="ta-only">மூலங்கள்</span><span class="en-only">Sources</span></a></div></div>
       <div><p class="font-black"><span class="ta-only">சட்டம்</span><span class="en-only">Legal</span></p><div class="mt-3 space-y-2 text-sm text-white/55"><a class="block" href="/privacy/"><span class="ta-only">தனியுரிமை</span><span class="en-only">Privacy</span></a><a class="block" href="/terms/"><span class="ta-only">சேவை விதிமுறைகள்</span><span class="en-only">Terms</span></a><a class="block" href="/cookies/"><span class="ta-only">Cookie அமைப்புகள்</span><span class="en-only">Cookies</span></a></div></div>
       <div><p class="font-black"><span class="ta-only">புகைப்பட உரிமங்கள்</span><span class="en-only">Photo credits</span></p><p class="mt-3 text-xs leading-6 text-white/50"><span class="ta-only">Wikimedia Commons: CC BY-SA 4.0. முழு attribution: <a href="#sources" class="underline">புகைப்பட மூலங்கள்</a>. Google Maps மதிப்பீடு/எண்ணிக்கை தேதி குறிப்பிட்ட பதிவு; தானாகப் புதுப்பிக்கப்படாது ({ATTRACTION.ratingSyncedTa}); பதிப்புரிமை Google மற்றும் அசல் மதிப்புரையாளர்களுக்கு உரியது.</span><span class="en-only">Wikimedia Commons: CC BY-SA 4.0. Full attribution: <a href="#sources" class="underline">Sources &amp; photo credits</a>. Google Maps rating/count is a manually checked dated snapshot, not automatically updated ({ATTRACTION.ratingSyncedEn}); copyright belongs to Google and the original reviewers.</span></p></div>
     </div>

@@ -2,7 +2,7 @@
 
 Independent nonprofit tourism and educational guide, not TTDC or a government service. Existing single bilingual root and three legal pages remain; language preference/plan saving/consent remain browser features. No private search-report data is included.
 
-Maps4.4/15,915 is a manual29October2026 snapshot. The day's17:30 close and reported lack of an accessible entrance are third-party observations, not a recurring timetable, operating notice or access survey. Exact current fare, first/last sailing and end-to-end accessible route remain unverified. The Maps administrative/Plus Code record differs from a government directory; broad Pykara, Naduvattam location and supplied share link are used, without a precise entrance or geo-schema claim.
+Maps4.4/15,922 is a manual6November2026 snapshot. On 29 October 2026 the listing showed a 17:30 close and reported no accessible entrance; those are third-party observations, not a recurring timetable, operating notice or access survey. Exact current fare, first/last sailing and end-to-end accessible route remain unverified. The Maps administrative/Plus Code record differs from a government directory; broad Pykara, Naduvattam location and supplied share link are used, without a precise entrance or geo-schema claim.
 
 Primary sources and scope are linked visibly: Nilgiris District Pykara page (updated2018) for geography/cultural context; TTDC official booking portal and official app for date/product confirmation, not a quoted current price. Lake boat house, Ooty Boat House and Pykara Falls are distinguished. No fixed daily hours, ₹10 entry, ₹700–₹1,000 boat fare, guaranteed buses, speedboats or easy timed circuits remain.
 

@@ -67,7 +67,7 @@ export const ATTRACTION = {
   operatorLabel: 'Tamil Nadu Tourism Development Corporation (TTDC)',
 
   openingHoursText: 'Operator confirmation needed',
-  openingHoursNote: 'Google Maps showed closing at 17:30 on 29 October 2026; this is not a recurring operator timetable.',
+  openingHoursNote: 'Court-ordered visitor window 10:00–16:00 from 30 October 2026; ticket-counter timing and last sailing confirm with TTDC.',
   entryFeeNote: 'Check current admission',
   boatFareNote: 'Check boat type and slot',
   bestSeasonNote: 'Check weather and local notices',
@@ -82,11 +82,11 @@ export const ATTRACTION = {
 
   /** Google 地图评分与评价数（页面展示用；来源与同步时间见下方） */
   googleRating: 4.4,
-  googleReviewCount: 15915,
+  googleReviewCount: 15922,
   /** 评分/评价数同步时间（英文展示） */
-  ratingSyncedEn: '29 October 2026',
+  ratingSyncedEn: '6 November 2026',
   /** 评分/评价数同步时间（泰米尔文展示） */
-  ratingSyncedTa: '29 அக்டோபர் 2026',
+  ratingSyncedTa: '6 நவம்பர் 2026',
 
   /** 知识图谱锚点 */
   attractionId: 'https://pykaralake.com/#attraction',

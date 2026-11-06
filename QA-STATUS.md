@@ -25,7 +25,7 @@
 - `public/robots.txt` + `sitemap-index.xml` (site defaults to `https://pykaralake.com`).
 
 ### Google rating & reviews (page copy only)
-- Latest synced values: **4.4 / 5** from **15,818** reviews, synced **September 2026**.
+- Latest synced values: **4.4 / 5** from **15,922** reviews, synced **6 November 2026**.
 - Shown in three places: hero rating chip (`RatingChip.astro`), reviews section
   (`ReviewsSection.astro`), sources section row (`SourcesSection.astro`).
 - Attribution wording (English + Tamil) states the source (Google Maps user reviews), the sync month

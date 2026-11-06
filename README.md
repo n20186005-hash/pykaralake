@@ -44,7 +44,7 @@ The instantiated variable table and the requirement → file mapping are documen
 - TDK / Open Graph / Twitter tags, `canonical`, `og:image:alt`, `robots.txt`, sitemap.
 
 ### Google rating & reviews (compliance)
-- Latest synced values: **4.4** from **15,818** Google Maps reviews (synced **September 2026**).
+- Latest synced values: **4.4** from **15,922** Google Maps reviews (synced **6 November 2026**).
 - Displayed on the page in three places: hero rating chip (with the "synced from Google Maps user
   reviews · September 2026 · see all reviews" line), the reviews section, and the sources section.
 - Attribution + copyright line: *“Synced from Google Maps user reviews; last synced September 2026.
